@@ -1,5 +1,5 @@
 " formatting SGML documents
-" $FreeBSD: doc/share/examples/vim/edit-sgml.vim,v 1.1 2006/11/10 11:24:22 therek Exp $
+" $FreeBSD: doc/share/examples/vim/edit-sgml.vim,v 1.1 1999/11/15 19:41:09 nik Exp $
 
 if !exists("format_fdp_sgml")
   let format_fdp_sgml = 1

@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $FreeBSD: doc/share/examples/vim/sgml2accents.pl,v 1.1 2006/11/10 11:24:22 therek Exp $
+# $FreeBSD: doc/share/examples/vim/sgml2accents.pl,v 1.2 2005/03/31 23:11:32 jcamou Exp $
 # Transform SGML notation in Iso-8859-1 accents
 while (<>) {
 s/&Agrave;/À/g;

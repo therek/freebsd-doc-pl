@@ -18,7 +18,7 @@
 #
 # Exit codes: 0- okay; 1- something out of order; 2- something else;
 #
-# $FreeBSD: doc/share/examples/check-manref.sh,v 1.1 2006/11/10 11:24:21 therek Exp $
+# $FreeBSD: doc/share/examples/check-manref.sh,v 1.1 2001/07/24 10:56:11 dd Exp $
 #
 
 # Input: $wol_l - line

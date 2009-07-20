@@ -18,7 +18,7 @@
 #
 # Exit codes: 0- added; 1- exists; 2- something else;
 #
-# $FreeBSD: doc/share/examples/add-manref.sh,v 1.1 2006/11/10 11:24:21 therek Exp $
+# $FreeBSD: doc/share/examples/add-manref.sh,v 1.1 2001/07/24 10:56:11 dd Exp $
 #
 
 # Input: $wol_l - line
