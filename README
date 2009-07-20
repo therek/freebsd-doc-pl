@@ -1,4 +1,4 @@
-$FreeBSD: doc/README,v 1.1 2006/11/10 11:24:14 therek Exp $
+$FreeBSD: doc/README,v 1.2 2001/10/13 19:18:55 murray Exp $
 
 If you plan on building a local copy of the FreeBSD documentation, or using
 our toolchain in your own projects, please read

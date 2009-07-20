@@ -1,4 +1,4 @@
-# $FreeBSD: doc/release/Makefile,v 1.2 2007/05/19 20:23:56 therek Exp $
+# $FreeBSD: doc/release/Makefile,v 1.10 2006/11/12 18:15:38 bmah Exp $
 #
 # Documentation release building.  These are used to create
 # distributions of the documentation files only.  These recipes are
