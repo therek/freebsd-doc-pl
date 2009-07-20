@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/config/chapter.sgml,v 1.2 2007/05/20 12:42:20 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/config/chapter.sgml,v 1.238 2009/05/30 18:42:38 dougb Exp $
 -->
 
 <chapter id="config-tuning">
@@ -53,7 +53,7 @@
       </listitem>
       <listitem>
 	<para>The basics of <filename>rc.conf</filename> configuration and
-	  <filename>/usr/local/etc/rc.d</filename> startup systems.</para>
+	  <filename class="directory">/usr/local/etc/rc.d</filename> startup systems.</para>
       </listitem>
       <listitem>
 	<para>How to configure and test a network card.</para>
@@ -63,7 +63,7 @@
       </listitem>
       <listitem>
 	<para>How to use the various configuration files in
-	  <filename>/etc</filename>.</para>
+	  <filename class="directory">/etc</filename>.</para>
       </listitem>
       <listitem>
         <para>How to tune &os; using <command>sysctl</command>
@@ -97,13 +97,13 @@
 
       <indexterm><primary>partition layout</primary></indexterm>
       <indexterm>
-        <primary><filename>/etc</filename></primary>
+        <primary><filename class="directory">/etc</filename></primary>
       </indexterm>
       <indexterm>
-        <primary><filename>/var</filename></primary>
+        <primary><filename class="directory">/var</filename></primary>
       </indexterm>
       <indexterm>
-        <primary><filename>/usr</filename></primary>
+        <primary><filename class="directory">/usr</filename></primary>
       </indexterm>
 
       <sect3>
@@ -115,27 +115,37 @@
 	  tracks to the inner.
 	  Thus smaller and heavier-accessed file systems
 	  should be closer to the outside of the drive, while
-	  larger partitions like <filename>/usr</filename> should be placed
-	  toward the inner.  It is a good idea to create
-	  partitions in a similar order to: root, swap,
-	  <filename>/var</filename>, <filename>/usr</filename>.</para>
+	  larger partitions like <filename class="directory">/usr</filename> should be placed
+	  toward the inner parts of the disk.  It is a good idea to create
+	  partitions in an order similar to: root, swap,
+	  <filename class="directory">/var</filename>, <filename class="directory">/usr</filename>.</para>
 
-	<para>The size of <filename>/var</filename>
+	<para>The size of the <filename class="directory">/var</filename> partition
 	  reflects the intended machine usage.
-	  <filename>/var</filename> is used to hold
+	  The <filename class="directory">/var</filename> file system is used to hold
 	  mailboxes, log files, and printer spools.  Mailboxes and log
 	  files can grow to unexpected sizes depending
 	  on how many users exist and how long log
-	  files are kept.  Most users would never require a gigabyte,
-	  but remember that <filename>/var/tmp</filename>
-	  must be large enough to contain packages.
-	  </para>
+	  files are kept.  Most users will rarely need more than about a
+	  gigabyte of free disk space in <filename class="directory">/var</filename>.</para>
 
-	<para>The <filename>/usr</filename> partition holds much
-	  of the files required to support the system, the &man.ports.7;
-	  collection (recommended) and the source code (optional).  Both
-	  of which are optional at install time.
-	  At least 2 gigabytes would be recommended for this partition.</para>
+	<note>
+	  <para>There are a few times that a lot of disk space is required
+	    in <filename class="directory">/var/tmp</filename>.  When new software is installed
+	    with &man.pkg.add.1; the packaging tools extract a temporary copy
+	    of the packages under <filename class="directory">/var/tmp</filename>.  Large
+	    software packages, like <application>Firefox</application>,
+	    or <application>OpenOffice</application> may be tricky to install
+	    if there is not enough disk space
+	    under <filename class="directory">/var/tmp</filename>.</para>
+	</note>
+
+	<para>The <filename class="directory">/usr</filename> partition holds many
+	  of the files required to support the system, including the &man.ports.7;
+	  collection (recommended) and the source code (optional).  Both the
+	  ports and the sources of the base system are optional at install
+	  time, but we recommend at least 2 gigabytes for this
+	  partition.</para>
 
 	<para>When selecting partition sizes, keep the space
 	  requirements in mind.  Running out of space in
@@ -144,10 +154,9 @@
 
 	<note><para>Some users have found that &man.sysinstall.8;'s
 	    <literal>Auto-defaults</literal> partition sizer will
-	    sometimes select smaller than adequate <filename>/var</filename>
-	    and <filename>/</filename> partitions.  Partition wisely and
+	    sometimes select smaller than adequate <filename class="directory">/var</filename>
+	    and <filename class="directory">/</filename> partitions.  Partition wisely and
 	    generously.</para></note>
-
       </sect3>
 
       <sect3 id="swap-design">
@@ -191,10 +200,10 @@
 	  First, each partition has different operational
 	  characteristics and separating them allows the file system to
 	  tune accordingly.  For example, the root
-	  and <filename>/usr</filename> partitions are read-mostly, without
+	  and <filename class="directory">/usr</filename> partitions are read-mostly, without
 	  much writing.  While a lot of reading and writing could
-	  occur in <filename>/var</filename> and
-	  <filename>/var/tmp</filename>.</para>
+	  occur in <filename class="directory">/var</filename> and
+	  <filename class="directory">/var/tmp</filename>.</para>
 
 	<para>By properly partitioning a system, fragmentation
 	  introduced in the smaller write heavy partitions
@@ -207,7 +216,7 @@
 	  performance in the larger partitions may be needed,
 	  shifting them more toward the edge of the disk will not
 	  lead to a significant performance improvement over moving
-	  <filename>/var</filename> to the edge.
+	  <filename class="directory">/var</filename> to the edge.
 	  Finally, there are safety concerns.  A smaller, neater root
 	  partition which is mostly read-only has a greater
 	  chance of surviving a bad crash.</para>
@@ -235,7 +244,7 @@
       <filename>rc.conf</filename> file to
       override the default settings from
       <filename>/etc/defaults/rc.conf</filename>.  The defaults file
-      should not be copied verbatim to <filename>/etc</filename> - it
+      should not be copied verbatim to <filename class="directory">/etc</filename> - it
       contains default values, not examples.  All system-specific
       changes should be made in the <filename>rc.conf</filename>
       file itself.</para>
@@ -288,7 +297,7 @@
     <indexterm><primary>/usr/local/etc</primary></indexterm>
 
     <para>Typically, these files are installed in
-      <filename>/usr/local/etc</filename>.  In the case where an
+      <filename class="directory">/usr/local/etc</filename>.  In the case where an
       application has a large number of configuration files, a
       subdirectory will be created to hold them.</para>
 
@@ -300,7 +309,7 @@
       copying the <filename>.default</filename> files.</para>
 
     <para>For example, consider the contents of the directory
-    <filename>/usr/local/etc/apache</filename>:</para>
+    <filename class="directory">/usr/local/etc/apache</filename>:</para>
 
 <literallayout class="monospaced">-rw-r--r--  1 root  wheel   2184 May 20  1998 access.conf
 -rw-r--r--  1 root  wheel   2184 May 20  1998 access.conf.default
@@ -350,69 +359,6 @@
       important aspect to consider is that their start up configuration
       can be handled through simple startup scripts.</para>
 
-    <para>Before the advent of <filename>rc.d</filename>, applications would drop a
-      simple start up script into the
-      <filename class="directory">/usr/local/etc/rc.d</filename>
-      directory which would be read by the system initialization
-      scripts.  These scripts would then be executed during the latter
-      stages of system start up.</para>
-
-    <para>While many individuals have spent hours trying to merge the
-      old configuration style into the new system, the fact remains
-      that some third party utilities still require a script simply
-      dropped into the aforementioned directory.  The subtle differences
-      in the scripts depend whether or not <filename>rc.d</filename> is being used.  Prior
-      to &os;&nbsp;5.1 the old configuration style is used and in
-      almost all cases a new style script would do just fine.</para>
-
-    <para>While every script must meet some minimal requirements, most
-      of the time these requirements are &os; version
-      agnostic.  Each script must have a <filename>.sh</filename>
-      extension appended to the end and every script must be
-      executable by the system.  The latter may be achieved by using
-      the <command>chmod</command> command and setting the unique permissions
-      of <literal>755</literal>.  There should also be, at minimal,
-      an option to <literal>start</literal> the application and an
-      option to <literal>stop</literal> the application.</para>
-
-    <para>The simplest start up script would probably look a little
-      bit like this one:</para>
-
-    <programlisting>#!/bin/sh
-echo -n ' utility'
-
-case "$1" in
-start)
-        /usr/local/bin/utility
-        ;;
-stop)
-        kill -9 `cat /var/run/utility.pid`
-        ;;
-*)
-        echo "Usage: `basename $0` {start|stop}" &gt;&2
-        exit 64
-        ;;
-esac
-
-exit 0</programlisting>
-
-    <para>This script provides for a <literal>stop</literal> and
-      <literal>start</literal> option for
-      the application hereto referred simply as
-      <literal>utility</literal>.</para>
-
-    <para>Could be started manually with:</para>
-
-    <screen>&prompt.root; <userinput><filename>/usr/local/etc/rc.d/utility.sh</filename> start</userinput></screen>
-
-    <para>While not all third party software requires the line in
-      <filename>rc.conf</filename>, almost every day a new port will
-      be modified to accept this configuration.  Check the final output
-      of the installation for more information on a specific
-      application.  Some third party software will provide start up
-      scripts which permit the application to be used with
-      <filename>rc.d</filename>; although, this will be discussed in the next section.</para>
-
     <sect2>
       <title>Extended Application Configuration</title>
 
@@ -432,14 +378,6 @@ exit 0</programlisting>
 # REQUIRE: DAEMON
 # KEYWORD: shutdown
 
-#
-# DO NOT CHANGE THESE DEFAULT VALUES HERE
-# SET THEM IN THE /etc/rc.conf FILE
-#
-utility_enable=${utility_enable-"NO"}
-utility_flags=${utility_flags-""}
-utility_pidfile=${utility_pidfile-"/var/run/utility.pid"}
-
 . /etc/rc.subr
 
 name="utility"
@@ -448,15 +386,20 @@ command="/usr/local/sbin/utility"
 
 load_rc_config $name
 
-pidfile="${utility_pidfile}"
+#
+# DO NOT CHANGE THESE DEFAULT VALUES HERE
+# SET THEM IN THE /etc/rc.conf FILE
+#
+utility_enable=${utility_enable-"NO"}
+utility_pidfile=${utility_pidfile-"/var/run/utility.pid"}
 
-start_cmd="echo \"Starting ${name}.\"; /usr/bin/nice -5 ${command} ${utility_flags} ${command_args}"
+pidfile="${utility_pidfile}"
 
 run_rc_command "$1"</programlisting>
 
       <para>This script will ensure that the provided
 	<application>utility</application> will be started after the
-	<literal>daemon</literal> service.  It also provides a method
+	<literal>DAEMON</literal> pseudo-service.  It also provides a method
 	for setting and tracking the <acronym>PID</acronym>, or process
 	<acronym>ID</acronym> file.</para>
 
@@ -465,7 +408,7 @@ run_rc_command "$1"</programlisting>
 
       <programlisting>utility_enable="YES"</programlisting>
 
-      <para>This new method also allows for easier manipulation of the
+      <para>This method also allows for easier manipulation of the
 	command line arguments, inclusion of the default functions
 	provided in <filename>/etc/rc.subr</filename>, compatibility
 	with the &man.rcorder.8; utility and provides for easier
@@ -477,15 +420,15 @@ run_rc_command "$1"</programlisting>
 
       <para>Other services, such as <acronym>POP</acronym>3 server
 	daemons, <acronym>IMAP</acronym>, etc. could be started using
-	the &man.inetd.8;.  This involves installing the service
+	&man.inetd.8;.  This involves installing the service
 	utility from the Ports Collection with a configuration line
-	appended to the <filename>/etc/inetd.conf</filename> file,
-	or uncommenting one of the current configuration lines.  Working
+	added to the <filename>/etc/inetd.conf</filename> file,
+	or by uncommenting one of the current configuration lines.  Working
 	with <application>inetd</application> and its configuration is
 	described in depth in the
 	<link linkend="network-inetd">inetd</link> section.</para>
 
-      <para>In some cases, it may be more plausible to use the
+      <para>In some cases it may make more sense to use the
 	&man.cron.8; daemon to start system services.  This approach
 	has a number of advantages because <command>cron</command> runs
 	these processes as the <filename>crontab</filename>'s file
@@ -520,7 +463,7 @@ run_rc_command "$1"</programlisting>
     <para>One of the most useful utilities in &os; is &man.cron.8;.  The
       <command>cron</command> utility runs in the background and constantly
       checks the <filename>/etc/crontab</filename> file.  The <command>cron</command>
-      utility also checks the <filename>/var/cron/tabs</filename> directory, in
+      utility also checks the <filename class="directory">/var/cron/tabs</filename> directory, in
       search of new <filename>crontab</filename> files.  These
       <filename>crontab</filename> files store information about specific
       functions which <command>cron</command> is supposed to perform at
@@ -625,7 +568,7 @@ HOME=/var/log
       </callout>
     </calloutlist>
 
-    <para>This is the basic set up for every
+    <para>This is the basic setup for every
       <filename>crontab</filename> file, although there is one thing
       different about this one.  Field number six, where we specified
       the username, only exists in the system
@@ -695,7 +638,7 @@ HOME=/var/log
     <para>In 2002 &os; integrated the NetBSD
       <filename>rc.d</filename> system for system initialization.
       Users should notice the files listed in the
-      <filename>/etc/rc.d</filename> directory.  Many of these files
+      <filename class="directory">/etc/rc.d</filename> directory.  Many of these files
       are for basic services which can be controlled with the
       <option>start</option>, <option>stop</option>,
       and <option>restart</option> options.
@@ -786,15 +729,23 @@ sshd is running as pid 433.</screen>
       in the comments at the top of each startup script.  The
       &man.rcorder.8; program is then used to parse these comments
       during system initialization to determine the order in which
-      system services should be invoked to satisfy the dependencies.
-      The following words may be included at the top of each startup
-      file:</para>
+      system services should be invoked to satisfy the dependencies.</para>
+
+    <para>The following words must be included in all startup scripts
+      (they are required by &man.rc.subr.8; to <quote>enable</quote> the
+      startup script):</para>
 
     <itemizedlist>
       <listitem>
 	<para><literal>PROVIDE</literal>: Specifies the services this file provides.</para>
       </listitem>
+    </itemizedlist>
 
+    <para>The following words may be included at the top of each startup
+      file.  They are not strictly necessary, but they are useful as
+      hints to &man.rcorder.8;:</para>
+
+    <itemizedlist>
       <listitem>
 	<para><literal>REQUIRE</literal>: Lists services which are required for this
 	  service.  This file will run <emphasis>after</emphasis>
@@ -808,9 +759,10 @@ sshd is running as pid 433.</screen>
       </listitem>
     </itemizedlist>
 
-    <para>By using this method, an administrator can easily control system
-      services without the hassle of <quote>runlevels</quote> like
-      some other &unix; operating systems.</para>
+    <para>By carefully setting these keywords for each startup script, an
+      administrator has a very fine-grained level of control of the startup
+      order of the scripts, without the hassle of <quote>runlevels</quote>
+      like some other &unix; operating systems.</para>
 
     <para>Additional information about the
       <filename>rc.d</filename> system can be found in the &man.rc.8;
@@ -1402,7 +1354,7 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
     <title>Configuration Files</title>
 
     <sect2>
-      <title><filename>/etc</filename> Layout</title>
+      <title><filename class="directory">/etc</filename> Layout</title>
       <para>There are a number of directories in which configuration
 	information is kept.  These include:</para>
 
@@ -1413,42 +1365,42 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
 
 	  <tbody>
 	    <row>
-	      <entry><filename>/etc</filename></entry>
+	      <entry><filename class="directory">/etc</filename></entry>
 	      <entry>Generic system configuration information; data here is
 		system-specific.</entry>
 	    </row>
 	    <row>
-	      <entry><filename>/etc/defaults</filename></entry>
+	      <entry><filename class="directory">/etc/defaults</filename></entry>
 	      <entry>Default versions of system configuration files.</entry>
 	    </row>
 	    <row>
-	      <entry><filename>/etc/mail</filename></entry>
+	      <entry><filename class="directory">/etc/mail</filename></entry>
 	      <entry>Extra &man.sendmail.8; configuration, other
 		MTA configuration files.
 	      </entry>
 	    </row>
 	    <row>
-	      <entry><filename>/etc/ppp</filename></entry>
+	      <entry><filename class="directory">/etc/ppp</filename></entry>
 	      <entry>Configuration for both user- and kernel-ppp programs.
 	      </entry>
 	    </row>
 	    <row>
-	      <entry><filename>/etc/namedb</filename></entry>
+	      <entry><filename class="directory">/etc/namedb</filename></entry>
 	      <entry>Default location for &man.named.8; data.  Normally
 		<filename>named.conf</filename> and zone files are stored
                 here.</entry>
 	    </row>
 	    <row>
-	      <entry><filename>/usr/local/etc</filename></entry>
+	      <entry><filename class="directory">/usr/local/etc</filename></entry>
 	      <entry>Configuration files for installed applications.
 		May contain per-application subdirectories.</entry>
 	    </row>
 	    <row>
-	      <entry><filename>/usr/local/etc/rc.d</filename></entry>
+	      <entry><filename class="directory">/usr/local/etc/rc.d</filename></entry>
 	      <entry>Start/stop scripts for installed applications.</entry>
 	    </row>
 	    <row>
-	      <entry><filename>/var/db</filename></entry>
+	      <entry><filename class="directory">/var/db</filename></entry>
 	      <entry>Automatically generated system-specific database files,
                  such as the package database, the locate database, and so
                  on</entry>
@@ -1533,33 +1485,35 @@ nameserver 147.11.100.30</programlisting>
 
 	<programlisting># &dollar;&os;&dollar;
 #
+#
 # Host Database
-# This file should contain the addresses and aliases
-# for local hosts that share this file.
+#
+# This file should contain the addresses and aliases for local hosts that
+# share this file.  Replace 'my.domain' below with the domainname of your
+# machine.
+#
 # In the presence of the domain name service or NIS, this file may
 # not be consulted at all; see /etc/nsswitch.conf for the resolution order.
 #
 #
-::1                     localhost localhost.my.domain myname.my.domain
-127.0.0.1               localhost localhost.my.domain myname.my.domain
-
+::1			localhost localhost.my.domain
+127.0.0.1		localhost localhost.my.domain
 #
 # Imaginary network.
-#10.0.0.2               myname.my.domain myname
-#10.0.0.3               myfriend.my.domain myfriend
+#10.0.0.2		myname.my.domain myname
+#10.0.0.3		myfriend.my.domain myfriend
 #
 # According to RFC 1918, you can use the following IP networks for
 # private nets which will never be connected to the Internet:
 #
-#       10.0.0.0        -   10.255.255.255
-#       172.16.0.0      -   172.31.255.255
-#       192.168.0.0     -   192.168.255.255
+#	10.0.0.0	-   10.255.255.255
+#	172.16.0.0	-   172.31.255.255
+#	192.168.0.0	-   192.168.255.255
 #
 # In case you want to be able to connect to the Internet, you need
-# real official assigned numbers.  PLEASE PLEASE PLEASE do not try
-# to invent your own network numbers but instead get one from your
-# network provider (if any) or from the Internet Registry (ftp to
-# rs.internic.net, directory `/templates').
+# real official assigned numbers.  Do not try to invent your own network
+# numbers but instead get one from your network provider (if any) or
+# from your regional registry (ARIN, APNIC, LACNIC, RIPE NCC, or AfriNIC.)
 #</programlisting>
 
 	<para><filename>/etc/hosts</filename> takes on the simple format
@@ -2162,7 +2116,7 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
           connected at once, the resources needed may be similar to a
           high-scale web server.</para>
 
-        <para>As of FreeBSD 4.5, <varname>kern.maxusers</varname> is
+        <para>The variable <varname>kern.maxusers</varname> is
           automatically sized at boot based on the amount of memory available
           in the system, and may be determined at run-time by inspecting the
           value of the read-only <varname>kern.maxusers</varname> sysctl.
@@ -2173,11 +2127,9 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
           many of the tunable values set to their defaults by
           <varname>kern.maxusers</varname> may be individually overridden at
           boot-time or run-time in <filename>/boot/loader.conf</filename> (see
-          the &man.loader.conf.5; man page or the
+          the &man.loader.conf.5; manual page or the
           <filename>/boot/defaults/loader.conf</filename> file for some hints)
-          or as described elsewhere in this document.  Systems older than
-          FreeBSD&nbsp;4.4 must set this value via the kernel &man.config.8;
-          option <option>maxusers</option> instead.</para>
+          or as described elsewhere in this document.</para>
 
 	<para>In older releases, the system will auto-tune
 	  <literal>maxusers</literal> for you if you explicitly set it to
@@ -2209,14 +2161,7 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	    limit the number of users which can log into your machine.  It
 	    simply sets various table sizes to reasonable values considering
 	    the maximum number of users you will likely have on your system
-	    and how many processes each of them will be running.  One keyword
-	    which <emphasis>does</emphasis> limit the number of simultaneous
-	    remote logins and X terminal windows is <link
-	    linkend="kernelconfig-ptys"><literal>pseudo-device pty
-	    16</literal></link>.  With &os;&nbsp;5.X, you do not have to
-	    worry about this number since the &man.pty.4; driver is
-	    <quote>auto-cloning</quote>; you simply use the line
-	    <literal>device pty</literal> in your configuration file.</para>
+	    and how many processes each of them will be running.</para>
 	</note>
 
       </sect3>
@@ -2391,13 +2336,13 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 
         <para>To see the current number of vnodes in use:</para>
 
-        <programlisting>&prompt.root; sysctl vfs.numvnodes
-vfs.numvnodes: 91349</programlisting>
+        <screen>&prompt.root; <userinput>sysctl vfs.numvnodes</userinput>
+vfs.numvnodes: 91349</screen>
 
         <para>To see the maximum vnodes:</para>
 
-        <programlisting>&prompt.root; sysctl kern.maxvnodes
-kern.maxvnodes: 100000</programlisting>
+        <screen>&prompt.root; <userinput>sysctl kern.maxvnodes</userinput>
+kern.maxvnodes: 100000</screen>
 
         <para>If the current vnode usage is near the maximum, increasing
           <varname>kern.maxvnodes</varname> by a value of 1,000 is

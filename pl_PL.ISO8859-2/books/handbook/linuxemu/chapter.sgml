@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/linuxemu/chapter.sgml,v 1.2 2007/05/20 12:42:21 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/linuxemu/chapter.sgml,v 1.137 2009/04/10 10:08:43 blackend Exp $
 -->
 
 <chapter id="linuxemu">
@@ -57,10 +57,10 @@
       includes applications such as <application>&staroffice;</application>,
       the Linux version of <application>&netscape;</application>,
       <application>&adobe;&nbsp;&acrobat;</application>,
-      <application><trademark class="registered">RealPlayer</trademark></application>,
+      <application>&realplayer;</application>,
       <application><trademark>VMware</trademark></application>,
       <application>&oracle;</application>,
-      <application><trademark class="registered">WordPerfect</trademark></application>, <application>Doom</application>,
+      <application>&wordperfect;</application>, <application>Doom</application>,
       <application>Quake</application>, and more.  It is also reported
       that in some situations, Linux binaries perform better on FreeBSD
       than they do under Linux.</para>
@@ -409,7 +409,7 @@ multi on</programlisting>
       <para>The shell scripts that
 	<application>&mathematica;</application> created during
 	installation have to be modified before you can use them.  If
-	you chose <filename role="directory">/usr/local/bin</filename>
+	you chose <filename class="directory">/usr/local/bin</filename>
 	as the directory to place the
 	<application>&mathematica;</application> executables in, you
 	will find symlinks in this directory to files called
@@ -1671,7 +1671,7 @@ export PATH</programlisting>
 	<para>First the <link linkend="linuxemu-libs-port">linux_base</link>
 	  port needs to be installed (as <username>root</username>):</para>
 
-	<screen>&prompt.root; <userinput>cd /usr/ports/emulators/linux_base</userinput>
+	<screen>&prompt.root; <userinput>cd /usr/ports/emulators/linux_base-fc4</userinput>
 &prompt.root; <userinput>make install distclean</userinput></screen>
 
       </sect3>
@@ -2511,11 +2511,13 @@ options SEMUME=100       #number of UNDO keys</programlisting>
           you have to install the following additional packages to
           ensure that linking will work:</para>
 
-        <para><filename>compat-libs-5.2-2.i386.rpm</filename></para>
-        <para><filename>compat-glibc-5.2-2.0.7.2.i386.rpm</filename></para>
-        <para><filename>compat-egcs-5.2-1.0.3a.1.i386.rpm</filename></para>
-        <para><filename>compat-egcs-c++-5.2-1.0.3a.1.i386.rpm</filename></para>
-        <para><filename>compat-binutils-5.2-2.9.1.0.23.1.i386.rpm</filename></para>
+	<itemizedlist>
+          <listitem><para><filename>compat-libs-5.2-2.i386.rpm</filename></para></listitem>
+          <listitem><para><filename>compat-glibc-5.2-2.0.7.2.i386.rpm</filename></para></listitem>
+          <listitem><para><filename>compat-egcs-5.2-1.0.3a.1.i386.rpm</filename></para></listitem>
+          <listitem><para><filename>compat-egcs-c++-5.2-1.0.3a.1.i386.rpm</filename></para></listitem>
+          <listitem><para><filename>compat-binutils-5.2-2.9.1.0.23.1.i386.rpm</filename></para></listitem>
+	</itemizedlist>
 
         <para>See the corresponding &sap; Notes or &oracle; <filename>Readme</filename>s for
           further information.  If this is no option (at the time of

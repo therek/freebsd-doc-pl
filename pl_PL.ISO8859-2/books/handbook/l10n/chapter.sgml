@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/l10n/chapter.sgml,v 1.2 2007/05/20 12:42:21 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/l10n/chapter.sgml,v 1.128 2009/02/16 17:49:36 manolis Exp $
 -->
 
 <chapter id="l10n">
@@ -120,7 +120,7 @@
 
       <para>In order to localize a FreeBSD system to a specific language
 	(or any other I18N-supporting &unix; like systems), the user needs to find out
-	the codes for the specify country and language (country
+	the codes for the specific country and language (country
 	codes tell applications what variation of given
 	language to use).  In addition, web
 	browsers, SMTP/POP servers, web servers, etc. make decisions based on
@@ -680,7 +680,7 @@ keychange="<replaceable>fkey_number sequence</replaceable>"</programlisting>
       <primary><application>MySQL</application></primary>
     </indexterm>
     <para>However, some applications such as 
-      <application>MySQL</application> need to be have the
+      <application>MySQL</application> need to have their
       <filename>Makefile</filename> configured with the specific
       charset.  This is usually done in the
       <filename>Makefile</filename> or done by passing a value to
@@ -836,14 +836,15 @@ Option "XkbOptions"  "grp:toggle"</programlisting>
 	    <para>Also make sure that <literal>XkbDisable</literal> is
 	      turned off (commented out) there.</para>
 
-	    <para>For <literal>grp:caps_toggle</literal>
+	    <para>For <literal>grp:toggle</literal>
 	      the RUS/LAT switch will be <keycap>Right Alt</keycap>,
 	      for <literal>grp:ctrl_shift_toggle</literal> switch will be
 	      <keycombo action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap></keycombo>.
+	      For <literal>grp:caps_toggle</literal>
+	    the RUS/LAT switch will be <keycap>CapsLock</keycap>.
 	    The old <keycap>CapsLock</keycap> function is still
 	    available via <keycombo action="simul"><keycap>Shift</keycap><keycap>CapsLock</keycap></keycombo> (in LAT mode
-	      only). For <literal>grp:toggle</literal>
-	    the RUS/LAT switch will be <keycap>Right Alt</keycap>.
+	      only).
 	    <literal>grp:caps_toggle</literal> does not work in
 	    <application>&xorg;</application> for unknown reason.</para>
 
@@ -901,9 +902,23 @@ Option "XkbOptions"  "grp:toggle"</programlisting>
       </indexterm>
 
       <para>Slaven Rezic <email>eserte@cs.tu-berlin.de</email> wrote a
-	tutorial how to use umlauts on a FreeBSD machine.  The tutorial
-	is written in German and available at
-	<ulink url="http://www.de.FreeBSD.org/de/umlaute/"></ulink>.</para>
+	tutorial on using umlauts on a FreeBSD machine.  The tutorial
+	is written in German and is available at
+	<ulink url="http://user.cs.tu-berlin.de/~eserte/FreeBSD/doc/umlaute/umlaute.html"></ulink>.</para>
+    </sect2>
+
+    <sect2>
+      <title>Greek Language Localization</title>
+
+      <indexterm>
+	<primary>localization</primary>
+	<secondary>Greek</secondary>
+      </indexterm>
+      <para>Nikos Kokkalis <email>nickkokkalis@gmail.com</email> has written
+	a complete article on Greek support in &os;.  It is available as
+	part of the official &os; Greek documentation, in <ulink
+	  url="&url.doc.base;/el_GR.ISO8859-7/articles/greek-language-support/index.html">http://www.freebsd.org/doc/el_GR.ISO8859-7/articles/greek-language-support/index.html</ulink>.
+	Please note this is in Greek <emphasis>only</emphasis>.</para>
     </sect2>
 
     <sect2>
@@ -925,7 +940,7 @@ Option "XkbOptions"  "grp:toggle"</programlisting>
     <sect2>
       <title>Non-English FreeBSD Documentation</title>
 
-      <para>Some FreeBSD contributors have translated parts of FreeBSD to
+      <para>Some FreeBSD contributors have translated parts of FreeBSD documentation to
 	other languages.  They are available through links on the <ulink
 	url="&url.base;/index.html">main site</ulink> or in
 	<filename>/usr/share/doc</filename>.</para>

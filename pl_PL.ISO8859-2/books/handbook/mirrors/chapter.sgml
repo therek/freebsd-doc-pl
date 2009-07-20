@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/mirrors/chapter.sgml,v 1.2 2007/05/20 12:42:21 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/mirrors/chapter.sgml,v 1.464 2009/05/24 12:41:40 jkoshy Exp $
 -->
 
 <appendix id="mirrors">
@@ -43,32 +43,11 @@
     <itemizedlist>
       <listitem>
         <address>
-	  <otheraddr>BSD Mall by Daemon News</otheraddr>
-	  <street>PO Box 161</street>
-	  <city>Nauvoo</city>, <state>IL</state> <postcode>62354</postcode>
-	  <country>USA</country>
-	  Phone: <phone>+1 866 273-6255</phone>
-	  Fax: <fax>+1 217 453-9956</fax>
-	  Email: <email>sales@bsdmall.com</email>
-	  WWW: <otheraddr><ulink url="http://www.bsdmall.com/freebsd1.html"></ulink></otheraddr>
-        </address>
-      </listitem>
-
-      <listitem>
-        <address>
-	  <otheraddr>BSD-Systems</otheraddr>
-	  Email: <email>info@bsd-systems.co.uk</email>
-	  WWW: <otheraddr><ulink url="http://www.bsd-systems.co.uk"></ulink></otheraddr>
-        </address>
-      </listitem>
-
-      <listitem>
-        <address>
 	  <otheraddr>FreeBSD Mall, Inc.</otheraddr>
-	  <street>3623 Sanford Street</street>
-	  <city>Concord</city>, <state>CA</state>  <postcode>94520-1405</postcode>
+	  <street>700 Harvest Park Ste F</street>
+	  <city>Brentwood</city>, <state>CA</state>  <postcode>94513</postcode>
 	  <country>USA</country>
-	  Phone: <phone>+1 925 674-0783</phone>
+	  Phone: <phone>+1 925 240-6652</phone>
 	  Fax: <fax>+1 925 674-0821</fax>
 	  Email: <email>info@freebsdmall.com</email>
 	  WWW: <otheraddr><ulink url="http://www.freebsdmall.com/"></ulink></otheraddr>
@@ -107,17 +86,6 @@
 
       <listitem>
 	<address>
-	  <otheraddr>Linux CD Mall</otheraddr>
-	  <street>Private Bag MBE N348</street>
-	  <city>Auckland 1030</city>
-	  <country>New Zealand</country>
-	  Phone: <phone>+64 21 866529</phone>
-	  WWW: <otheraddr><ulink url="http://www.linuxcdmall.co.nz/"></ulink></otheraddr>
-	</address>
-      </listitem>
-
-      <listitem>
-	<address>
 	  <otheraddr>The Linux Emporium</otheraddr>
 	  <street>Hilliard House, Lester Way</street>
 	  <city>Wallingford</city>
@@ -125,7 +93,7 @@
 	  <country>United Kingdom</country>
 	  Phone: <phone>+44 1491 837010</phone>
 	  Fax: <fax>+44 1491 837016</fax>
-	  WWW: <otheraddr><ulink url="http://www.linuxemporium.co.uk/products/freebsd/"></ulink></otheraddr>
+	  WWW: <otheraddr><ulink url="http://www.linuxemporium.co.uk/products/bsd/"></ulink></otheraddr>
         </address>
       </listitem>
 
@@ -164,7 +132,7 @@
 	  <country>Russia</country>
 	  Phone: <phone>+7-812-3125208</phone>
 	  Email: <email>info@linuxcenter.ru</email>
-	  WWW: <otheraddr><ulink url="http://linuxcenter.ru/freebsd"></ulink></otheraddr>
+	  WWW: <otheraddr><ulink url="http://linuxcenter.ru/shop/freebsd"></ulink></otheraddr>
 	</address>
       </listitem>
 
@@ -211,6 +179,17 @@
 	    Phone: <phone>+1 952 947-0822</phone>
 	    Fax: <fax>+1 952 947-0876</fax>
 	    Email: <email>sales@kudzuenterprises.com</email>
+	  </address>
+	</listitem>
+
+	<listitem>
+	  <address>
+	    <otheraddr>LinuxCenter.Kz</otheraddr>
+	    <city>Ust-Kamenogorsk</city>
+	    <country>Kazakhstan</country>
+	    Phone: <phone>+7-705-501-6001</phone>
+	    Email: <email>info@linuxcenter.kz</email>
+	    WWW: <otheraddr><ulink url="http://linuxcenter.kz/page.php?page=fr"></ulink></otheraddr>
 	  </address>
 	</listitem>
 
@@ -273,6 +252,27 @@
       after the hostname.</para>
 
     &chap.mirrors.ftp.inc;
+  </sect1>
+
+  <sect1 id="mirrors-bittorrent">
+    <title>BitTorrent</title>
+
+    <indexterm>
+      <primary>BitTorrent</primary>
+    </indexterm>
+
+    <para>The ISO images for the basic release CDs are available via
+      BitTorrent.  A collection of torrent files to download the
+      images is available at <ulink
+      url="http://torrents.freebsd.org:8080/">http://torrents.freebsd.org:8080</ulink></para>
+
+    <para>The BitTorrent client software is available from the
+      <filename role="package">net-p2p/py-bittorrent</filename> port,
+      or a precompiled package.</para>
+
+    <para>After downloading the ISO image with BitTorrent, you may
+      burn it to CD or DVD media as described in <xref
+      linkend="burncd">, burncd.</para>
   </sect1>
 
     <sect1 id="anoncvs">
@@ -346,28 +346,10 @@
 
 	<itemizedlist>
 	  <listitem>
-	    <para><emphasis>Austria</emphasis>:
-	      :pserver:anoncvs@anoncvs.at.FreeBSD.org:/home/ncvs
-	      (Use <command>cvs login</command> and enter any
-	      password when prompted.)</para>
-	  </listitem>
-	  <listitem>
 	    <para><emphasis>France</emphasis>:
 	      :pserver:anoncvs@anoncvs.fr.FreeBSD.org:/home/ncvs
 	      (pserver (password <quote>anoncvs</quote>), ssh (no password))
 	    </para>
-	  </listitem>
-	  <listitem>
-	    <para><emphasis>Germany</emphasis>:
-	      :pserver:anoncvs@anoncvs.de.FreeBSD.org:/home/ncvs
-	      (Use <command>cvs login</command> and enter the password
-	      <quote>anoncvs</quote> when prompted.)</para>
-	  </listitem>
-	  <listitem>
-	    <para><emphasis>Germany</emphasis>:
-	      :pserver:anoncvs@anoncvs2.de.FreeBSD.org:/home/ncvs
-	      (rsh, pserver, ssh, ssh/2022)
-	      </para>
 	  </listitem>
 	  <listitem>
 	    <para><emphasis>Japan</emphasis>:
@@ -378,8 +360,11 @@
 	  <listitem>
 	    <para><emphasis>Taiwan</emphasis>:
 	      :pserver:anoncvs@anoncvs.tw.FreeBSD.org:/home/ncvs
-	      (Use <command>cvs login</command> and enter any
-	      password when prompted.)</para>
+	      (pserver (use <command>cvs login</command> and enter any
+	      password when prompted), ssh (no password))</para>
+
+	      <programlisting>SSH2 HostKey: 1024 e8:3b:29:7b:ca:9f:ac:e9:45:cb:c8:17:ae:9b:eb:55 /etc/ssh/ssh_host_dsa_key.pub</programlisting>
+      
 	  </listitem>
 	  <listitem>
 	    <para><emphasis>USA</emphasis>:
@@ -419,7 +404,7 @@ SSH2 HostKey: 1024 52:02:38:1a:2f:a8:71:d3:f5:83:93:8d:aa:00:6f:65 ssh_host_dsa_
  	  might be interested
 	  in.  Again, none of these are valid for the Ports Collection
 	  since the Ports Collection does not have multiple
-	  revisions.</para>
+	  branches of development.</para>
 
 	<para>When you specify a branch tag, you normally receive the
 	  latest versions of the files on that line of development.  If
@@ -439,9 +424,9 @@ SSH2 HostKey: 1024 52:02:38:1a:2f:a8:71:d3:f5:83:93:8d:aa:00:6f:65 ssh_host_dsa_
 	<example>
 	  <title>Checking Out Something from -CURRENT (&man.ls.1;):</title>
 
-	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.jp.FreeBSD.org:/home/ncvs</userinput>
+	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.tw.FreeBSD.org:/home/ncvs</userinput>
 &prompt.user; <userinput>cvs login</userinput>
-<emphasis>At the prompt, enter the password</emphasis> <quote>anoncvs</quote>.
+<emphasis>At the prompt, enter any word for</emphasis> <quote>password</quote>.
 &prompt.user; <userinput>cvs co ls</userinput>
 	  </screen>
 	</example>
@@ -460,9 +445,9 @@ Warning: Permanently added 'anoncvs.freebsd.org' (DSA) to the list of known host
 	  <title>Checking Out the Version of &man.ls.1; in the 6-STABLE
 	    Branch:</title>
 
-	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.jp.FreeBSD.org:/home/ncvs</userinput>
+	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.tw.FreeBSD.org:/home/ncvs</userinput>
 &prompt.user; <userinput>cvs login</userinput>
-<emphasis>At the prompt, enter the password</emphasis> <quote>anoncvs</quote>.
+<emphasis>At the prompt, enter any word for</emphasis> <quote>password</quote>.
 &prompt.user; <userinput>cvs co -rRELENG_6 ls</userinput>
 	  </screen>
 	</example>
@@ -470,9 +455,9 @@ Warning: Permanently added 'anoncvs.freebsd.org' (DSA) to the list of known host
 	<example>
 	  <title>Creating a List of Changes (as Unified Diffs) to &man.ls.1;</title>
 
-	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.jp.FreeBSD.org:/home/ncvs</userinput>
+	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.tw.FreeBSD.org:/home/ncvs</userinput>
 &prompt.user; <userinput>cvs login</userinput>
-<emphasis>At the prompt, enter the password</emphasis> <quote>anoncvs</quote>.
+<emphasis>At the prompt, enter any word for</emphasis> <quote>password</quote>.
 &prompt.user; <userinput>cvs rdiff -u -rRELENG_5_3_0_RELEASE -rRELENG_5_4_0_RELEASE ls</userinput>
 	  </screen>
 	</example>
@@ -480,9 +465,9 @@ Warning: Permanently added 'anoncvs.freebsd.org' (DSA) to the list of known host
 	<example>
 	  <title>Finding Out What Other Module Names Can Be Used:</title>
 
-	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.jp.FreeBSD.org:/home/ncvs</userinput>
+	  <screen>&prompt.user; <userinput>setenv CVSROOT :pserver:anoncvs@anoncvs.tw.FreeBSD.org:/home/ncvs</userinput>
 &prompt.user; <userinput>cvs login</userinput>
-<emphasis>At the prompt, enter the password</emphasis> <quote>anoncvs</quote>.
+<emphasis>At the prompt, enter any word for</emphasis> <quote>password</quote>.
 &prompt.user; <userinput>cvs co modules</userinput>
 &prompt.user; <userinput>more modules/modules</userinput>
 	  </screen>
@@ -1294,8 +1279,10 @@ doc/de_*
 doc/el_*
 doc/es_*
 doc/fr_*
+doc/hu_*
 doc/it_*
 doc/ja_*
+doc/mn_*
 doc/nl_*
 doc/no_*
 doc/pl_*
@@ -1997,6 +1984,15 @@ doc/zh_*</screen>
 		    </varlistentry>
 
 		    <varlistentry>
+		      <term><literal>ports-x11-drivers
+			  release=cvs</literal></term>
+
+		      <listitem>
+			<para>X11 drivers.</para>
+		      </listitem>
+		    </varlistentry>
+
+		    <varlistentry>
 		      <term><literal>ports-x11-fm
 			  release=cvs</literal></term>
 
@@ -2372,16 +2368,18 @@ doc/zh_*</screen>
 
       <para>For the <application>CVSup</application> FAQ and other 
 	information about <application>CVSup</application>, see
-	<ulink url="http://www.polstra.com/projects/freeware/CVSup/">The
+	<ulink url="http://www.cvsup.org">The
 	  CVSup Home Page</ulink>.</para>
 
       <para>Most FreeBSD-related discussion of
 	<application>CVSup</application> takes place on the
 	&a.hackers;.  New versions of the software are announced there,
 	as well as on the &a.announce;.</para>
-      
-      <para>Questions and bug reports should be addressed to the author
-	of the program at <email>cvsup-bugs@polstra.com</email>.</para>
+
+      <para>For questions or bug reports about
+	<application>CVSup</application> take a look at the
+	<ulink url="http://www.cvsup.org/faq.html#bugreports">
+	CVSup FAQ</ulink>.</para>
     </sect2>
 
     <sect2 id="cvsup-mirrors">
@@ -2394,182 +2392,6 @@ doc/zh_*</screen>
     </sect2>
   </sect1>
   
-  <sect1 id="portsnap">
-    <title>Using Portsnap</title>
-
-    <sect2 id="portsnap-intro">
-      <title>Introduction</title>
-
-      <para><application>Portsnap</application> is a system for securely
-	distributing the &os; ports tree.  Approximately once an hour,
-	a <quote>snapshot</quote> of the ports tree is generated,
-	repackaged, and cryptographically signed.  The resulting files
-	are then distributed via HTTP.</para>
-
-      <para>Like <application>CVSup</application>,
-	<application>Portsnap</application> uses a
-	<emphasis>pull</emphasis> model of updating: The packaged and
-	signed ports trees are placed on a web server which waits
-	passively for clients to request files.  Users must either run
-	&man.portsnap.8; manually to download updates
-	or set up a &man.cron.8; job to download updates
-	automatically on a regular basis.</para>
-
-      <para>For technical reasons, <application>Portsnap</application>
-	does not update the <quote>live</quote> ports tree in
-	<filename>/usr/ports/</filename> directly; instead, it works
-	via a compressed copy of the ports tree stored in
-	<filename>/var/db/portsnap/</filename> by default.  This
-	compressed copy is then used to update the live ports tree.</para>
-
-      <note>
-	<para>If <application>Portsnap</application> is installed from
-	the &os; Ports Collection, then the default location for its
-	compressed snapshot will be <filename>/usr/local/portsnap/</filename>
-	instead of <filename>/var/db/portsnap/</filename>.</para>
-      </note>
-    </sect2>
-
-    <sect2 id="portsnap-install">
-      <title>Installation</title>
-
-      <para>On &os; 6.0 and more recent versions,
-	<application>Portsnap</application> is contained in the &os;
-	base system.  On older versions of &os;, it can be installed
-	using the <filename role="package">ports-mgmt/portsnap</filename>
-	port.</para>
-    </sect2>
-
-    <sect2 id="portsnap-config">
-      <title>Portsnap Configuration</title>
-
-      <para><application>Portsnap</application>'s operation is controlled
-	by the <filename>/etc/portsnap.conf</filename> configuration
-	file.  For most users, the default configuration file will
-	suffice; for more details, consult the &man.portsnap.conf.5;
-	manual page.</para>
-
-      <note>
-	<para>If <application>Portsnap</application> is installed from
-	  the &os; Ports Collection, it will use the configuration file
-	  <filename>/usr/local/etc/portsnap.conf</filename> instead of
-	  <filename>/etc/portsnap.conf</filename>.  This configuration
-	  file is not created when the port is installed, but a sample
-	  configuration file is distributed; to copy it into place, run
-	  the following command:</para>
-
-	<screen>&prompt.root; <userinput>cd /usr/local/etc &amp;&amp; cp portsnap.conf.sample portsnap.conf</userinput></screen>
-      </note>
-    </sect2>
-
-    <sect2>
-      <title>Running <application>Portsnap</application> for the First
-	Time</title>
-
-      <para>The first time &man.portsnap.8; is run,
-	it will need to download a compressed snapshot of the entire
-	ports tree into <filename>/var/db/portsnap/</filename> (or
-	<filename>/usr/local/portsnap/</filename> if
-	<application>Portsnap</application> was installed from the
-	Ports Collection).  For the beginning of 2006 this is approximately a 41&nbsp;MB
-	download.</para>
-
-      <screen>&prompt.root; <userinput>portsnap fetch</userinput></screen>
-
-      <para>Once the compressed snapshot has been downloaded, a
-	<quote>live</quote> copy of the ports tree can be extracted into
-	<filename>/usr/ports/</filename>.  This is necessary even if a
-	ports tree has already been created in that directory (e.g., by
-	using <application>CVSup</application>), since it establishes a
-	baseline from which <command>portsnap</command> can
-	determine which parts of the ports tree need to be updated
-	later.</para>
-
-      <screen>&prompt.root; <userinput>portsnap extract</userinput></screen>
-
-      <note>
-	<para>In the default installation
-	  <filename role="directory">/usr/ports</filename> is not
-	  created.  If you run &os;&nbsp;6.0-RELEASE, it should be created before
-	  <command>portsnap</command> is used.  On more recent
-	  versions of &os; or <application>Portsnap</application>,
-	  this operation will be done automatically at first use
-	  of the <command>portsnap</command> command.<para>
-      </note>
-    </sect2>
-
-    <sect2>
-      <title>Updating the Ports Tree</title>
-
-      <para>After an initial compressed snapshot of the ports tree has
-	been downloaded and extracted into <filename>/usr/ports/</filename>,
-	updating the ports tree consists of two steps:
-	<emphasis>fetch</emphasis>ing updates to the compressed
-	snapshot, and using them to <emphasis>update</emphasis> the
-	live ports tree.  These two steps can be specified to
-	<command>portsnap</command> as a single command:</para>
-
-      <screen>&prompt.root; <userinput>portsnap fetch update</userinput></screen>
-
-      <note>
-	<para>Some older versions of <command>portsnap</command>
-	  do not support this syntax; if it fails, try instead the
-	  following:</para>
-
-        <screen>&prompt.root; <userinput>portsnap fetch</userinput>
-&prompt.root; <userinput>portsnap update</userinput></screen>
-      </note>
-    </sect2>
-
-    <sect2>
-      <title>Running Portsnap from cron</title>
-
-      <para>In order to avoid problems with <quote>flash crowds</quote>
-	accessing the <application>Portsnap</application> servers,
-	<command>portsnap fetch</command> will not run from
-	a &man.cron.8; job.  Instead, a special
-	<command>portsnap cron</command> command exists, which
-	waits for a random duration up to 3600 seconds before fetching
-	updates.</para>
-
-      <para>In addition, it is strongly recommended that
-	<command>portsnap update</command> not be run from a
-	<command>cron</command> job, since it is liable to cause
-	major problems if it happens to run at the same time as a port
-	is being built or installed.  However, it is safe to update
-	the ports' <filename>INDEX</filename> files, and this can be done by passing the
-	<option>-I</option> flag to
-	<command>portsnap</command>.  (Obviously, if
-	<command>portsnap -I update</command> is run from
-	<command>cron</command>, then it will be necessary to run
-	<command>portsnap update</command> without the <option>-I</option>
-	flag at a later time in order to update the rest of the tree.)</para>
-
-      <para>Adding the following line to <filename>/etc/crontab</filename>
-	will cause <command>portsnap</command> to update its
-	compressed snapshot and the <filename>INDEX</filename> files in
-	<filename>/usr/ports/</filename>, and will send an email if any
-	installed ports are out of date:</para>
-
-      <programlisting>0 3 * * * root portsnap -I cron update &amp;&amp; pkg_version -vIL=</programlisting>
-
-      <note>
-	<para>If the system clock is not set to the local time zone,
-	  please replace <literal>3</literal> with a random
-	  value between 0 and 23, in order to spread the load on the
-	  <application>Portsnap</application> servers more evenly.</para>
-      </note>
-      <note>
-	<para>Some older versions of <command>portsnap</command>
-	  do not support listing multiple commands (e.g., <literal>cron update</literal>)
-	  in the same invocation of <command>portsnap</command>.  If
-	  the line above fails, try replacing
-	  <command>portsnap -I cron update</command> with
-	  <command>portsnap cron &amp;&amp; portsnap -I update</command>.</para>
-      </note>
-    </sect2>
-  </sect1>
-
   <sect1 id="cvs-tags">
     <title>CVS Tags</title>
 
@@ -2611,11 +2433,65 @@ doc/zh_*</screen>
       </varlistentry>
 
       <varlistentry>
+	<term>RELENG_7</term>
+
+	<listitem>
+	  <para>The line of development for FreeBSD-7.X, also known
+	    as FreeBSD 7-STABLE</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_7_2</term>
+
+	<listitem>
+	  <para>The release branch for FreeBSD-7.2, used only for
+	    security advisories and other critical fixes.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_7_1</term>
+
+	<listitem>
+	  <para>The release branch for FreeBSD-7.1, used only for
+	    security advisories and other critical fixes.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_7_0</term>
+
+	<listitem>
+	  <para>The release branch for FreeBSD-7.0, used only for
+	    security advisories and other critical fixes.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
 	<term>RELENG_6</term>
 
 	<listitem>
 	  <para>The line of development for FreeBSD-6.X, also known
 	    as FreeBSD 6-STABLE</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_6_4</term>
+
+	<listitem>
+	  <para>The release branch for FreeBSD-6.4, used only for
+	    security advisories and other critical fixes.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_6_3</term>
+
+	<listitem>
+	  <para>The release branch for FreeBSD-6.3, used only for
+	    security advisories and other critical fixes.</para>
 	</listitem>
       </varlistentry>
 
@@ -2839,6 +2715,46 @@ doc/zh_*</screen>
 	tagged with any special name for releases.</para>
 
     <variablelist>
+      <varlistentry>
+	<term>RELENG_7_2_0_RELEASE</term>
+
+	<listitem>
+	  <para>FreeBSD 7.2</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_7_1_0_RELEASE</term>
+
+	<listitem>
+	  <para>FreeBSD 7.1</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_7_0_0_RELEASE</term>
+
+	<listitem>
+	  <para>FreeBSD 7.0</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_6_4_0_RELEASE</term>
+
+	<listitem>
+	  <para>FreeBSD 6.4</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_6_3_0_RELEASE</term>
+
+	<listitem>
+	  <para>FreeBSD 6.3</para>
+	</listitem>
+      </varlistentry>
+
       <varlistentry>
 	<term>RELENG_6_2_0_RELEASE</term>
 
@@ -3204,22 +3120,6 @@ doc/zh_*</screen>
       </varlistentry>
 
       <varlistentry>
-	<term>Germany</term>
-
-	<listitem>
-	  <para>rsync://grappa.unix-ag.uni-kl.de/</para>
-
-	  <para>Available collections:</para>
-	  <itemizedlist>
-	    <listitem><para>freebsd-cvs: The full FreeBSD CVS
-	      repository.</para></listitem>
-	  </itemizedlist>
-	  <para>This machine also mirrors the CVS repositories of the
-	    NetBSD and the OpenBSD projects, among others.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
 	<term>Netherlands</term>
 
 	<listitem>
@@ -3227,8 +3127,22 @@ doc/zh_*</screen>
 
 	  <para>Available collections:</para>
 	  <itemizedlist>
-	    <listitem><para>vol/4/freebsd-core: A full mirror of the
+	    <listitem><para>FreeBSD: A full mirror of the
 	      FreeBSD FTP server.</para></listitem>
+	  </itemizedlist>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Russia</term>
+
+	<listitem>
+	  <para>rsync://cvsup4.ru.FreeBSD.org/</para>
+
+	  <para>Available collections:</para>
+	  <itemizedlist>
+	    <listitem><para>FreeBSD-gnats: The GNATS bug-tracking
+	      database.</para></listitem>
 	  </itemizedlist>
 	</listitem>
       </varlistentry>
@@ -3253,11 +3167,11 @@ doc/zh_*</screen>
 	<term>United Kingdom</term>
 
 	<listitem>
-	  <para>rsync://rsync.mirror.ac.uk/</para>
+	  <para>rsync://rsync.mirrorservice.org/</para>
 
 	  <para>Available collections:</para>
 	  <itemizedlist>
-	    <listitem><para>ftp.FreeBSD.org: A full mirror of the
+	    <listitem><para>sites/ftp.freebsd.org: A full mirror of the
 	      FreeBSD FTP server.</para></listitem>
 	  </itemizedlist>
 	</listitem>

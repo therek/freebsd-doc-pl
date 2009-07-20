@@ -1,6 +1,6 @@
 <!--
      The FreeBSD Documentation Project
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/mac/chapter.sgml,v 1.2 2007/05/20 12:42:21 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/mac/chapter.sgml,v 1.74 2008/11/24 16:37:58 rene Exp $
 -->
 
 <chapter id="mac">
@@ -764,92 +764,6 @@ test: biba/high</screen>
 	  <xref linkend="mac-troubleshoot"> of this chapter.</para>
       </note>
     </sect2>
-
-    <sect2>
-      <title>Controlling MAC with Tunables</title>
-
-      <para>Without any modules loaded, there are still some parts
-        of <acronym>MAC</acronym> which may be configured using
-	the <command>sysctl</command> interface.  These tunables
-	are described below and in all cases the number one (1)
-	means enabled while the number zero (0) means
-	disabled:</para>
-
-      <itemizedlist>
-	<listitem>
-	  <para><literal>security.mac.enforce_fs</literal> defaults to
-	    one (1) and enforces <acronym>MAC</acronym> file system
-	    policies on the file systems.</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_kld</literal> defaults to
-	    one (1) and enforces <acronym>MAC</acronym> kernel linking
-	    policies on the dynamic kernel linker (see
-	    &man.kld.4;).</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_network</literal> defaults
-	    to one (1) and enforces <acronym>MAC</acronym> network
-	    policies.</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_pipe</literal> defaults
-	    to one (1) and enforces <acronym>MAC</acronym> policies
-	    on pipes.</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_process</literal> defaults
-	    to one (1) and enforces <acronym>MAC</acronym> policies
-	    on processes which utilize inter-process
-	    communication.</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_socket</literal> defaults
-	    to one (1) and enforces <acronym>MAC</acronym> policies
-	    on sockets (see the &man.socket.2; manual page).</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_system</literal> defaults
-	    to one (1) and enforces <acronym>MAC</acronym> policies
-	    on system activities such as accounting and
-	    rebooting.</para>
-	</listitem>
-
-	<listitem>
-	  <para><literal>security.mac.enforce_vm</literal> defaults
-	    to one (1) and enforces <acronym>MAC</acronym> policies
-	    on the virtual memory system.</para>
-	</listitem>
-      </itemizedlist>
-
-      <note>
-	<para>Every policy or <acronym>MAC</acronym> option supports
-	  tunables.  These usually hang off of the
-	  <literal>security.mac.&lt;policyname&gt;</literal> tree.
-	  To view all of the tunables from <acronym>MAC</acronym>
-	  use the following command:</para>
-
-	<screen>&prompt.root; <userinput>sysctl -da | grep mac</userinput></screen>
-      </note>
-
-      <para>This should be interpreted as all of the basic
-	<acronym>MAC</acronym> policies are enforced by default.
-	If the modules were built into the kernel the system
-	would be extremely locked down and most likely unable to
-	communicate with the local network or connect to the Internet,
-	etc.  This is why building the modules into the kernel is not
-	completely recommended.  Not because it limits the ability to
-	disable features on the fly with <command>sysctl</command>,
-	but it permits the administrator to instantly switch the
-	policies of a system without the requirement of rebuilding
-	and reinstalling a new system.</para>
-    </sect2>
   </sect1>
 
   <sect1 id="mac-planning">
@@ -939,62 +853,62 @@ test: biba/high</screen>
     <para>A single label configuration would enforce only one label
       across the system, that is why the <command>tunefs</command>
       option is called <option>multilabel</option>.</para>
+  </sect1>
 
-    <sect2 id="mac-seeotheruids">
-      <title>The MAC seeotheruids Module</title>
+  <sect1 id="mac-seeotheruids">
+    <title>The MAC seeotheruids Module</title>
 
-      <indexterm>
-        <primary>MAC See Other UIDs Policy</primary>
-      </indexterm>
-      <para>Module name: <filename>mac_seeotheruids.ko</filename></para>
+    <indexterm>
+      <primary>MAC See Other UIDs Policy</primary>
+    </indexterm>
+    <para>Module name: <filename>mac_seeotheruids.ko</filename></para>
 
-      <para>Kernel configuration line:
-        <literal>options MAC_SEEOTHERUIDS</literal></para>
+    <para>Kernel configuration line:
+      <literal>options MAC_SEEOTHERUIDS</literal></para>
 
-      <para>Boot option:
-	<literal>mac_seeotheruids_load="YES"</literal></para>
+    <para>Boot option:
+      <literal>mac_seeotheruids_load="YES"</literal></para>
 
-      <para>The &man.mac.seeotheruids.4; module mimics and extends
-	the <literal>security.bsd.see_other_uids</literal> and
-	<literal>security.bsd.see_other_gids</literal>
-	<command>sysctl</command> tunables.  This option does
-	not require any labels to be set before configuration and
-	can operate transparently with the other modules.</para>
+    <para>The &man.mac.seeotheruids.4; module mimics and extends
+      the <literal>security.bsd.see_other_uids</literal> and
+      <literal>security.bsd.see_other_gids</literal>
+      <command>sysctl</command> tunables.  This option does
+      not require any labels to be set before configuration and
+      can operate transparently with the other modules.</para>
 
-      <para>After loading the module, the following
-	<command>sysctl</command> tunables may be used to control
-	the features:</para>
+    <para>After loading the module, the following
+      <command>sysctl</command> tunables may be used to control
+      the features:</para>
 
-      <itemizedlist>
-	<listitem>
-	  <para><literal>security.mac.seeotheruids.enabled</literal>
-	    will enable the module's features and use the default
-	    settings.  These default settings will deny users the
-	    ability to view processes and sockets owned by other
-	    users.</para>
-	</listitem>
+    <itemizedlist>
+      <listitem>
+	<para><literal>security.mac.seeotheruids.enabled</literal>
+	  will enable the module's features and use the default
+	  settings.  These default settings will deny users the
+	  ability to view processes and sockets owned by other
+	  users.</para>
+      </listitem>
 
-	<listitem>
-	  <para>
-	    <literal>security.mac.seeotheruids.specificgid_enabled</literal>
-	    will allow a certain group to be exempt from this policy.
-	    To exempt specific groups from this policy, use the
-	    <literal>security.mac.seeotheruids.specificgid=<replaceable>XXX</replaceable></literal>
-	    <command>sysctl</command> tunable.  In the above example,
-	    the <replaceable>XXX</replaceable> should be replaced with the
-	    numeric group ID to be exempted.</para>
-	</listitem>
+      <listitem>
+	<para>
+	  <literal>security.mac.seeotheruids.specificgid_enabled</literal>
+	  will allow a certain group to be exempt from this policy.
+	  To exempt specific groups from this policy, use the
+	  <literal>security.mac.seeotheruids.specificgid=<replaceable>XXX</replaceable></literal>
+	  <command>sysctl</command> tunable.  In the above example,
+	  the <replaceable>XXX</replaceable> should be replaced with the
+	  numeric group ID to be exempted.</para>
+      </listitem>
 
-	<listitem>
-	  <para>
-	    <literal>security.mac.seeotheruids.primarygroup_enabled</literal>
-	    is used to exempt specific primary groups from this policy.
-	    When using this tunable, the
-	    <literal>security.mac.seeotheruids.specificgid_enabled</literal>
-	    may not be set.</para>
-	</listitem>
-      </itemizedlist>
-    </sect2>
+      <listitem>
+	<para>
+	  <literal>security.mac.seeotheruids.primarygroup_enabled</literal>
+	  is used to exempt specific primary groups from this policy.
+	  When using this tunable, the
+	  <literal>security.mac.seeotheruids.specificgid_enabled</literal>
+	  may not be set.</para>
+      </listitem>
+    </itemizedlist>
   </sect1>
 
   <sect1 id="mac-bsdextended">
@@ -1052,12 +966,6 @@ test: biba/high</screen>
 	following command:</para>
 
       <screen>&prompt.root; <userinput>ugidfw add subject not uid root new object not uid root mode n</userinput></screen>
-
-      <note>
-	<para>In releases prior to &os;&nbsp;5.3, the
-	  <parameter>add</parameter> parameter did not exist.  In those
-	  cases the <parameter>set</parameter> should be used
-	  instead.  See below for a command example.</para></note>
 
       <para>This is a very bad idea as it will block all users from
 	issuing even the most simple commands, such as
@@ -1166,10 +1074,7 @@ test: biba/high</screen>
     <itemizedlist>
       <listitem>
 	<para><literal>security.mac.portacl.enabled</literal> will
-	  enable/disable the policy completely.<footnote><para>Due to
-	  a bug the <literal>security.mac.portacl.enabled</literal>
-	  <command>sysctl</command> variable will not work on
-	  &os;&nbsp;5.2.1 or previous releases.</para></footnote></para>
+	  enable/disable the policy completely.</para>
       </listitem>
 
       <listitem>
@@ -1516,6 +1421,7 @@ test: biba/high</screen>
 	company information, and financial institution environments.
 	The most unlikely place would be a personal workstation with
 	only two or three users.</para>
+    </sect2>
   </sect1>
 
   <sect1 id="mac-biba">
@@ -1743,9 +1649,9 @@ test: biba/low</screen>
       <literal>multilabel</literal> option must be set on each file
       system as stated at the beginning of this chapter.  Not doing
       so will result in errors.  While at it, ensure that the
-      <filename role="port">net-mngt/nagios-plugins</filename>,
-      <filename role="port">net-mngt/nagios</filename>, and
-      <filename role="port">www/apache13</filename> ports are all
+      <filename role="package">net-mngt/nagios-plugins</filename>,
+      <filename role="package">net-mngt/nagios</filename>, and
+      <filename role="package">www/apache13</filename> ports are all
       installed, configured, and working correctly.</para>
 
     <sect2>
@@ -1976,7 +1882,7 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
       &man.mac.seeotheruids.4; could co-exist and block access not
       only to system objects but to hide user processes as well.
 
-    <para>Begin by adding the following lines to
+    <para>Begin by adding the following line to
       <filename>/boot/loader.conf</filename>:</para>
 
     <programlisting>mac_seeotheruids_enabled="YES"</programlisting>
@@ -2121,9 +2027,9 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
     <sect2>
       <title>Error: &man..secure.path.3; cannot stat <filename>.login_conf</filename></title>
 
-      <para>When I attempt to switch from the <username>root</username>
+      <para>When I attempt to switch from the <username>root</username> user
 	to another user in the system, the error message
-	<errorname>_secure_path: unable to state .login_conf</errorname>.</para>
+	<errorname>_secure_path: unable to state .login_conf</errorname> appears.</para>
 
       <para>This message is usually shown when the user has a higher
 	label setting then that of the user whom they are attempting to

@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/ppp-and-slip/chapter.sgml,v 1.2 2007/05/20 12:42:22 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/ppp-and-slip/chapter.sgml,v 1.192 2009/02/01 09:38:25 manolis Exp $
 -->
 
 <chapter id="ppp-and-slip">
@@ -92,10 +92,11 @@
 
     <note>
       <para>Throughout in this chapter, user PPP will simply be
-	referred to as <application>ppp</application> unless a distinction needs to be made between it
-	and any other PPP software such as <application>pppd</application>.
-	Unless otherwise stated, all of the commands explained in this
-	chapter should be executed as <username>root</username>.</para>
+	referred to as <application>ppp</application> unless a distinction
+	needs to be made between it and any other PPP software such as
+	<application>pppd</application>.  Unless otherwise stated, all of
+	the commands explained in this chapter should be executed as
+	<username>root</username>.</para>
     </note>
   </sect1>
 
@@ -155,9 +156,9 @@
 	  </listitem>
 
 	  <listitem>
-	    <para>You have a modem or
-	      other device connected to your system and configured
-	      correctly which allows you to connect to your ISP.</para>
+	    <para>A modem or
+	      other device connected to your system and properly configured
+	      to allow you to connect to your ISP.</para>
 	  </listitem>
 
 	  <listitem>
@@ -182,7 +183,7 @@
 	  <listitem>
 	    <para>Your login name and password. (Either a
 	      regular &unix; style login and password pair, or a PAP or CHAP
-	      login and password pair.)</para>
+	      login and password pair).</para>
 	  </listitem>
 
 	  <indexterm id="ppp-nameserver">
@@ -249,12 +250,16 @@
       <sect3>
         <title>Automatic <application>PPP</application> Configuration</title>
 
-	<indexterm><primary>PPP</primary><secondary>configuration</secondary></indexterm>
+	<indexterm>
+	  <primary>PPP</primary>
+	  <secondary>configuration</secondary>
+	</indexterm>
+
 	<para>Both <command>ppp</command> and <command>pppd</command>
 	  (the kernel level implementation of PPP) use the configuration
-	  files located in the <filename>/etc/ppp</filename> directory.
+	  files located in the <filename class="directory">/etc/ppp</filename> directory.
           Examples for user ppp can be found in
-          <filename>/usr/share/examples/ppp/</filename>.</para>
+          <filename class="directory">/usr/share/examples/ppp/</filename>.</para>
 
 	<para>Configuring <command>ppp</command> requires that you edit a
 	  number of files, depending on your requirements.  What you put
@@ -266,7 +271,11 @@
 	<sect4 id="userppp-staticIP">
 	  <title>PPP and Static IP Addresses</title>
 
-	  <indexterm><primary>PPP</primary><secondary>with static IP addresses</secondary></indexterm>
+	  <indexterm>
+	    <primary>PPP</primary>
+	    <secondary>with static IP addresses</secondary>
+	  </indexterm>
+
 	  <para>You will need to edit the
 	    <filename>/etc/ppp/ppp.conf</filename> configuration file.  It
             should look similar to the example below.</para>
@@ -281,7 +290,7 @@
 	  <programlisting>1     default:
 2       set log Phase Chat LCP IPCP CCP tun command
 3       ident user-ppp VERSION (built COMPILATIONDATE)
-4       set device /dev/cuaa0
+4       set device /dev/cuad0
 5       set speed 115200
 6       set dial "ABORT BUSY ABORT NO\\sCARRIER TIMEOUT 5 \
 7                 \"\" AT OK-AT-OK ATE1Q0 OK \\dATDT\\T TIMEOUT 40 CONNECT"
@@ -313,11 +322,11 @@
 	      <listitem>
 		<para>Enables logging parameters.  When the configuration
 		  is working satisfactorily, this line should be reduced
-                  to saying
+                  to saying:</para>
 
-	          <programlisting>set log phase tun</programlisting>
+	        <programlisting>set log phase tun</programlisting>
 
-                  in order to avoid excessive log file sizes.</para>
+                <para>in order to avoid excessive log file sizes.</para>
 	      </listitem>
 	    </varlistentry>
 
@@ -339,9 +348,10 @@
 	      <listitem>
 		<para>Identifies the device to which the modem is
 		  connected.  <devicename>COM1</devicename> is
-		  <filename>/dev/cuaa0</filename> and
+		  <filename class="devicefile">/dev/cuad0</filename>
+		  and
 		  <devicename>COM2</devicename> is
-		  <filename>/dev/cuaa1</filename>.</para>
+		  <filename class="devicefile">/dev/cuad1</filename>.</para>
 	      </listitem>
 	    </varlistentry>
 
@@ -358,7 +368,11 @@
 	    <varlistentry>
 	      <term>Line 6 &amp; 7:</term>
 
-	      <indexterm><primary>PPP</primary><secondary>user PPP</secondary></indexterm>
+	      <indexterm>
+		<primary>PPP</primary>
+		<secondary>user PPP</secondary>
+	      </indexterm>
+
 	      <listitem>
 		<para>The dial string.  User PPP uses an expect-send
 		  syntax similar to the &man.chat.8; program.  Refer to
@@ -368,7 +382,7 @@
 		<para>Note that this command continues onto the next line
                    for readability.  Any command in
                    <filename>ppp.conf</filename> may do this if the last
-                   character on the line is a ``\'' character.</para>
+                  character on the line is a <literal>\</literal> character.</para>
 	      </listitem>
 	    </varlistentry>
 
@@ -407,7 +421,7 @@
 		<para>Identifies an entry for a provider called
 		  <quote>provider</quote>.  This could be changed
                     to the name of your <acronym>ISP</acronym> so
-                    that later you can use the <option>load ISP</option>
+                    that later you can use the <option>load <replaceable>ISP</replaceable></option>
                     to start the connection.</para>
 	      </listitem>
 	    </varlistentry>
@@ -419,7 +433,7 @@
 		<para>Sets the phone number for this provider.  Multiple
 		  phone numbers may be specified using the colon
 		  (<literal>:</literal>) or pipe character
-		  (<literal>|</literal>)as a separator.  The difference
+		  (<literal>|</literal>) as a separator.  The difference
 		  between the two separators is described in &man.ppp.8;.
 		  To summarize, if you want to rotate through the numbers,
 		  use a colon.  If you want to always attempt to dial the
@@ -540,13 +554,21 @@ protocol: ppp</screen>
             example.</para>
 
 	  <para>Example configuration files can be found in the
-	    <filename>/usr/share/examples/ppp/</filename> directory.</para>
+	    <filename class="directory">/usr/share/examples/ppp/</filename> directory.</para>
 	</sect4>
 
 	<sect4 id="userppp-dynamicIP">
 	  <title>PPP and Dynamic IP Addresses</title>
-	  <indexterm><primary>PPP</primary><secondary>with dynamic IP addresses</secondary></indexterm>
-	  <indexterm><primary>IPCP</primary></indexterm>
+
+	  <indexterm>
+	    <primary>PPP</primary>
+	    <secondary>with dynamic IP addresses</secondary>
+	  </indexterm>
+
+	  <indexterm>
+	    <primary>IPCP</primary>
+	  </indexterm>
+
 	  <para>If your service provider does not assign static IP
 	    addresses, <command>ppp</command> can be configured to
 	    negotiate the local and remote addresses.  This is done by
@@ -637,8 +659,12 @@ protocol: ppp</screen>
 
 	<sect4>
 	  <title>Receiving Incoming Calls</title>
-	  <indexterm><primary>PPP</primary><secondary>receiving
-	  incoming calls</secondary></indexterm>
+
+	  <indexterm>
+	    <primary>PPP</primary>
+	    <secondary>receiving incoming calls</secondary>
+	  </indexterm>
+
 	  <para>When you configure <application>ppp</application> to
 	    receive incoming calls on a machine connected to a LAN, you
 	    must decide if you wish to forward packets to the LAN.  If you
@@ -659,7 +685,7 @@ protocol: ppp</screen>
 	      dial-up services using &man.getty.8;.</para>
 
 	    <para>An alternative to <command>getty</command> is <ulink
-	      url="http://www.leo.org/~doering/mgetty/index.html">mgetty</ulink>,
+		url="http://www.leo.org/~doering/mgetty/index.html">mgetty</ulink>,
 	      a smarter version of <command>getty</command> designed
 	      with dial-up lines in mind.</para>
 
@@ -688,7 +714,7 @@ protocol: ppp</screen>
 	      server mode as a normal user by executing
 	      <command>ppp</command> as described below, that user
 	      must be given permission to run <command>ppp</command>
-	      by adding them to the <username>network</username> group
+	      by adding them to the <groupname>network</groupname> group
 	      in <filename>/etc/group</filename>.</para>
 
 	    <para>You will also need to give them access to one or more
@@ -704,7 +730,10 @@ protocol: ppp</screen>
 
 	  <sect4>
 	    <title>PPP Shells for Dynamic-IP Users</title>
-	    <indexterm><primary>PPP shells</primary></indexterm>
+
+	    <indexterm>
+	      <primary>PPP shells</primary>
+	    </indexterm>
 
 	    <para>Create a file called
 	      <filename>/etc/ppp/ppp-shell</filename> containing the
@@ -739,7 +768,7 @@ exec /usr/sbin/ppp -direct $IDENT</programlisting>
 
 	    <programlisting>pchilds:*:1011:300:Peter Childs PPP:/home/ppp:/etc/ppp/ppp-dialup</programlisting>
 
-	    <para>Create a <filename>/home/ppp</filename> directory that
+	    <para>Create a <filename class="directory">/home/ppp</filename> directory that
 	      is world readable containing the following 0 byte
 	      files:</para>
 
@@ -752,7 +781,10 @@ exec /usr/sbin/ppp -direct $IDENT</programlisting>
 
 	  <sect4>
 	    <title>PPP Shells for Static-IP Users</title>
-	    <indexterm><primary>PPP shells</primary></indexterm>
+
+	    <indexterm>
+	      <primary>PPP shells</primary>
+	    </indexterm>
 
 	    <para>Create the <filename>ppp-shell</filename> file as above,
 	      and for each account with statically assigned IPs create a
@@ -774,7 +806,8 @@ exec /usr/sbin/ppp -direct $IDENT</programlisting>
 	  </sect4>
 
 	  <sect4>
-	    <title>Setting Up <filename>ppp.conf</filename> for Dynamic-IP Users</title>
+	    <title>Setting Up <filename>ppp.conf</filename> for Dynamic-IP
+	      Users</title>
 	  
 	    <para>The <filename>/etc/ppp/ppp.conf</filename> file should
 	      contain something along the lines of:</para>
@@ -841,11 +874,18 @@ mary:
 
 	  <sect4 id="userppp-mgetty">
 	    <title><command>mgetty</command> and AutoPPP</title>
+
 	    <indexterm>
-        <primary><command>mgetty</command></primary>
-      </indexterm>
-	    <indexterm><primary>AutoPPP</primary></indexterm>
-	    <indexterm><primary>LCP</primary></indexterm>
+	      <primary><command>mgetty</command></primary>
+	    </indexterm>
+
+	    <indexterm>
+	      <primary>AutoPPP</primary>
+	    </indexterm>
+
+	    <indexterm>
+	      <primary>LCP</primary>
+	    </indexterm>
 
 	    <para>Configuring and compiling <command>mgetty</command>
 	      with the <literal>AUTO_PPP</literal> option enabled
@@ -906,9 +946,20 @@ exec /usr/sbin/ppp -direct pap$IDENT</programlisting>
 
 	  <sect4>
 	    <title>MS Extensions</title>
-	    <indexterm><primary>DNS</primary></indexterm>    
-	    <indexterm><primary>NetBIOS</primary></indexterm>
-	    <indexterm><primary>PPP</primary><secondary>Microsoft extensions</secondary></indexterm>
+
+	    <indexterm>
+	      <primary>DNS</primary>
+	    </indexterm>
+
+	    <indexterm>
+	      <primary>NetBIOS</primary>
+	    </indexterm>
+
+	    <indexterm>
+	      <primary>PPP</primary>
+	      <secondary>Microsoft extensions</secondary>
+	    </indexterm>
+
 	    <para>It is possible to configure PPP to supply DNS and
 	      NetBIOS nameserver addresses on demand.</para>
 
@@ -1028,35 +1079,41 @@ set nbns 203.14.100.5</programlisting>
       </sect3>
 
       <sect3 id="userppp-nat">
-       <title>Using PPP Network Address Translation Capability</title>
-       <indexterm><primary>PPP</primary><secondary>NAT</secondary></indexterm>
+        <title>Using PPP Network Address Translation Capability</title>
 
-       <para>PPP has ability to use internal NAT without kernel diverting
-         capabilities. This functionality may be enabled by the following 
-         line in <filename>/etc/ppp/ppp.conf</filename>:</para>
+	<indexterm>
+	  <primary>PPP</primary><secondary>NAT</secondary>
+	</indexterm>
 
-       <programlisting>nat enable yes</programlisting>
+	<para>PPP has ability to use internal NAT without kernel diverting
+	  capabilities. This functionality may be enabled by the following 
+	  line in <filename>/etc/ppp/ppp.conf</filename>:</para>
 
-       <para>Alternatively, PPP NAT may be enabled by command-line
-         option <literal>-nat</literal>. There is also 
-         <filename>/etc/rc.conf</filename> knob named 
-         <literal>ppp_nat</literal>, which is enabled by default.</para>
+	<programlisting>nat enable yes</programlisting>
 
-       <para>If you use this feature, you may also find useful
-         the following <filename>/etc/ppp/ppp.conf</filename> options
-         to enable incoming connections forwarding:</para>
+	<para>Alternatively, PPP NAT may be enabled by command-line
+	  option <literal>-nat</literal>. There is also 
+	  <filename>/etc/rc.conf</filename> knob named 
+	  <literal>ppp_nat</literal>, which is enabled by default.</para>
 
-       <programlisting>nat port tcp 10.0.0.2:ftp ftp
+	<para>If you use this feature, you may also find useful
+	  the following <filename>/etc/ppp/ppp.conf</filename> options
+	  to enable incoming connections forwarding:</para>
+
+	<programlisting>nat port tcp 10.0.0.2:ftp ftp
 nat port tcp 10.0.0.2:http http</programlisting>
 
-       <para>or do not trust the outside at all</para>
+	<para>or do not trust the outside at all</para>
 
-       <programlisting>nat deny_incoming yes</programlisting>
+	<programlisting>nat deny_incoming yes</programlisting>
       </sect3>
 
       <sect3 id="userppp-final">
 	<title>Final System Configuration</title>
-	<indexterm><primary>PPP</primary><secondary>configuration</secondary></indexterm>
+
+	<indexterm>
+	  <primary>PPP</primary><secondary>configuration</secondary>
+	</indexterm>
 
 	<para>You now have <command>ppp</command> configured, but there
 	  are a few more things to do before it is ready to work.  They
@@ -1095,19 +1152,19 @@ ifconfig_tun0=</programlisting>
 	    for further details.</para>
 	</note>
 
-	<para>Make sure that the router program is set to <literal>NO</literal> with
-	  the following line in your
+	<para>Make sure that the router program is set to
+	  <literal>NO</literal> with the following line in your
 	  <filename>/etc/rc.conf</filename>:</para>
 
 	<programlisting>router_enable="NO"</programlisting>
 
 	<indexterm>
-    <primary><application>routed</application></primary>
-  </indexterm>
+	  <primary><application>routed</application></primary>
+	</indexterm>
+
 	<para>It is important that the <command>routed</command> daemon is
-	  not started, as
-	  <command>routed</command> tends to delete the default routing
-	  table entries created by <command>ppp</command>.</para>
+	  not started, as <command>routed</command> tends to delete the default
+	  routing table entries created by <command>ppp</command>.</para>
 
 	<para>It is probably a good idea to ensure that the
 	  <literal>sendmail_flags</literal> line does not include the
@@ -1135,7 +1192,10 @@ ifconfig_tun0=</programlisting>
 3       add 0 0 HISADDR
 4       !bg sendmail -bd -q30m</programlisting>
 
-        <indexterm><primary>SMTP</primary></indexterm>
+        <indexterm>
+	  <primary>SMTP</primary>
+	</indexterm>
+
 	<para>If you do not like this, it is possible to set up a
 	  <quote>dfilter</quote> to block SMTP traffic.  Refer to the
 	  sample files for further details.</para>
@@ -1170,8 +1230,8 @@ ifconfig_tun0=</programlisting>
 
 	  <step>
 	    <para>Ensure that the
-	      <filename>tun<replaceable>N</replaceable></filename> device
-	      file is available in the <filename>/dev</filename>
+	      <filename class="devicefile">tun<replaceable>N</replaceable></filename> device
+	      file is available in the <filename class="directory">/dev</filename>
 	      directory.</para>
 	  </step>
 
@@ -1208,8 +1268,8 @@ ifconfig_tun0=</programlisting>
 
 	  <step>
 	    <para>Ensure that the
-	      <filename>tun<replaceable>N</replaceable></filename> device
-	      file is available in the <filename>/dev</filename>
+	      <filename class="devicefile">tun<replaceable>N</replaceable></filename> device
+	      file is available in the <filename class="directory">/dev</filename>
 	      directory.</para>
 	  </step>
 
@@ -1264,12 +1324,16 @@ ifconfig_tun0=</programlisting>
 
     <sect2>
       <title>Setting Up Kernel PPP</title>
-      <indexterm><primary>PPP</primary><secondary>kernel PPP</secondary></indexterm>
+
+      <indexterm>
+	<primary>PPP</primary>
+	<secondary>kernel PPP</secondary>
+      </indexterm>
 
       <para>Before you start setting up PPP on your machine, make sure
 	that <command>pppd</command> is located in
-	<filename>/usr/sbin</filename> and the directory
-	<filename>/etc/ppp</filename> exists.</para>
+	<filename class="directory">/usr/sbin</filename> and the directory
+	<filename class="directory">/etc/ppp</filename> exists.</para>
 
       <para><command>pppd</command> can work in two modes:</para>
 
@@ -1280,7 +1344,11 @@ ifconfig_tun0=</programlisting>
 	    modem line.</para>
 	</listitem>
 
-        <indexterm><primary>PPP</primary><secondary>server</secondary></indexterm>
+        <indexterm>
+	  <primary>PPP</primary>
+	  <secondary>server</secondary>
+	</indexterm>
+
 	<listitem>
 	  <para>As a <quote>server</quote> &mdash; your machine is located on
 	    the network, and is used to connect other computers using
@@ -1311,8 +1379,16 @@ ifconfig_tun0=</programlisting>
       </sect2info>
 	    
       <title>Using <command>pppd</command> as a Client</title>
-      <indexterm><primary>PPP</primary><secondary>client</secondary></indexterm>
-      <indexterm><primary>Cisco</primary></indexterm>
+
+      <indexterm>
+	<primary>PPP</primary>
+	<secondary>client</secondary>
+      </indexterm>
+
+      <indexterm>
+	<primary>Cisco</primary>
+      </indexterm>
+
       <para>The following <filename>/etc/ppp/options</filename> might be
         used to connect to a Cisco terminal server PPP line.</para>
 
@@ -1324,10 +1400,10 @@ noipdefault     # remote PPP server must supply your IP address
 passive         # wait for LCP packets
 domain ppp.foo.com      # put your domain name here
 
-:&lt;remote_ip&gt;    # put the IP of remote PPP host here
+:<replaceable>remote_ip</replaceable>    # put the IP of remote PPP host here
                 # it will be used to route packets via PPP link
                 # if you didn't specified the noipdefault option
-                # change this line to &lt;local_ip&gt;:&lt;remote_ip&gt;
+                # change this line to <replaceable>local_ip</replaceable>:<replaceable>remote_ip</replaceable>
 
 defaultroute    # put this if you want that PPP server will be your
                 # default router</programlisting>
@@ -1338,7 +1414,8 @@ defaultroute    # put this if you want that PPP server will be your
       <indexterm><primary>modem</primary></indexterm>
       <procedure>
 	<step>
-	  <para>Dial to the remote host using <application>Kermit</application> (or some other modem
+	  <para>Dial to the remote host using
+	    <application>Kermit</application> (or some other modem
 	    program), and enter your user name and password (or whatever
 	    is needed to enable PPP on the remote host).</para>
 	</step>
@@ -1351,7 +1428,7 @@ defaultroute    # put this if you want that PPP server will be your
 	<step>
 	  <para>Enter the following:</para>
 
-	  <screen>&prompt.root; <userinput>/usr/src/usr.sbin/pppd.new/pppd <replaceable>/dev/tty01</replaceable> <replaceable>19200</replaceable></userinput></screen>
+	  <screen>&prompt.root; <userinput>/usr/sbin/pppd <replaceable>/dev/tty01</replaceable> <replaceable>19200</replaceable></userinput></screen>
 
 	  <para>Be sure to use the appropriate speed and device name.</para>
 	</step>
@@ -1366,14 +1443,14 @@ defaultroute    # put this if you want that PPP server will be your
 	all 3 stages automatic:</para>
 
       <programlisting>#!/bin/sh
-ps ax |grep pppd |grep -v grep
-pid=`ps ax |grep pppd |grep -v grep|awk '{print $1;}'`
+pgrep -l pppd
+pid=`pgrep pppd`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing pppd, PID=' ${pid}
         kill ${pid}
 fi
-ps ax |grep kermit |grep -v grep
-pid=`ps ax |grep kermit |grep -v grep|awk '{print $1;}'`
+pgrep -l kermit
+pid=`pgrep kermit`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing kermit, PID=' ${pid}
         kill -9 ${pid}
@@ -1385,24 +1462,27 @@ ifconfig ppp0 delete
 kermit -y /etc/ppp/kermit.dial
 pppd /dev/tty01 19200</programlisting>
 
-      <indexterm><primary>Kermit</primary></indexterm>
-      <para><filename>/etc/ppp/kermit.dial</filename> is a <application>Kermit</application>
-      script that dials and makes all necessary authorization on the
-      remote host (an example of such a script is attached to the end
-      of this document).</para>
+      <indexterm>
+	<primary>Kermit</primary>
+      </indexterm>
+
+      <para><filename>/etc/ppp/kermit.dial</filename> is a
+	<application>Kermit</application> script that dials and makes all
+	necessary authorization on the remote host (an example of such a
+	script is attached to the end of this document).</para>
 
       <para>Use the following <filename>/etc/ppp/pppdown</filename> script
         to disconnect the PPP line:</para>
 
       <programlisting>#!/bin/sh
-pid=`ps ax |grep pppd |grep -v grep|awk '{print $1;}'`
+pid=`pgrep pppd`
 if [ X${pid} != "X" ] ; then
         echo 'killing pppd, PID=' ${pid}
         kill -TERM ${pid}
 fi
 
-ps ax |grep kermit |grep -v grep
-pid=`ps ax |grep kermit |grep -v grep|awk '{print $1;}'`
+pgrep -l kermit
+pid=`pgrep kermit`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing kermit, PID=' ${pid}
         kill -9 ${pid}
@@ -1413,12 +1493,12 @@ fi
 kermit -y /etc/ppp/kermit.hup
 /etc/ppp/ppptest</programlisting>
 
-      <para>Check to see if <command>pppd</command> is still running by executing
-	<filename>/usr/etc/ppp/ppptest</filename>, which should look like
-	this:</para>
+      <para>Check to see if <command>pppd</command> is still running by
+	executing <filename>/usr/etc/ppp/ppptest</filename>, which should look
+	like this:</para>
 
       <programlisting>#!/bin/sh
-pid=`ps ax| grep pppd |grep -v grep|awk '{print $1;}'`
+pid=`pgrep pppd`
 if [ X${pid} != "X" ] ; then
         echo 'pppd running: PID=' ${pid-NONE}
 else
@@ -1459,7 +1539,7 @@ exit</programlisting>
 
       <para><filename>/etc/ppp/options</filename>:</para>
 
-      <programlisting>/dev/cuaa1 115200
+      <programlisting>/dev/cuad1 115200
 
 crtscts		# enable hardware flow control
 modem		# modem control line
@@ -1468,12 +1548,12 @@ noipdefault	# remote PPP serve must supply your IP address
 	        # if the remote host doesn't send your IP during
                 # IPCP negotiation, remove this option
 passive         # wait for LCP packets
-domain &lt;your.domain&gt;	# put your domain name here
+domain <replaceable>your.domain</replaceable>	# put your domain name here
 
 :		# put the IP of remote PPP host here
 	        # it will be used to route packets via PPP link
                 # if you didn't specified the noipdefault option
-                # change this line to &lt;local_ip&gt;:&lt;remote_ip&gt;
+                # change this line to <replaceable>local_ip</replaceable>:<replaceable>remote_ip</replaceable>
 
 defaultroute	# put this if you want that PPP server will be
 	        # your default router</programlisting>
@@ -1484,9 +1564,9 @@ defaultroute	# put this if you want that PPP server will be
 	<para>The following should go on a single line.</para>
       </note>
 
-      <programlisting>ABORT BUSY ABORT 'NO CARRIER' "" AT OK ATDT&lt;phone.number&gt;
-  CONNECT "" TIMEOUT 10 ogin:-\\r-ogin: &lt;login-id&gt;
-  TIMEOUT 5 sword: &lt;password&gt;</programlisting>
+      <programlisting>ABORT BUSY ABORT 'NO CARRIER' "" AT OK ATDT<replaceable>phone.number</replaceable>
+  CONNECT "" TIMEOUT 10 ogin:-\\r-ogin: <replaceable>login-id</replaceable>
+  TIMEOUT 5 sword: <replaceable>password</replaceable></programlisting>
 
       <para>Once these are installed and modified correctly, all you need
 	to do is run <command>pppd</command>, like so:</para>
@@ -1517,14 +1597,14 @@ modem                           # modem line</programlisting>
 	server:</para>
 
       <programlisting>#!/bin/sh 
-ps ax |grep pppd |grep -v grep
-pid=`ps ax |grep pppd |grep -v grep|awk '{print $1;}'`
+pgrep -l pppd
+pid=`pgrep pppd`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing pppd, PID=' ${pid}
         kill ${pid}
 fi
-ps ax |grep kermit |grep -v grep
-pid=`ps ax |grep kermit |grep -v grep|awk '{print $1;}'`
+pgrep -l kermit
+pid=`pgrep kermit`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing kermit, PID=' ${pid}
         kill -9 ${pid}
@@ -1544,14 +1624,14 @@ pppd /dev/tty01 19200</programlisting>
 	stop the server:</para>
 
       <programlisting>#!/bin/sh 
-ps ax |grep pppd |grep -v grep
-pid=`ps ax |grep pppd |grep -v grep|awk '{print $1;}'`
+pgrep -l pppd
+pid=`pgrep pppd`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing pppd, PID=' ${pid}
         kill ${pid}
 fi
-ps ax |grep kermit |grep -v grep
-pid=`ps ax |grep kermit |grep -v grep|awk '{print $1;}'`
+pgrep -l kermit
+pid=`pgrep kermit`
 if [ "X${pid}" != "X" ] ; then
         echo 'killing kermit, PID=' ${pid}
         kill -9 ${pid}
@@ -1725,26 +1805,34 @@ exit 1
     </sect1info>
     <title>Troubleshooting <acronym>PPP</acronym> Connections</title>
 
-    <indexterm><primary>PPP</primary><secondary>troubleshooting</secondary></indexterm>
+    <indexterm>
+      <primary>PPP</primary>
+      <secondary>troubleshooting</secondary>
+    </indexterm>
 
-      <para>This section covers a few issues which may arise when
-	using PPP over a modem connection.  For instance, perhaps you
-	need to know exactly what prompts the system you are dialing
-	into will present.  Some <acronym>ISP</acronym>s present the
-	<literal>ssword</literal> prompt, and others will present
-	<literal>password</literal>; if the <command>ppp</command>
-	script is not written accordingly, the login attempt will
-	fail.  The most common way to debug <command>ppp</command>
-	connections is by connecting manually.  The following
-	information will walk you through a manual connection step by
-	step.</para>
+    <para>This section covers a few issues which may arise when
+      using PPP over a modem connection.  For instance, perhaps you
+      need to know exactly what prompts the system you are dialing
+      into will present.  Some <acronym>ISP</acronym>s present the
+      <literal>ssword</literal> prompt, and others will present
+      <literal>password</literal>; if the <command>ppp</command>
+      script is not written accordingly, the login attempt will
+      fail.  The most common way to debug <command>ppp</command>
+      connections is by connecting manually.  The following
+      information will walk you through a manual connection step by
+      step.</para>
 
     <sect2>
       <title>Check the Device Nodes</title>
 
-	<para>If you reconfigured your kernel then you recall the
-	  <devicename>sio</devicename> device.  If you did not
-	  configure your kernel, there is no reason to worry.  Just
+	<para>When using a custom kernel, make sure to include the following
+	  line in your kernel configuration file:</para>
+
+	<programlisting>device   sio</programlisting>
+
+	<para>The <devicename>sio</devicename> device is already included
+	  in the <literal>GENERIC</literal> kernel, so no additional steps
+	  are necessary in this case.  Just
 	  check the <command>dmesg</command> output for the modem
 	  device with:</para>
 
@@ -1754,11 +1842,11 @@ exit 1
 	  <devicename>sio</devicename> devices.  These are the COM
 	  ports we need.  If your modem acts like a standard serial
 	  port then you should see it listed on
-	  <devicename>sio1</devicename>, or <devicename>COM2</devicename>.  If so, you are not
-	  required to rebuild the kernel.
+	  <devicename>sio1</devicename>, or <devicename>COM2</devicename>.  If
+	  so, you are not  required to rebuild the kernel.
 	  When matching up sio modem is on <devicename>sio1</devicename> or
           <devicename>COM2</devicename> if you are in DOS, then your
-	  modem device would be <filename>/dev/cuaa1</filename>.</para>
+	  modem device would be <filename class="devicefile">/dev/cuad1</filename>.</para>
     </sect2>
 
     <sect2>
@@ -1779,10 +1867,10 @@ exit 1
 
       <para>We have now started <command>ppp</command>.</para>
 
-      <screen>ppp ON example&gt; <userinput>set device <filename>/dev/cuaa1</filename></userinput></screen>
+      <screen>ppp ON example&gt; <userinput>set device <filename class="devicefile">/dev/cuad1</filename></userinput></screen>
 
       <para>We set our modem device, in this case it is
-	<devicename>cuaa1</devicename>.</para>
+	<devicename>cuad1</devicename>.</para>
 
       <screen>ppp ON example&gt; <userinput>set speed 115200</userinput></screen>
 
@@ -1801,7 +1889,7 @@ exit 1
       <para>Switch to <quote>terminal</quote> mode so that we can manually
 	control the modem.</para>
 
-      <programlisting>deflink: Entering terminal mode on <filename>/dev/cuaa1</filename>
+      <programlisting>deflink: Entering terminal mode on <filename class="devicefile">/dev/cuad1</filename>
 type '~h' for help</programlisting>
 
       <screen><userinput>at</userinput>
@@ -1986,7 +2074,12 @@ nameserver <replaceable>y.y.y.y</replaceable></programlisting>
     </sect1info>
 
     <title>Using PPP over Ethernet (PPPoE)</title>
-    <indexterm><primary>PPP</primary><secondary>over Ethernet</secondary></indexterm>
+
+    <indexterm>
+      <primary>PPP</primary>
+      <secondary>over Ethernet</secondary>
+    </indexterm>
+
     <indexterm>
       <primary>PPPoE</primary>
       <see>PPP, over Ethernet</see>
@@ -2099,10 +2192,12 @@ ppp_profile="name_of_service_provider"</programlisting>
 
     <sect2 id="ppp-3com">
 
-      <title>PPPoE with a &tm.3com; <trademark class="registered">HomeConnect</trademark> ADSL Modem Dual Link</title>
+      <title>PPPoE with a &tm.3com; <trademark
+	  class="registered">HomeConnect</trademark> ADSL Modem Dual
+	Link</title>
 
       <para>This modem does not follow <ulink
-	url="http://www.faqs.org/rfcs/rfc2516.html">RFC 2516</ulink>
+	  url="http://www.faqs.org/rfcs/rfc2516.html">RFC 2516</ulink>
 	(<emphasis>A Method for transmitting PPP over Ethernet
 	(PPPoE)</emphasis>, written by L. Mamakos, K. Lidl, J. Evarts,
 	D. Carrel, D. Simone, and R. Wheeler).  Instead, different packet
@@ -2122,14 +2217,20 @@ ppp_profile="name_of_service_provider"</programlisting>
 
       <para>Unfortunately, because this is a system-wide setting, it is
 	not possible to talk to a normal PPPoE client or server and a
-	&tm.3com; <trademark class="registered">HomeConnect</trademark> ADSL Modem at the same time.</para>
+	&tm.3com; <trademark class="registered">HomeConnect</trademark>
+	ADSL Modem at the same time.</para>
 
     </sect2>
   </sect1>
 
   <sect1 id="pppoa">
     <title>Using <application>PPP</application> over ATM (PPPoA)</title>
-    <indexterm><primary>PPP</primary><secondary>over ATM</secondary></indexterm>
+
+    <indexterm>
+      <primary>PPP</primary>
+      <secondary>over ATM</secondary>
+    </indexterm>
+
     <indexterm>
       <primary>PPPoA</primary>
       <see>PPP, over ATM</see>
@@ -2205,13 +2306,13 @@ ppp_profile="adsl"</programlisting>
         configure <application>mpd</application> to suit your
         requirements and provider settings. The port places a set of
         sample configuration files which are well documented in
-        <filename><replaceable>PREFIX</replaceable>/etc/mpd/</filename>.
+        <filename class="directory"><replaceable>PREFIX</replaceable>/etc/mpd/</filename>.
         Note here that <replaceable>PREFIX</replaceable> means the directory
         into which your ports are installed, this defaults to
-        <filename>/usr/local/</filename>. A complete guide to
+        <filename class="directory">/usr/local/</filename>. A complete guide to
         configure <application>mpd</application> is available in
         HTML format once the port has been installed. It is placed in
-        <filename><replaceable>PREFIX</replaceable>/share/doc/mpd/</filename>.
+        <filename class="directory"><replaceable>PREFIX</replaceable>/share/doc/mpd/</filename>.
         Here is a sample configuration for connecting to an ADSL
         service with <application>mpd</application>. The configuration
         is spread over two files, first the
@@ -2343,8 +2444,8 @@ ng0: flags=88d1&lt;UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST&gt; mtu 1500
 
       <para>This will open a tunnel for a PPP session to your DSL router.
 	Ethernet DSL modems have a preconfigured LAN IP address which you
-	connect to. In the case of the Alcatel &speedtouch; Home this address is
-	<hostid role="ipaddr">10.0.0.138</hostid>. Your router documentation
+	connect to. In the case of the Alcatel &speedtouch; Home this address
+	is <hostid role="ipaddr">10.0.0.138</hostid>. Your router documentation
 	should tell you which address your device uses. To open the tunnel and
 	start a PPP session execute the following
 	command:</para>
@@ -2406,7 +2507,12 @@ tun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1500
 
     <sect2 id="slipc">
       <title>Setting Up a SLIP Client</title>
-      <indexterm><primary>SLIP</primary><secondary>client</secondary></indexterm>
+
+      <indexterm>
+	<primary>SLIP</primary>
+	<secondary>client</secondary>
+      </indexterm>
+
       <para>The following is one way to set up a FreeBSD machine for SLIP
 	on a static host network.  For dynamic hostname assignments (your
 	address changes each time you dial up), you probably need to
@@ -2414,16 +2520,19 @@ tun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1500
 
       <para>First, determine which serial port your modem is connected to.
 	Many people set up a symbolic link, such as
-	<filename>/dev/modem</filename>, to point to the real device name,
-	<filename>/dev/cuaaN</filename> (or <filename>/dev/cuadN</filename> under &os;&nbsp;6.X).  This allows you to
-	abstract the actual device name should you ever need to move
-	the modem to a different port.  It can become quite cumbersome when you
-	need to fix a bunch of files in <filename>/etc</filename> and
-	<filename>.kermrc</filename> files all over the system!</para>
+	<filename class="devicefile">/dev/modem</filename>, to point to the real device name,
+	<filename class="devicefile">/dev/cuad<replaceable>N</replaceable></filename>.
+	This allows you to abstract the actual device
+	name should you ever need to move the modem to a different port.  It
+	can become quite cumbersome when you need to fix a bunch of files in
+	<filename class="directory">/etc</filename> and <filename>.kermrc</filename> files all
+	over the system!</para>
 
       <note>
-	<para><filename>/dev/cuaa0</filename> (or <filename>/dev/cuad0</filename> under &os;&nbsp;6.X) is
-	  <devicename>COM1</devicename>, <filename>cuaa1</filename> (or <filename>/dev/cuad1</filename>) is
+	<para><filename class="devicefile">/dev/cuad0</filename>
+	  is
+	  <devicename>COM1</devicename>, <filename class="devicefile">/dev/cuad1</filename>
+	  is
 	  <devicename>COM2</devicename>, etc.</para>
       </note>
 
@@ -2452,15 +2561,11 @@ tun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1500
 	  </step>
 
 	  <step>
-	    <para>Make sure you have <literal>hosts</literal> before
-	      <literal>bind</literal> in your
-	      <filename>/etc/host.conf</filename> on FreeBSD versions
-	      prior to 5.0.  Since FreeBSD&nbsp;5.0, the system uses
-	      the file <filename>/etc/nsswitch.conf</filename> instead,
-	      make sure you have <literal>files</literal> before
-	      <literal>dns</literal> in the <option>hosts</option> line
-	      of this file.  Without these parameters funny
-	      things may happen.</para>
+	    <para>Make sure you have <literal>files</literal> before
+	      <literal>dns</literal> in the <literal>hosts:</literal>
+	      section of your <filename>/etc/nsswitch.conf</filename>
+	      file.  Without these parameters funny things may
+	      happen.</para>
 	  </step>
 
 	  <step>
@@ -2521,13 +2626,19 @@ nameserver 128.32.136.12</programlisting>
 
       <sect3>
 	<title>Making a SLIP Connection</title>
-	<indexterm><primary>SLIP</primary><secondary>connecting with</secondary></indexterm>
+
+	<indexterm>
+	  <primary>SLIP</primary>
+	  <secondary>connecting with</secondary>
+	</indexterm>
+
 	<procedure>
 	  <step>
 	    <para>Dial up, type <command>slip</command> at the prompt,
 	      enter your machine name and password.  What is required to
 	      be entered depends on your environment.  If you use
-	      <application>Kermit</application>, you can try a script like this:</para>
+	      <application>Kermit</application>, you can try a script like
+	      this:</para>
 
 	    <programlisting># kermit setup
 set modem hayes
@@ -2545,8 +2656,8 @@ output ***\x0d, echo \x0aCONNECTED\x0a</programlisting>
 
 	    <para>Of course, you have to change the username and password
 	      to fit yours.  After doing so, you can just type
-	      <command>slip</command> from the <application>Kermit</application> prompt to
-	      connect.</para>
+	      <command>slip</command> from the
+	      <application>Kermit</application> prompt to connect.</para>
 
 	    <note>
 	      <para>Leaving your password in plain text anywhere in the
@@ -2556,7 +2667,8 @@ output ***\x0d, echo \x0aCONNECTED\x0a</programlisting>
 	  </step>
 
 	  <step>
-	    <para>Leave the <application>Kermit</application> there (you can suspend it by
+	    <para>Leave the <application>Kermit</application> there (you can
+	      suspend it by
 	      <keycombo>
 		<keycap>Ctrl</keycap>
 		<keycap>z</keycap>
@@ -2582,9 +2694,8 @@ output ***\x0d, echo \x0aCONNECTED\x0a</programlisting>
 
 	<para>to kill <command>slattach</command>.  Keep in mind you must be
 	  <username>root</username> to do the above.  Then go back to
-	  <command>kermit</command> (by running <command>fg</command> if you suspended it) and
-	  exit from
-	  it (<keycap>q</keycap>).</para>
+	  <command>kermit</command> (by running <command>fg</command> if you
+	  suspended it) and exit from it (<keycap>q</keycap>).</para>
 
 	<para>The &man.slattach.8; manual page says you have 
 	  to use <command>ifconfig sl0 down</command> 
@@ -2600,8 +2711,8 @@ output ***\x0d, echo \x0aCONNECTED\x0a</programlisting>
       <sect3>
 	<title>Troubleshooting</title>
 
-	<para>If it does not work, feel free to ask on &a.net.name; mailing list.  The things that
-	  people tripped over so far:</para>
+	<para>If it does not work, feel free to ask on &a.net.name; mailing
+	  list.  The things that people tripped over so far:</para>
 
 	<itemizedlist>
 	  <listitem>
@@ -2658,7 +2769,11 @@ water.CS.Example localhost.Example. UGH        34 47641234  lo0 -       0.438
 
     <sect2 id="slips">
       <title>Setting Up a SLIP Server</title>
-      <indexterm><primary>SLIP</primary><secondary>server</secondary></indexterm>
+
+      <indexterm>
+	<primary>SLIP</primary>
+	<secondary>server</secondary>
+      </indexterm>
 
       <para>This document provides suggestions for setting up SLIP Server
 	services on a FreeBSD system, which typically means configuring
@@ -2757,8 +2872,8 @@ water.CS.Example localhost.Example. UGH        34 47641234  lo0 -       0.438
 	    any additional flags (<literal>autocomp</literal>).  If
 	    something goes wrong, <command>sliplogin</command> usually
 	    logs good informational messages via the
-	    <application>syslogd</application> daemon facility, which usually logs
-	    to <filename>/var/log/messages</filename> (see the manual
+	    <application>syslogd</application> daemon facility, which usually
+	    logs to <filename>/var/log/messages</filename> (see the manual
 	    pages for &man.syslogd.8; and &man.syslog.conf.5; and perhaps
 	    check <filename>/etc/syslog.conf</filename> to see to what
 	    <application>syslogd</application> is logging and where it is
@@ -2768,8 +2883,15 @@ water.CS.Example localhost.Example. UGH        34 47641234  lo0 -       0.438
 
       <sect3>
 	<title>Kernel Configuration</title>
-	<indexterm><primary>kernel</primary><secondary>configuration</secondary></indexterm>
-	<indexterm><primary>SLIP</primary></indexterm>
+
+	<indexterm>
+	  <primary>kernel</primary>
+	  <secondary>configuration</secondary>
+	</indexterm>
+
+	<indexterm>
+	  <primary>SLIP</primary>
+	</indexterm>
 
 	<para>&os;'s default kernel (<filename>GENERIC</filename>)
 	  comes with SLIP (&man.sl.4;) support; in case of a custom
@@ -2781,11 +2903,14 @@ water.CS.Example localhost.Example. UGH        34 47641234  lo0 -       0.438
 	<para>By default, your &os; machine will not forward packets.
 	  If you want your FreeBSD SLIP Server to act as a router, you
 	  will have to edit the <filename>/etc/rc.conf</filename> file and
-	  change the setting of the <literal>gateway_enable</literal> variable to
-	  <option>YES</option>.</para>
+	  change the setting of the <literal>gateway_enable</literal> variable
+	  to <option>YES</option>.  This will make sure that setting the
+	  routing option will be persistent after a reboot.</para>
  
-	<para>You will then need to reboot for the new settings to take
-	  effect.</para>
+	<para>To apply the settings immediately you can execute the
+	  following command as <username>root</username>:</para>
+
+	<screen>&prompt.root; /etc/rc.d/routing start</screen>
 
 	<para>Please refer to <xref linkend="kernelconfig"> on
 	  Configuring the FreeBSD Kernel for help in
@@ -2796,7 +2921,7 @@ water.CS.Example localhost.Example. UGH        34 47641234  lo0 -       0.438
 	<title>Sliplogin Configuration</title>
 
 	<para>As mentioned earlier, there are three files in the
-	  <filename>/etc/sliphome</filename> directory that are part of
+	  <filename class="directory">/etc/sliphome</filename> directory that are part of
 	  the configuration for <filename>/usr/sbin/sliplogin</filename>
 	  (see &man.sliplogin.8; for the actual manual page for
 	  <command>sliplogin</command>): <filename>slip.hosts</filename>,
@@ -2837,8 +2962,8 @@ water.CS.Example localhost.Example. UGH        34 47641234  lo0 -       0.438
 	    (resolved to IP addresses by
 	    <filename>/etc/hosts</filename> or by the domain name
 	    service, depending on your specifications in the file
-	    <filename>/etc/nsswitch.conf</filename>), and the network mask may be
-	    a name that can be resolved by a lookup into
+	    <filename>/etc/nsswitch.conf</filename>), and the network mask
+	    may be a name that can be resolved by a lookup into
 	    <filename>/etc/networks</filename>.  On a sample system,
 	    <filename>/etc/sliphome/slip.hosts</filename> looks like
 	    this:</para>
@@ -2901,7 +3026,7 @@ Shelmerg  dc-slip       sl-helmerg      0xfffffc00      autocomp</programlisting
 	    will also need to adjust your
 	    <filename>/etc/sliphome/slip.login</filename> and
 	    <filename>/etc/sliphome/slip.logout</filename> scripts to use
-	    &man.arp.8; to manage the proxy-ARP entries in the SLIP
+	    &man.arp.8; to manage the <quote>proxy ARP</quote> entries in the SLIP
 	    server's ARP table.</para>
 	</sect4>
 
@@ -2955,7 +3080,11 @@ Shelmerg  dc-slip       sl-helmerg      0xfffffc00      autocomp</programlisting
 	    address whenever another IP node on the Ethernet asks to
 	    speak to the SLIP client's IP address.</para>
 
-  	  <indexterm><primary>Ethernet</primary><secondary>MAC address</secondary></indexterm>
+  	  <indexterm>
+	    <primary>Ethernet</primary>
+	    <secondary>MAC address</secondary>
+	  </indexterm>
+
 	  <para>When using the example above, be sure to replace the
 	    Ethernet MAC address (<hostid
 	    role="mac">00:11:22:33:44:55</hostid>) with the MAC address of
@@ -3065,97 +3194,6 @@ Shelmerg  dc-slip       sl-helmerg      0xfffffc00      autocomp</programlisting
 	    troubleshooting/tweaking may be necessary to get
 	    static-route-based routing to work.</para>
 	</sect4>
-
-	<sect4>
-	  <title>Running <application>&gated;</application></title>
-	  <indexterm>
-      <primary><application>&gated;</application></primary>
-    </indexterm>
-
-	<note>
-	  <para><application>&gated;</application> is proprietary software now and 
-	    will not be available as source code to the public anymore 
-	    (more info on the <ulink
-	    url="http://www.gated.org/">&gated;</ulink> website). This 
-	    section only exists to ensure backwards compatibility for
-	    those that are still using an older version.</para>
-	</note>
-
-	  <para>An alternative to the headaches of static routes is to
-	    install <application>&gated;</application> on your FreeBSD SLIP server
-	    and configure it to use the appropriate routing protocols
-	    (RIP/OSPF/BGP/EGP) to tell other routers about your SLIP
-	    subnet.  
-	    You will need to write a <filename>/etc/gated.conf</filename>
-	    file to configure your <application>&gated;</application>; here is a sample, similar to
-	    what the author used on a FreeBSD SLIP server:</para>
-
-	  <programlisting>#
-# gated configuration file for dc.dsu.edu; for gated version 3.5alpha5
-# Only broadcast RIP information for xxx.xxx.yy out the ed Ethernet interface
-#
-#
-# tracing options
-#
-traceoptions "/var/tmp/gated.output" replace size 100k files 2 general ;
-
-rip yes {
-  interface sl noripout noripin ;
-  interface ed ripin ripout version 1 ;
-  traceoptions route ;
-} ;
-
-#
-# Turn on a bunch of tracing info for the interface to the kernel:
-kernel {
-  traceoptions remnants request routes info interface ;
-} ;
-
-#
-# Propagate the route to xxx.xxx.yy out the Ethernet interface via RIP
-#
-
-export proto rip interface ed {
-  proto direct {
-      <replaceable>xxx.xxx.yy</replaceable> mask 255.255.252.0 metric 1; # SLIP connections
-  } ;
-} ;
-
-#
-# Accept routes from RIP via ed Ethernet interfaces
-	      
-import proto rip interface ed {
-  all ;
-} ;</programlisting>
-
-          <indexterm><primary>RIP</primary></indexterm>
-	  <para>The above sample <filename>gated.conf</filename> file
-	    broadcasts routing information regarding the SLIP subnet
-	    <replaceable>xxx.xxx.yy</replaceable> via RIP onto the
-	    Ethernet; if you are using a different Ethernet driver than
-	    the <devicename>ed</devicename> driver, you will need to
-	    change the references to the <devicename>ed</devicename>
-	    interface appropriately.  This sample file also sets up
-	    tracing to <filename>/var/tmp/gated.output</filename> for
-	    debugging <application>&gated;</application>'s activity; you can
-	    certainly turn off the tracing options if
-	    <application>&gated;</application> works correctly for you.  You will need to
-	    change the <replaceable>xxx.xxx.yy</replaceable>'s into the
-	    network address of your own SLIP subnet (be sure to change the
-	    net mask in the <literal>proto direct</literal> clause as
-	    well).</para>
-
-	  <para>Once you have installed and configured
-	    <application>&gated;</application> on your system, you will need to
-	    tell the FreeBSD startup scripts to run
-	    <application>&gated;</application> in place of
-	    <application>routed</application>.  The easiest way to accomplish
-	    this is to set the <varname>router</varname> and
-	    <varname>router_flags</varname> variables in
-	    <filename>/etc/rc.conf</filename>.  Please see the manual
-	    page for <application>&gated;</application> for information on
-	    command-line parameters.</para>
-        </sect4>
       </sect3>
     </sect2>
   </sect1>

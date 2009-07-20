@@ -1,7 +1,7 @@
 #
 # Build the Handbook with just the content from this chapter.
 #
-# $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/virtualization/Makefile,v 1.1 2007/05/19 20:30:04 therek Exp $
+# $FreeBSD: doc/en_US.ISO8859-1/books/handbook/virtualization/Makefile,v 1.1 2007/04/06 07:36:19 murray Exp $
 #
 
 CHAPTERS= 	virtualization/chapter.sgml

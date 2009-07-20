@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/disks/chapter.sgml,v 1.2 2007/05/20 12:42:20 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/books/handbook/disks/chapter.sgml,v 1.290 2008/12/24 13:30:35 hrs Exp $
 -->
 
 <chapter id="disks">
@@ -227,12 +227,12 @@
 
 	<step>
 	  <title><application>fdisk</application> Partition Editor</title>
-	  <para>Once inside <application>fdisk</application>, typing <userinput>A</userinput> will
+	  <para>Once inside <application>fdisk</application>, pressing <keycap>A</keycap> will
 	    use the entire disk for FreeBSD.  When asked if you want to
 	    <quote>remain cooperative with any future possible operating
 	      systems</quote>, answer <literal>YES</literal>.  Write the
-	    changes to the disk using <userinput>W</userinput>.  Now exit the
-	    FDISK editor by typing <userinput>q</userinput>.  Next you will be
+	    changes to the disk using <keycap>W</keycap>.  Now exit the
+	    FDISK editor by pressing <keycap>Q</keycap>.  Next you will be
 	    asked about the <quote>Master Boot Record</quote>.  Since you are adding a
 	    disk to an already running system, choose
 	    <literal>None</literal>.</para>
@@ -262,8 +262,8 @@
 	  <para><application>sysinstall</application>'s Label editor
 	    favors the <literal>e</literal>
 	    partition for non-root, non-swap partitions.  Within the
-	    Label editor, create a single file system by typing
-	    <userinput>C</userinput>.  When prompted if this will be a FS
+	    Label editor, create a single file system by pressing
+	    <keycap>C</keycap>.  When prompted if this will be a FS
 	    (file system) or swap, choose <literal>FS</literal> and type in a
 	    mount point (e.g, <filename>/mnt</filename>).  When adding a
 	    disk in post-install mode, <application>sysinstall</application>
@@ -272,8 +272,8 @@
 	    you specify is not important.</para>
 
 	  <para>You are now ready to write the new label to the disk and
-	    create a file system on it.  Do this by typing
-	    <userinput>W</userinput>.  Ignore any errors from
+	    create a file system on it.  Do this by pressing
+	    <keycap>W</keycap>.  Ignore any errors from
 	    <application>sysinstall</application> that
 	    it could not mount the new partition.  Exit the Label Editor
 	    and <application>sysinstall</application> completely.</para>
@@ -304,7 +304,7 @@
 
 	<screen>&prompt.root; <userinput>dd if=/dev/zero of=/dev/da1 bs=1k count=1</userinput>
 &prompt.root; <userinput>fdisk -BI da1</userinput> #Initialize your new disk
-&prompt.root; <userinput>bsdlabel -B -w -r da1s1 auto</userinput> #Label it.
+&prompt.root; <userinput>bsdlabel -B -w da1s1 auto</userinput> #Label it.
 &prompt.root; <userinput>bsdlabel -e da1s1</userinput> # Edit the bsdlabel just created and add any partitions.
 &prompt.root; <userinput>mkdir -p /1</userinput>
 &prompt.root; <userinput>newfs /dev/da1s1e</userinput> # Repeat this for every partition you created.
@@ -327,9 +327,9 @@
 	  understand.</para>
 
 	<screen>&prompt.root; <userinput>dd if=/dev/zero of=/dev/da1 bs=1k count=1</userinput>
-&prompt.root; <userinput>bsdlabel -Brw da1 auto</userinput>
+&prompt.root; <userinput>bsdlabel -Bw da1 auto</userinput>
 &prompt.root; <userinput>bsdlabel -e da1</userinput>				# create the `e' partition
-&prompt.root; <userinput>newfs -d0 /dev/da1e</userinput>
+&prompt.root; <userinput>newfs /dev/da1e</userinput>
 &prompt.root; <userinput>mkdir -p /1</userinput>
 &prompt.root; <userinput>vi /etc/fstab</userinput>				# add an entry for /dev/da1e
 &prompt.root; <userinput>mount /1</userinput></screen>
@@ -337,7 +337,7 @@
 	<para>An alternate method is:</para>
 
 	<screen>&prompt.root; <userinput>dd if=/dev/zero of=/dev/da1 count=2</userinput>
-&prompt.root; <userinput>bsdlabel /dev/da1 | bsdlabel -BrR da1 /dev/stdin</userinput>
+&prompt.root; <userinput>bsdlabel /dev/da1 | bsdlabel -BR da1 /dev/stdin</userinput>
 &prompt.root; <userinput>newfs /dev/da1e</userinput>
 &prompt.root; <userinput>mkdir -p /1</userinput>
 &prompt.root; <userinput>vi /etc/fstab</userinput>					# add an entry for /dev/da1e
@@ -450,9 +450,9 @@ ad3: 29333MB &lt;WDC WD307AA&gt; [59598/16/63] at ata1-slave UDMA33</programlist
  	  <para>To set up &man.ccd.4;, you must first use
  	    &man.bsdlabel.8; to label the disks:</para>
 
-	  <programlisting>bsdlabel -r -w ad1 auto
-bsdlabel -r -w ad2 auto
-bsdlabel -r -w ad3 auto</programlisting>
+	  <programlisting>bsdlabel -w ad1 auto
+bsdlabel -w ad2 auto
+bsdlabel -w ad3 auto</programlisting>
 
  	  <para>This creates a bsdlabel for <devicename>ad1c</devicename>, <devicename>ad2c</devicename> and <devicename>ad3c</devicename> that
   	    spans the entire disk.</para>
@@ -820,7 +820,7 @@ da0: 126MB (258048 512 byte sectors: 64H 32S/T 126C)</screen>
 	these lines to
 	<filename>/etc/devfs.rules</filename>:</para>
 
-      <programlisting>[localrules=1]
+      <programlisting>[localrules=5]
 add path 'da*' mode 0660 group operator</programlisting>
 
       <note>
@@ -858,19 +858,20 @@ add path 'da*' mode 0660 group operator</programlisting>
 	the user that is to mount the file system.  One way to do that
 	is for <username>root</username> to create a subdirectory
 	owned by that user as
-	<filename>/mnt/<replaceable>$USER</replaceable></filename>
-	(replace <replaceable>$USER</replaceable> by the login name of
-	the actual user):</para>
+	<filename>/mnt/<replaceable>username</replaceable></filename>
+	(replace <replaceable>username</replaceable> by the login name of
+	the actual user and <replaceable>usergroup</replaceable> by the
+	user's primary group):</para>
 
-      <screen>&prompt.root; <userinput>mkdir /mnt/$USER</userinput>
-&prompt.root; <userinput>chown <replaceable>$USER</replaceable>:<replaceable>$USER</replaceable> /mnt/<replaceable>$USER</replaceable></userinput></screen>
+      <screen>&prompt.root; <userinput>mkdir /mnt/<replaceable>username</replaceable></userinput>
+&prompt.root; <userinput>chown <replaceable>username</replaceable>:<replaceable>usergroup</replaceable> /mnt/<replaceable>username</replaceable></userinput></screen>
 
       <para>Suppose a USB thumbdrive is plugged in, and a device
 	<filename>/dev/da0s1</filename> appears.  Since these devices
 	usually come preformatted with a FAT file system, one can
 	mount them like this:</para>
 
-      <screen>&prompt.user; <userinput>mount_msdosfs -m 644 -M 755 /dev/da0s1 /mnt/<replaceable>$USER</replaceable></userinput></screen>
+      <screen>&prompt.user; <userinput>mount -t msdosfs -o -m=644,-M=755 /dev/da0s1 /mnt/<replaceable>username</replaceable></userinput></screen>
 
       <para>If you unplug the device (the disk must be unmounted
 	before), you should see, in the system message buffer,
@@ -1813,7 +1814,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	  before the first use.  In the example, the whole
 	  disk space will be used with a standard UFS2 file system:</para>
 
-	<screen>&prompt.root; <userinput>dd if=/dev/zero of=<replaceable>/dev/acd0</replaceable> count=2</userinput>
+	<screen>&prompt.root; <userinput>dd if=/dev/zero of=<replaceable>/dev/acd0</replaceable> bs=2k count=1</userinput>
 &prompt.root; <userinput>bsdlabel -Bw <replaceable>acd0</replaceable></userinput>
 &prompt.root; <userinput>newfs <replaceable>/dev/acd0</replaceable></userinput></screen>
 
@@ -1923,7 +1924,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 
       <para>You can run now &man.bsdlabel.8; like so:</para>
 
-      <screen>&prompt.root; <userinput>/sbin/bsdlabel -B -r -w /dev/fd0 fd1440</userinput></screen>
+      <screen>&prompt.root; <userinput>/sbin/bsdlabel -B -w /dev/fd0 fd1440</userinput></screen>
 
     </sect2>
 
@@ -2380,12 +2381,19 @@ sa0(ncr1:4:0):  Logical unit is in process of becoming ready</screen>
 	<command>dump</command> and <command>restore</command>.  They
 	operate on the drive as a collection of disk blocks, below the
 	abstractions of files, links and directories that are created by
-	the file systems. <command>dump</command> backs up an entire
+	the file systems. Unlike other backup software,
+	<command>dump</command> backs up an entire
 	file system on a device.  It is unable to backup only part of a
 	file system or a directory tree that spans more than one
-	file system.  <command>dump</command> does not write files and
+	file system.  The <command>dump</command> command does not write files and
 	directories to tape, but rather writes the raw data blocks that
-	comprise files and directories.</para>
+	comprise files and directories.  When being used to extract
+	data, <command>restore</command> stores temporary files
+	in <filename>/tmp/</filename> by default &mdash; if you are
+	operating from a recovery disk with a small
+	<filename>/tmp</filename> directory, you may need to set the
+	<envar>TMPDIR</envar> environment variable to a directory
+	with more free space for the restore to be successful.</para>
 
       <note><para>If you use <command>dump</command> on your root directory, you
         would not back up <filename>/home</filename>,
@@ -2779,25 +2787,10 @@ gzip -c -best /bin/sync > /mnt/bin/sync
 
 cp /root/.profile /mnt/root
 
-cp -f /dev/MAKEDEV /mnt/dev
-chmod 755 /mnt/dev/MAKEDEV
-
 chmod 500 /mnt/sbin/init
 chmod 555 /mnt/sbin/fsck /mnt/sbin/mount /mnt/sbin/halt
 chmod 555 /mnt/bin/sh /mnt/bin/sync
 chmod 6555 /mnt/sbin/restore
-
-#
-# create the devices nodes
-#
-cd /mnt/dev
-./MAKEDEV std
-./MAKEDEV da0
-./MAKEDEV da1
-./MAKEDEV da2
-./MAKEDEV sa0
-./MAKEDEV pty0
-cd /
 
 #
 # create minimum file system table
@@ -3448,7 +3441,7 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 
       <para>Now restart <command>inetd</command>:</para>
 
-      <screen>&prompt.root; <userinput>kill -HUP `cat /var/run/inetd.pid`</userinput></screen>
+      <screen>&prompt.root; <userinput>/etc/rc.d/inetd restart</userinput></screen>
     </sect2>
   </sect1>
 
@@ -3527,10 +3520,6 @@ Password:</screen>
             <command>kldload</command> to load &man.gbde.4;:</para>
 
           <screen>&prompt.root; <userinput>kldload geom_bde</userinput></screen>
-
-          <para>At this time there is no option in
-            <filename>/boot/loader.conf</filename>
-            to load the kernel module at boot time.</para>
         </step>
       </procedure>
 
@@ -3585,7 +3574,7 @@ Password:</screen>
 	    initialized before it can be used. This initialization needs to
 	    be performed only once:</para>
 
-	  <screen>&prompt.root; <userinput>gbde init /dev/ad4s1c -i -L /etc/gbde/ad4s1c</userinput></screen>
+	  <screen>&prompt.root; <userinput>gbde init /dev/ad4s1c -i -L /etc/gbde/ad4s1c.lock</userinput></screen>
 
 	  <para>&man.gbde.8; will open your editor, permitting you to set
 	    various configuration options in a template. For use with UFS1
@@ -3617,7 +3606,11 @@ sector_size     =       2048
 	  <para>The <command>gbde init</command> command creates a lock
 	    file for your <application>gbde</application> partition that in
 	    this example is stored as
-	    <filename>/etc/gbde/ad4s1c</filename>.</para>
+	    <filename>/etc/gbde/ad4s1c.lock</filename>.
+	    <application>gbde</application> lock files must end in
+	    <quote>.lock</quote> in order to be correctly detected by
+	    the
+	    <filename>/etc/rc.d/gbde</filename> start up script.</para>
 
 	  <caution>
 	    <para><application>gbde</application> lock files
@@ -3635,7 +3628,7 @@ sector_size     =       2048
 	<step>
 	  <title>Attach the Encrypted Partition to the Kernel</title>
 
-	  <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c</userinput></screen>
+	  <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c.lock</userinput></screen>
 
 	  <para> You will be asked to provide the passphrase that you
 	    selected during the initialization of the encrypted partition.
@@ -3712,7 +3705,7 @@ Filesystem        Size   Used  Avail Capacity  Mounted on
 	<step>
 	  <title>Attach the gbde Partition to the Kernel</title>
 
-	  <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c</userinput></screen>
+	  <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c.lock</userinput></screen>
 
 	  <para>You will be asked to provide the passphrase that you
 	    selected during initialization of the encrypted
@@ -3752,8 +3745,9 @@ Filesystem        Size   Used  Avail Capacity  Mounted on
 	  provided.  Arguments for this script can be passed via
 	  &man.rc.conf.5;, for example:</para>
 
-	<screen>gbde_autoattach_all="YES"
-gbde_devices="ad4s1c"</screen>
+	<programlisting>gbde_autoattach_all="YES"
+gbde_devices="ad4s1c"
+gbde_lockdir="/etc/gbde"</programlisting>
 
 	<para>This will require that the <application>gbde</application>
 	  passphrase be entered at boot time.  After typing the correct
@@ -3809,7 +3803,7 @@ gbde_devices="ad4s1c"</screen>
 
       <para>A new cryptographic GEOM class is available as of &os; 6.0 -
 	<command>geli</command>.  It is currently being developed by
-	&a.pjd;.  <command>Geli</command> is different to
+	&a.pjd;.  The <command>geli</command> utility is different to
 	<command>gbde</command>; it offers different features and uses
 	a different scheme for doing cryptographic work.</para>
 
@@ -3855,9 +3849,7 @@ gbde_devices="ad4s1c"</screen>
 
       <para>The next steps will describe how to enable support for
 	<command>geli</command> in the &os; kernel and will explain how
-	to create a new <command>geli</command> encryption provider.  At
-	the end it will be demonstrated how to create an encrypted swap
-	partition using features provided by <command>geli</command>.</para>
+	to create and use a <command>geli</command> encryption provider.</para>
 
       <para>In order to use <command>geli</command>, you must be running
 	&os; 6.0-RELEASE or later.  Super-user privileges will be
@@ -3865,14 +3857,13 @@ gbde_devices="ad4s1c"</screen>
 
       <procedure>
 	<step>
-	  <title>Adding <command>geli</command> Support to the Kernel
-	    Configuration File</title>
+	  <title>Adding <command>geli</command> Support to the Kernel</title>
 
 	  <para>Add the following lines to the kernel configuration
 	    file:</para>
 
-	  <screen>options GEOM_ELI
-device crypto</screen>
+	  <programlisting>options GEOM_ELI
+device crypto</programlisting>
 
 	  <para>Rebuild the kernel as described in <xref
 	    linkend="kernelconfig">.</para>
@@ -3881,7 +3872,7 @@ device crypto</screen>
 	    be loaded at boot time.  Add the following line to the
 	    <filename>/boot/loader.conf</filename>:</para>
 
-	  <para><literal>geom_eli_load="YES"</literal></para>
+	  <programlisting>geom_eli_load="YES"</programlisting>
 
 	  <para>&man.geli.8; should now be supported by the kernel.</para>
 	</step>
@@ -3892,7 +3883,7 @@ device crypto</screen>
 	  <para>The following example will describe how to generate a
 	    key file, which will be used as part of the Master Key for
 	    the encrypted provider mounted under
-	    <filename role="directory">/private</filename>.  The key
+	    <filename class="directory">/private</filename>.  The key
 	    file will provide some random data used to encrypt the
 	    Master Key.  The Master Key will be protected by a
 	    passphrase as well.  Provider's sector size will be 4kB big.
@@ -3947,7 +3938,7 @@ Enter passphrase:</screen>
 &prompt.root; <userinput>mount /dev/da2.eli /private</userinput></screen>
 
 	<para>The encrypted file system should be visible to &man.df.1;
-	  and be available for use now.</para>
+	  and be available for use now:</para>
 
 	  <screen>&prompt.root; <userinput>df -H</userinput>
 Filesystem     Size   Used  Avail Capacity  Mounted on
@@ -3964,7 +3955,7 @@ Filesystem     Size   Used  Avail Capacity  Mounted on
 	  <title>Unmounting and Detaching the Provider</title>
 
 	  <para>Once the work on the encrypted partition is done, and
-	    the <filename role="directory">/private</filename> partition
+	    the <filename class="directory">/private</filename> partition
 	    is no longer needed, it is prudent to consider unmounting
 	    and detaching the <command>geli</command> encrypted
 	    partition from the kernel.</para>
@@ -3985,15 +3976,15 @@ Filesystem     Size   Used  Avail Capacity  Mounted on
 	  An example of configuring <command>geli</command> through
 	  &man.rc.conf.5; follows:</para>
 
-	<screen>geli_devices="da2"
-geli_da2_flags="-p -k /root/da2.key"</screen>
+	<programlisting>geli_devices="da2"
+geli_da2_flags="-p -k /root/da2.key"</programlisting>
 
 	<para>This will configure <filename>/dev/da2</filename> as a
 	  <command>geli</command> provider of which the Master Key file
 	  is located in <filename>/root/da2.key</filename>, and
 	  <command>geli</command> will not use a passphrase when
-	  attaching the provider (note that this can only be used if -P
-	  was given during the <command>geli</command> init phase).  The
+	  attaching the provider (note that this can only be used if <option>-P</option>
+	  was given during the <literal>geli init</literal> phase).  The
 	  system will detach the <command>geli</command> provider from
 	  the kernel before the system shuts down.</para>
 
@@ -4071,10 +4062,10 @@ geli_da2_flags="-p -k /root/da2.key"</screen>
 	<literal>.bde</literal> suffix should be added to the device in the
 	respective <filename>/etc/fstab</filename> swap line:</para>
 
-      <screen>
+      <programlisting>
 # Device                Mountpoint      FStype  Options         Dump    Pass#
 /dev/ad0s1b.bde         none            swap    sw              0       0
-      </screen>
+      </programlisting>
 
       <para>For systems prior to &os; 6.0-RELEASE, the following line
 	in <filename>/etc/rc.conf</filename> is also needed:</para>
@@ -4090,10 +4081,10 @@ geli_da2_flags="-p -k /root/da2.key"</screen>
 	<literal>.eli</literal> suffix should be added to the device in the
 	respective <filename>/etc/fstab</filename> swap line:</para>
 
-      <screen>
+      <programlisting>
 # Device                Mountpoint      FStype  Options         Dump    Pass#
 /dev/ad0s1b.eli         none            swap    sw              0       0
-      </screen>
+      </programlisting>
 
       <para>&man.geli.8; uses the <acronym>AES</acronym> algorithm with
 	a key length of 256 bit by default.</para>
@@ -4105,6 +4096,10 @@ geli_da2_flags="-p -k /root/da2.key"</screen>
 	partitions using the Blowfish algorithm with a key length of 128 bit,
 	a sectorsize of 4 kilobytes and the <quote>detach on last close</quote>
 	option set:</para>
+
+      <programlisting>geli_swap_flags="-e blowfish -l 128 -s 4096 -d"</programlisting>
+
+      <para>For systems prior to &os; 6.2-RELEASE, use the following line:</para>
 
       <programlisting>geli_swap_flags="-a blowfish -l 128 -s 4096 -d"</programlisting>
 
