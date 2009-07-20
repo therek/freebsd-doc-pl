@@ -6,7 +6,7 @@
      the name of the outermost element in the entity.  Examples would
      be "bookinfo.legalnotice", and "bookinfo.preface".
 
-     $FreeBSD: doc/en_US.ISO8859-1/share/sgml/bookinfo.ent,v 1.1 2006/11/28 21:36:35 therek Exp $
+     $FreeBSD: doc/en_US.ISO8859-1/share/sgml/bookinfo.ent,v 1.4 2003/09/18 16:43:36 ceri Exp $
 -->
 
 <!ENTITY bookinfo.legalnotice SYSTEM "legalnotice.sgml">

@@ -1,5 +1,5 @@
 <!--
-    $FreeBSD: doc/en_US.ISO8859-1/share/sgml/glossary/freebsd-glossary.sgml,v 1.2 2007/05/19 20:23:56 therek Exp $
+    $FreeBSD: doc/en_US.ISO8859-1/share/sgml/glossary/freebsd-glossary.sgml,v 1.35 2009/05/13 01:38:27 keramida Exp $
 
     FreeBSD Glossary Terms
 	Please keep this file sorted alphabetically/ASCIIly by glossterm.
@@ -117,7 +117,8 @@
       <glossterm>Access Control List</glossterm>
       <acronym>ACL</acronym>
       <glossdef>
-        <para></para>
+        <para>A list of permissions attached to an object, usually either a
+	  file or a network device.</para>
       </glossdef>
     </glossentry>
 
@@ -151,7 +152,11 @@
       <glossterm>Advanced Power Management</glossterm>
       <acronym>APM</acronym>
       <glossdef>
-        <para></para>
+        <para>An <acronym>API</acronym> enabling the operating system to work
+	  in conjunction with the <acronym>BIOS</acronym> in order to achieve
+	  power management.  <acronym>APM</acronym> has been superseded by
+	  the much more generic and powerful <acronym>ACPI</acronym>
+	  specification for most applications.</para>
       </glossdef>
     </glossentry>
 
@@ -224,7 +229,7 @@
       <glossterm>Base Address Register</glossterm>
       <acronym>BAR</acronym>
       <glossdef>
-        <para>The registers that determine which address range a PCI device
+        <para>The registers that determine which address range a <acronym>PCI</acronym> device
 	  will respond to.</para>
       </glossdef>
     </glossentry>
@@ -340,7 +345,8 @@
       <glossterm>Challenge Handshake Authentication Protocol</glossterm>
       <acronym>CHAP</acronym>
       <glossdef>
-        <para></para>
+        <para>A method of authenticating a user, based on a secret shared
+	  between client and server.</para>
       </glossdef>
     </glossentry>
 
@@ -358,6 +364,7 @@
       <glossdef>
 	<para>An <acronym>RS232C</acronym> signal giving the remote system
           permission to send data.</para>
+	<glossseealso otherterm="rts-glossary">
       </glossdef>
     </glossentry>
 
@@ -455,6 +462,7 @@
 	<para>An <acronym>RS232C</acronym> signal sent from the modem to the
 	  computer or terminal indicating a readiness to send and receive
 	  data.</para>
+	<glossseealso otherterm="dtr-glossary">
       </glossdef>
     </glossentry>
 
@@ -482,7 +490,8 @@
       <glossterm>Differentiated System Description Table</glossterm>
       <acronym>DSDT</acronym>
       <glossdef>
-        <para></para>
+        <para>An <acronym>ACPI</acronym> table, supplying basic configuration
+	  information about the base system.</para>
       </glossdef>
     </glossentry>
 
@@ -1135,7 +1144,9 @@
       <glossterm>Network Address Translation</glossterm>
       <acronym>NAT</acronym>
       <glossdef>
-        <para></para>
+        <para>A technique where <acronym>IP</acronym> packets are rewritten
+	  on the way through a gateway, enabling many machines behind the
+	  gateway to effectively share a single <acronym>IP</acronym> address.</para>
       </glossdef>
     </glossentry>
 
@@ -1161,7 +1172,7 @@
       <glossterm>Network Time Protocol</glossterm>
       <acronym>NTP</acronym>
       <glossdef>
-        <para></para>
+        <para>A means of synchronizing clocks over a network.</para>
       </glossdef>
     </glossentry>
   </glossdiv>
@@ -1413,6 +1424,7 @@
       <acronym>POP</acronym>
       <glossdef>
         <para></para>
+	<glossseealso otherterm="pop3-glossary">
       </glossdef>
     </glossentry>
 
@@ -1629,7 +1641,7 @@
 	<para>A set of documents defining Internet standards, protocols, and
 	  so forth.  See
 	  <ulink url="http://www.rfc-editor.org/">www.rfc-editor.org</ulink>.
-	  <para>
+	  </para>
 	  
 	<para>Also used as a general term when someone has a suggested change
 	  and wants feedback.</para>
@@ -1703,6 +1715,11 @@
       <glosssee otherterm="str-glossary">
     </glossentry>
 
+    <glossentry>
+      <glossterm>SVN</glossterm>
+      <glosssee otherterm="svn-glossary">
+    </glossentry>
+
     <glossentry id="smtpauth-glossary">
       <glossterm><acronym>SMTP</acronym> Authentication</glossterm>
       <acronym>SMTP AUTH</acronym>
@@ -1749,6 +1766,16 @@
       <acronym>SCSI</acronym>
       <glossdef>
         <para></para>
+      </glossdef>
+    </glossentry>
+
+    <glossentry id="svn-glossary">
+      <glossterm>Subversion</glossterm>
+      <acronym>SVN</acronym>
+      <glossdef>
+	<para>Subversion is a version control system, similar to CVS, but
+	  with an expanded feature list.</para>
+	<glossseealso otherterm="cvs-glossary">
       </glossdef>
     </glossentry>
 
@@ -1904,7 +1931,8 @@
       <glossterm>Uniform Resource Locator</glossterm>
       <acronym>URL</acronym>
       <glossdef>
-        <para></para>
+	<para>A method of locating a resource, such as a document on
+	  the Internet and a means to identify that resource.</para>
       </glossdef>
     </glossentry>
 
@@ -1912,7 +1940,8 @@
       <glossterm>Unix File System Version 1</glossterm>
       <acronym>UFS1</acronym>
       <glossdef>
-        <para></para>
+	<para>The original &unix; file system, sometimes called the
+	  Berkeley Fast File System.</para>
       </glossdef>
     </glossentry>
 
@@ -1920,7 +1949,10 @@
       <glossterm>Unix File System Version 2</glossterm>
       <acronym>UFS2</acronym>
       <glossdef>
-        <para></para>
+	<para>An extension to <acronym>UFS1</acronym>, introduced in
+	  &os; 5-CURRENT.  <acronym>UFS2</acronym> adds 64 bit block
+	  pointers (breaking the 1T barrier), support for extended file
+	  storage and other features.</para>
       </glossdef>
     </glossentry>
 
@@ -1928,7 +1960,8 @@
       <glossterm>Universal Serial Bus</glossterm>
       <acronym>USB</acronym>
       <glossdef>
-        <para></para>
+	<para>A hardware standard used to connect a wide variety of
+	  computer peripherals to a universal interface.</para>
       </glossdef>
     </glossentry>
 
@@ -1946,7 +1979,10 @@
       <glossterm>User Datagram Protocol</glossterm>
       <acronym>UDP</acronym>
       <glossdef>
-        <para></para>
+	<para>A simple, unreliable datagram protocol which is used
+	  for exchanging data on a TCP/IP network.  <acronym>UDP</acronym>
+	  does not provide error checking and correction like
+	  <acronym>TCP</acronym>.</para>
       </glossdef>
     </glossentry>
   </glossdiv>
@@ -1963,7 +1999,10 @@
       <glossterm>Virtual Private Network</glossterm>
       <acronym>VPN</acronym>
       <glossdef>
-        <para></para>
+	<para>A method of using a public telecommunication
+	  such as the Internet, to provide remote access to a
+	  localized network, such as a corporate
+	  <acronym>LAN</acronym>.</para>
       </glossdef>
     </glossentry>
   </glossdiv>

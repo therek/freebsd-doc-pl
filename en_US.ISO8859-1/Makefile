@@ -1,4 +1,4 @@
-# $FreeBSD: doc/en_US.ISO8859-1/Makefile,v 1.2 2007/05/19 20:23:56 therek Exp $
+# $FreeBSD: doc/en_US.ISO8859-1/Makefile,v 1.7 1999/09/06 06:52:34 peter Exp $
 
 SUBDIR = articles
 SUBDIR+= books
