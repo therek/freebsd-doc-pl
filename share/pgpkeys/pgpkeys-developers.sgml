@@ -1,7 +1,7 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/share/pgpkeys/pgpkeys-developers.sgml,v 1.2 2007/05/19 20:24:01 therek Exp $
+     $FreeBSD: doc/share/pgpkeys/pgpkeys-developers.sgml,v 1.107 2009/07/20 15:09:52 yzlin Exp $
 -->
 
     <sect2 id="pgpkey-ariff">
@@ -12,6 +12,11 @@
     <sect2 id="pgpkey-shaun">
       <title>&a.shaun;</title>
       &pgpkey.shaun;
+    </sect2>
+
+    <sect2 id="pgpkey-brix">
+      <title>&a.brix;</title>
+      &pgpkey.brix;
     </sect2>
 
     <sect2 id="pgpkey-will">
@@ -29,14 +34,39 @@
       &pgpkey.mat;
     </sect2>
 
+    <sect2 id="pgpkey-araujo">
+      <title>&a.araujo;</title>
+      &pgpkey.araujo;
+    </sect2>
+
     <sect2 id="pgpkey-asami">
       <title>&a.asami;</title>
       &pgpkey.asami;
     </sect2>
 
+    <sect2 id="pgpkey-gavin">
+      <title>&a.gavin;</title>
+      &pgpkey.gavin;
+    </sect2>
+
+    <sect2 id="pgpkey-jadawin">
+      <title>&a.jadawin;</title>
+      &pgpkey.jadawin;
+    </sect2>
+
+    <sect2 id="pgpkey-timur">
+      <title>&a.timur;</title>
+      &pgpkey.timur;
+    </sect2>
+
     <sect2 id="pgpkey-jhb">
       <title>&a.jhb;</title>
       &pgpkey.jhb;
+    </sect2>
+
+    <sect2 id="pgpkey-snb">
+      <title>&a.snb;</title>
+      &pgpkey.snb;
     </sect2>
 
     <sect2 id="pgpkey-barner">
@@ -104,6 +134,16 @@
       &pgpkey.obraun;
     </sect2>
 
+    <sect2 id="pgpkey-makc">
+      <title>&a.makc;</title>
+      &pgpkey.makc;
+    </sect2>
+
+    <sect2 id="pgpkey-antoine">
+      <title>&a.antoine;</title>
+      &pgpkey.antoine;
+    </sect2>
+
     <sect2 id="pgpkey-db">
       <title>&a.db;</title>
       &pgpkey.db;
@@ -144,10 +184,17 @@
       &pgpkey.acm;
     </sect2>
 
+    <sect2 id="pgpkey-gahr">
+      <title>&a.gahr;</title>
+      &pgpkey.gahr;
+    </sect2>
+
+<!--
     <sect2 id="pgpkey-koitsu">
       <title>&a.koitsu;</title>
       &pgpkey.koitsu;
     </sect2>
+-->
 
     <sect2 id="pgpkey-perky">
       <title>&a.perky;</title>
@@ -157,6 +204,11 @@
     <sect2 id="pgpkey-jon">
       <title>&a.jon;</title>
       &pgpkey.jon;
+    </sect2>
+
+    <sect2 id="pgpkey-loader">
+      <title>&a.loader;</title>
+      &pgpkey.loader;
     </sect2>
 
     <sect2 id="pgpkey-luoqi">
@@ -229,6 +281,11 @@
       &pgpkey.vd;
     </sect2>
 
+    <sect2 id="pgpkey-rdivacky">
+      <title>&a.rdivacky;</title>
+      &pgpkey.rdivacky;
+    </sect2>
+
     <sect2 id="pgpkey-danfe">
       <title>&a.danfe;</title>
       &pgpkey.danfe;
@@ -257,6 +314,11 @@
     <sect2 id="pgpkey-josef">
       <title>&a.josef;</title>
       &pgpkey.josef;
+    </sect2>
+
+    <sect2 id="pgpkey-lme">
+      <title>&a.lme;</title>
+      &pgpkey.lme;
     </sect2>
 
     <sect2 id="pgpkey-ue">
@@ -304,6 +366,16 @@
       &pgpkey.lioux;
     </sect2>
 
+    <sect2 id="pgpkey-lippe">
+      <title>&a.lippe;</title>
+      &pgpkey.lippe;
+    </sect2>
+
+    <sect2 id="pgpkey-fabient">
+      <title>&a.fabient;</title>
+      &pgpkey.fabient;
+    </sect2>
+
     <sect2 id="pgpkey-fanf">
       <title>&a.fanf;</title>
       &pgpkey.fanf;
@@ -324,6 +396,16 @@
       &pgpkey.billf;
     </sect2>
 
+    <sect2 id="pgpkey-avg">
+      <title>&a.avg;</title>
+      &pgpkey.avg;
+    </sect2>
+
+    <sect2 id="pgpkey-beat">
+      <title>&a.beat;</title>
+      &pgpkey.beat;
+    </sect2>
+
     <sect2 id="pgpkey-danger">
       <title>&a.danger;</title>
       &pgpkey.danger;
@@ -334,9 +416,29 @@
       &pgpkey.gioria;
     </sect2>
 
+    <sect2 id="pgpkey-pgollucci">
+      <title>&a.pgollucci;</title>
+      &pgpkey.pgollucci;
+    </sect2>
+
+    <sect2 id="pgpkey-daichi">
+      <title>&a.daichi;</title>
+      &pgpkey.daichi;
+    </sect2>
+
     <sect2 id="pgpkey-mnag">
       <title>&a.mnag;</title>
       &pgpkey.mnag;
+    </sect2>
+
+    <sect2 id="pgpkey-grehan">
+      <title>&a.grehan;</title>
+      &pgpkey.grehan;
+    </sect2>
+
+    <sect2 id="pgpkey-jamie">
+      <title>&a.jamie;</title>
+      &pgpkey.jamie;
     </sect2>
 
     <sect2 id="pgpkey-jmg">
@@ -389,9 +491,19 @@
       &pgpkey.mux;
     </sect2>
 
+    <sect2 id="pgpkey-pho">
+      <title>&a.pho;</title>
+      &pgpkey.pho;
+    </sect2>
+
     <sect2 id="pgpkey-mich">
       <title>&a.mich;</title>
       &pgpkey.mich;
+    </sect2>
+
+    <sect2 id="pgpkey-lwhsu">
+      <title>&a.lwhsu;</title>
+      &pgpkey.lwhsu;
     </sect2>
 
     <sect2 id="pgpkey-foxfair">
@@ -409,6 +521,16 @@
       &pgpkey.jkh;
     </sect2>
 
+    <sect2 id="pgpkey-versus">
+	<title>&a.versus;</title>
+	&pgpkey.versus;
+    </sect2>
+
+    <sect2 id="pgpkey-weongyo">
+      <title>&a.weongyo;</title>
+      &pgpkey.weongyo;
+    </sect2>
+
     <sect2 id="pgpkey-ahze">
       <title>&a.ahze;</title>
       &pgpkey.ahze;
@@ -422,6 +544,11 @@
     <sect2 id="pgpkey-phk">
       <title>&a.phk;</title>
       &pgpkey.phk;
+    </sect2>
+
+    <sect2 id="pgpkey-cokane">
+      <title>&a.cokane;</title>
+      &pgpkey.cokane;
     </sect2>
 
     <sect2 id="pgpkey-joe">
@@ -439,9 +566,19 @@
       &pgpkey.kris;
     </sect2>
 
+    <sect2 id="pgpkey-skreuzer">
+      <title>&a.skreuzer;</title>
+      &pgpkey.skreuzer;
+    </sect2>
+
     <sect2 id="pgpkey-fjoe">
       <title>&a.fjoe;</title>
       &pgpkey.fjoe;
+    </sect2>
+
+    <sect2 id="pgpkey-manolis">
+      <title>&a.manolis;</title>
+      &pgpkey.manolis;
     </sect2>
 
     <sect2 id="pgpkey-jkim">
@@ -499,6 +636,11 @@
       &pgpkey.kuriyama;
     </sect2>
 
+    <sect2 id="pgpkey-rene">
+      <title>&a.rene;</title>
+      &pgpkey.rene;
+    </sect2>
+
     <sect2 id="pgpkey-clement">
       <title>&a.clement;</title>
       &pgpkey.clement;
@@ -512,6 +654,16 @@
     <sect2 id="pgpkey-erwin">
       <title>&a.erwin;</title>
       &pgpkey.erwin;
+    </sect2>
+
+    <sect2 id="pgpkey-glarkin">
+      <title>&a.glarkin;</title>
+      &pgpkey.glarkin;
+    </sect2>
+
+    <sect2 id="pgpkey-laszlof">
+      <title>&a.laszlof;</title>
+      &pgpkey.laszlof;
     </sect2>
 
     <sect2 id="pgpkey-lawrance">
@@ -574,9 +726,19 @@
       &pgpkey.ijliao;
     </sect2>
 
+    <sect2 id="pgpkey-lulf">
+      <title>&a.lulf;</title>
+      &pgpkey.lulf;
+    </sect2>
+
     <sect2 id="pgpkey-clive">
       <title>&a.clive;</title>
       &pgpkey.clive;
+    </sect2>
+
+    <sect2 id="pgpkey-yzlin">
+      <title>&a.yzlin;</title>
+      &pgpkey.yzlin;
     </sect2>
 
     <sect2 id="pgpkey-linimon">
@@ -589,9 +751,19 @@
       &pgpkey.arved;
     </sect2>
 
+    <sect2 id="pgpkey-dryice">
+      <title>&a.dryice;</title>
+      &pgpkey.dryice;
+    </sect2>
+
     <sect2 id="pgpkey-nemoliu">
       <title>&a.nemoliu;</title>
       &pgpkey.nemoliu;
+    </sect2>
+
+    <sect2 id="pgpkey-zml">
+      <title>&a.zml;</title>
+      &pgpkey.zml;
     </sect2>
 
     <sect2 id="pgpkey-nox">
@@ -604,6 +776,11 @@
       &pgpkey.remko;
     </sect2>
 
+    <sect2 id="pgpkey-avl">
+      <title>&a.avl;</title>
+      &pgpkey.avl;
+    </sect2>
+
     <sect2 id="pgpkey-scottl">
       <title>&a.scottl;</title>
       &pgpkey.scottl;
@@ -612,6 +789,11 @@
     <sect2 id="pgpkey-pav">
       <title>&a.pav;</title>
       &pgpkey.pav;
+    </sect2>
+
+    <sect2 id="pgpkey-rmacklem">
+      <title>&a.rmacklem;</title>
+      &pgpkey.rmacklem;
     </sect2>
 
     <sect2 id="pgpkey-bmah">
@@ -639,6 +821,11 @@
       &pgpkey.ehaupt;
     </sect2>
 
+    <sect2 id="pgpkey-amdmi3">
+      <title>&a.amdmi3;</title>
+      &pgpkey.amdmi3;
+    </sect2>
+
     <sect2 id="pgpkey-kwm">
       <title>&a.kwm;</title>
       &pgpkey.kwm;
@@ -647,6 +834,11 @@
     <sect2 id="pgpkey-matusita">
       <title>&a.matusita;</title>
       &pgpkey.matusita;
+    </sect2>
+
+    <sect2 id="pgpkey-mm">
+      <title>&a.mm;</title>
+      &pgpkey.mm;
     </sect2>
 
     <sect2 id="pgpkey-tmclaugh">
@@ -679,6 +871,11 @@
       &pgpkey.marcel;
     </sect2>
 
+    <sect2 id="pgpkey-kmoore">
+      <title>&a.kmoore;</title>
+      &pgpkey.kmoore;
+    </sect2>
+
     <sect2 id="pgpkey-marck">
       <title>&a.marck;</title>
       &pgpkey.marck;
@@ -709,6 +906,11 @@
       &pgpkey.max;
     </sect2>
 
+    <sect2 id="pgpkey-maho">
+      <title>&a.maho;</title>
+      &pgpkey.maho;
+    </sect2>
+
     <sect2 id="pgpkey-yoichi">
       <title>&a.yoichi;</title>
       &pgpkey.yoichi;
@@ -729,9 +931,19 @@
       &pgpkey.simon;
     </sect2>
 
+    <sect2 id="pgpkey-rnoland">
+      <title>&a.rnoland;</title>
+      &pgpkey.rnoland;
+    </sect2>
+
     <sect2 id="pgpkey-anders">
       <title>&a.anders;</title>
       &pgpkey.anders;
+    </sect2>
+
+    <sect2 id="pgpkey-lofi">
+      <title>&a.lofi;</title>
+      &pgpkey.lofi;
     </sect2>
 
     <sect2 id="pgpkey-obrien">
@@ -744,6 +956,16 @@
       &pgpkey.philip;
     </sect2>
 
+    <sect2 id="pgpkey-jpaetzel">
+      <title>&a.jpaetzel;</title>
+      &pgpkey.jpaetzel;
+    </sect2>
+
+    <sect2 id="pgpkey-pgj">
+      <title>&a.pgj;</title>
+      &pgpkey.pgj;
+    </sect2>
+
     <sect2 id="pgpkey-hmp">
       <title>&a.hmp;</title>
       &pgpkey.hmp;
@@ -752,6 +974,16 @@
     <sect2 id="pgpkey-sat">
       <title>&a.sat;</title>
       &pgpkey.sat;
+    </sect2>
+
+    <sect2 id="pgpkey-np">
+      <title>&a.np;</title>
+      &pgpkey.np;
+    </sect2>
+
+    <sect2 id="pgpkey-rpaulo">
+      <title>&a.rpaulo;</title>
+      &pgpkey.rpaulo;
     </sect2>
 
     <sect2 id="pgpkey-mp">
@@ -789,6 +1021,11 @@
       &pgpkey.krion;
     </sect2>
 
+    <sect2 id="pgpkey-sepotvin">
+      <title>&a.sepotvin;</title>
+      &pgpkey.sepotvin;
+    </sect2>
+
     <sect2 id="pgpkey-markp">
       <title>&a.markp;</title>
       &pgpkey.markp;
@@ -824,6 +1061,11 @@
       &pgpkey.rees;
     </sect2>
 
+    <sect2 id="pgpkey-bcr">
+      <title>&a.bcr;</title>
+      &pgpkey.bcr;
+    </sect2>
+
     <sect2 id="pgpkey-trhodes">
       <title>&a.trhodes;</title>
       &pgpkey.trhodes;
@@ -832,6 +1074,11 @@
     <sect2 id="pgpkey-benno">
       <title>&a.benno;</title>
       &pgpkey.benno;
+    </sect2>
+
+    <sect2 id="pgpkey-beech">
+      <title>&a.beech;</title>
+      &pgpkey.beech;
     </sect2>
 
     <sect2 id="pgpkey-matteo">
@@ -874,6 +1121,11 @@
       &pgpkey.wosch;
     </sect2>
 
+    <sect2 id="pgpkey-ed">
+      <title>&a.ed;</title>
+      &pgpkey.ed;
+    </sect2>
+
     <sect2 id="pgpkey-das">
       <title>&a.das;</title>
       &pgpkey.das;
@@ -904,6 +1156,11 @@
       &pgpkey.gshapiro;
     </sect2>
 
+    <sect2 id="pgpkey-wxs">
+      <title>&a.wxs;</title>
+      &pgpkey.wxs;
+    </sect2>
+
     <sect2 id="pgpkey-arun">
       <title>&a.arun;</title>
       &pgpkey.arun;
@@ -914,9 +1171,19 @@
       &pgpkey.nork;
     </sect2>
 
+    <sect2 id="pgpkey-syrinx">
+      <title>&a.syrinx;</title>
+      &pgpkey.syrinx;
+    </sect2>
+
     <sect2 id="pgpkey-vanilla">
       <title>&a.vanilla;</title>
       &pgpkey.vanilla;
+    </sect2>
+
+    <sect2 id="pgpkey-bms">
+      <title>&a.bms;</title>
+      &pgpkey.bms;
     </sect2>
 
     <sect2 id="pgpkey-demon">
@@ -999,6 +1266,11 @@
       &pgpkey.xride;
     </sect2>
 
+    <sect2 id="pgpkey-marius">
+      <title>&a.marius;</title>
+      &pgpkey.marius;
+    </sect2>
+
     <sect2 id="pgpkey-clsung">
       <title>&a.clsung;</title>
       &pgpkey.clsung;
@@ -1022,6 +1294,11 @@
     <sect2 id="pgpkey-nyan">
       <title>&a.nyan;</title>
       &pgpkey.nyan;
+    </sect2>
+
+    <sect2 id="pgpkey-tota">
+      <title>&a.tota;</title>
+      &pgpkey.tota;
     </sect2>
 
     <sect2 id="pgpkey-itetcu">
@@ -1064,6 +1341,26 @@
       &pgpkey.flz;
     </sect2>
 
+    <sect2 id="pgpkey-yar">
+      <title>&a.yar;</title>
+      &pgpkey.yar;
+    </sect2>
+
+    <sect2 id="pgpkey-jilles">
+      <title>&a.jilles;</title>
+      &pgpkey.jilles;
+    </sect2>
+
+    <sect2 id="pgpkey-ganbold">
+      <title>&a.ganbold;</title>
+      &pgpkey.ganbold;
+    </sect2>
+
+    <sect2 id="pgpkey-tuexen">
+      <title>&a.tuexen;</title>
+      &pgpkey.tuexen;
+    </sect2>
+
     <sect2 id="pgpkey-ume">
       <title>&a.ume;</title>
       &pgpkey.ume;
@@ -1087,6 +1384,11 @@
     <sect2 id="pgpkey-stefan">
       <title>&a.stefan;</title>
       &pgpkey.stefan;
+    </sect2>
+
+    <sect2 id="pgpkey-kaiw">
+      <title>&a.kaiw;</title>
+      &pgpkey.kaiw;
     </sect2>
 
     <sect2 id="pgpkey-adamw">
@@ -1157,4 +1459,39 @@
     <sect2 id="pgpkey-jinmei">
       <title>&a.jinmei;</title>
       &pgpkey.jinmei;
+    </sect2>
+
+    <sect2 id="pgpkey-tabthorpe">
+      <title>&a.tabthorpe;</title>
+      &pgpkey.tabthorpe;
+    </sect2>
+
+    <sect2 id="pgpkey-ivoras">
+      <title>&a.ivoras;</title>
+      &pgpkey.ivoras;
+    </sect2>
+
+    <sect2 id="pgpkey-nwhitehorn">
+      <title>&a.nwhitehorn;</title>
+      &pgpkey.nwhitehorn;
+    </sect2>
+
+    <sect2 id="pgpkey-sson">
+      <title>&a.sson;</title>
+      &pgpkey.sson;
+    </sect2>
+
+    <sect2 id="pgpkey-mva">
+      <title>&a.mva;</title>
+      &pgpkey.mva;
+    </sect2>
+
+    <sect2 id="pgpkey-dchagin">
+      <title>&a.dchagin;</title>
+      &pgpkey.dchagin;
+    </sect2>
+
+    <sect2 id="pgpkey-dhn">
+      <title>&a.dhn;</title>
+      &pgpkey.dhn;
     </sect2>

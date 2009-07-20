@@ -1,45 +1,40 @@
 <!--
      The FreeBSD Documentation Project
 
-     $FreeBSD: doc/share/pgpkeys/pgpkeys-core.sgml,v 1.2 2007/05/19 20:24:01 therek Exp $
+     $FreeBSD: doc/share/pgpkeys/pgpkeys-core.sgml,v 1.4 2009/01/31 07:18:52 keramida Exp $
 -->
 
-    <sect2 id="pgpkey-wilko">
+    <sect2 id="pgpkey-core-wilko">
       <title>&a.wilko;</title>
       &pgpkey.wilko;
     </sect2>
 
-    <sect2 id="pgpkey-brooks">
+    <sect2 id="pgpkey-core-brooks">
       <title>&a.brooks;</title>
       &pgpkey.brooks;
     </sect2>
 
-    <sect2 id="pgpkey-keramida">
+    <sect2 id="pgpkey-core-keramida">
       <title>&a.keramida;</title>
       &pgpkey.keramida;
     </sect2>
 
-    <sect2 id="pgpkey-imp">
-      <title>&a.imp;</title>
-      &pgpkey.imp;
-    </sect2>
-
-    <sect2 id="pgpkey-gnn">
+    <sect2 id="pgpkey-core-gnn">
       <title>&a.gnn;</title>
       &pgpkey.gnn;
     </sect2>
 
-    <sect2 id="pgpkey-wes">
-      <title>&a.wes;</title>
-      &pgpkey.wes;
-    </sect2>
-
-    <sect2 id="pgpkey-hrs">
+    <sect2 id="pgpkey-core-hrs">
       <title>&a.hrs;</title>
       &pgpkey.hrs;
     </sect2>
 
-    <sect2 id="pgpkey-murray">
+    <sect2 id="pgpkey-core-murray">
       <title>&a.murray;</title>
       &pgpkey.murray;
+    </sect2>
+
+    <sect2 id="pgpkey-core-kris">
+      <title>&a.kris;</title>
+      &pgpkey.kris;
     </sect2>

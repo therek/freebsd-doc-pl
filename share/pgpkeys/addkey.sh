@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $FreeBSD: doc/share/pgpkeys/addkey.sh,v 1.2 2007/05/19 20:23:59 therek Exp $
+# $FreeBSD: doc/share/pgpkeys/addkey.sh,v 1.5 2006/01/07 23:43:35 remko Exp $
 #
 
 LANG=C; export LANG

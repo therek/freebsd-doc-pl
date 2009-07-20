@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# $FreeBSD: doc/share/pgpkeys/keyring.pl,v 1.2 2007/05/19 20:24:00 therek Exp $
+# $FreeBSD: doc/share/pgpkeys/keyring.pl,v 1.1 2003/05/08 09:48:38 blackend Exp $
 #
 
 use strict;
