@@ -1,7 +1,7 @@
 #
 # Build the Handbook with just the content from this chapter.
 #
-# $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/security/Makefile,v 1.1 2006/11/10 11:46:51 therek Exp $
+# $FreeBSD: doc/en_US.ISO8859-1/books/handbook/security/Makefile,v 1.1 2001/06/30 14:55:39 nik Exp $
 #
 
 CHAPTERS= 	security/chapter.sgml
