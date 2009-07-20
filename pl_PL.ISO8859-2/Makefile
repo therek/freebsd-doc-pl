@@ -1,7 +1,7 @@
-# $FreeBSD: doc/pl_PL.ISO8859-2/Makefile,v 1.1 2006/11/10 11:36:40 therek Exp $
+# $FreeBSD: doc/pl_PL.ISO8859-2/Makefile,v 1.2 2006/11/26 16:43:38 hrs Exp $
 
 SUBDIR = articles
-#SUBDIR+= books
+SUBDIR+= books
 
 COMPAT_SYMLINK = pl
 

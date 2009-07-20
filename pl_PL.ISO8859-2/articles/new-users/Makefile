@@ -1,4 +1,4 @@
-# $FreeBSD: doc/pl_PL.ISO8859-2/articles/new-users/Makefile,v 1.1 2006/11/10 11:37:29 therek Exp $
+# $FreeBSD: doc/pl_PL.ISO8859-2/articles/new-users/Makefile,v 1.1 2002/09/26 17:51:30 blackend Exp $
 
 DOC?= article
 
