@@ -1,5 +1,5 @@
 #
-# $FreeBSD: doc/share/mk/doc.html.mk,v 1.1 2006/11/10 11:24:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.html.mk,v 1.21 2006/02/25 23:19:40 hrs Exp $
 #
 # This include file <doc.html.mk> handles building and installing of
 # HTML documentation in the FreeBSD Documentation Project.

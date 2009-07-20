@@ -1,5 +1,5 @@
 #
-# $FreeBSD: doc/share/mk/doc.slides.mk,v 1.1 2006/11/10 11:24:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.slides.mk,v 1.8 2005/08/29 03:18:58 murray Exp $
 #
 # This include file <doc.slides.mk> handles building and installing of
 # DocBook Slides in the FreeBSD Documentation Project.

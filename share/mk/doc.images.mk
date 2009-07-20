@@ -1,5 +1,5 @@
 #
-# $FreeBSD: doc/share/mk/doc.images.mk,v 1.1 2006/11/10 11:24:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.images.mk,v 1.29 2004/07/23 18:58:56 hrs Exp $
 #
 # This include file <doc.images.mk> handles image processing.
 #

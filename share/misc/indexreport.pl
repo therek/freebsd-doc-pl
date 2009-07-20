@@ -4,7 +4,7 @@
 #
 # Usage : indexreport.pl <sgmlfiles> ...
 #
-# $FreeBSD: doc/share/misc/indexreport.pl,v 1.1 2006/11/10 11:24:57 therek Exp $
+# $FreeBSD: doc/share/misc/indexreport.pl,v 1.1 2003/05/04 04:59:43 murray Exp $
 #
 
 use strict;

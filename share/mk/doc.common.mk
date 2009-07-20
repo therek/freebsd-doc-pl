@@ -1,5 +1,5 @@
 #
-# $FreeBSD: doc/share/mk/doc.common.mk,v 1.2 2007/05/19 20:23:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.common.mk,v 1.18 2006/11/02 18:58:17 bmah Exp $
 #
 # This include file <doc.common.mk> provides targets and variables for
 # documents commonly used in doc/ and www/ tree.

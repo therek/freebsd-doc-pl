@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# $FreeBSD: doc/share/misc/epsgeom,v 1.1 2006/11/10 11:24:57 therek Exp $
+# $FreeBSD: doc/share/misc/epsgeom,v 1.2 2004/07/23 18:58:55 hrs Exp $
 #
 # epsgeom - extract geometry from a EPS file.
 #

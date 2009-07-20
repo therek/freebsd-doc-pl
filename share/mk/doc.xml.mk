@@ -1,5 +1,5 @@
 # doc.xml.mk
-# $FreeBSD: doc/share/mk/doc.xml.mk,v 1.2 2007/05/19 20:23:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.xml.mk,v 1.14 2008/06/22 23:14:33 murray Exp $
 
 XML_CATALOG_FILES=	file://${.OBJDIR}/catalog-cwd.xml \
 			file://${DOC_PREFIX}/${LANGCODE}/share/sgml/catalog.xml \
@@ -140,6 +140,7 @@ XSL_USERGROUPS=	${WEB_PREFIX}/share/sgml/templates.usergroups.xsl
 _DEPENDSET.news=	${XML_NEWS_NEWS_MASTER} ${XML_NEWS_NEWS} \
 			${XSL_NEWS_NEWSFLASH} \
 			${XSL_NEWS_NEWS_RDF} \
+			${XSL_NEWS_NEWS_RSS} \
 			${XML_INCLUDES}
 _PARAMS.news=		--param news.project.xml-master "'${XML_NEWS_NEWS_MASTER}'" \
 			--param news.project.xml "'${XML_NEWS_NEWS}'"
@@ -153,6 +154,7 @@ XML_NEWS_NEWS=		${WEB_PREFIX}/share/sgml/news.xml
 XSL_NEWS_NEWSFLASH=	${WEB_PREFIX}/share/sgml/templates.newsflash.xsl
 XSL_NEWS_NEWSFLASH_OLD=	${WEB_PREFIX}/share/sgml/templates.oldnewsflash.xsl
 XSL_NEWS_NEWS_RDF=	${WEB_PREFIX}/share/sgml/templates.news-rdf.xsl
+XSL_NEWS_NEWS_RSS=	${WEB_PREFIX}/share/sgml/templates.news-rss.xsl
 
 # DEPENDSET: press  ..........................................................
 _DEPENDSET.press=	${XML_NEWS_PRESS_MASTER} ${XML_NEWS_PRESS} \
@@ -167,6 +169,7 @@ XML_NEWS_PRESS=		${WEB_PREFIX}/${WWW_LANGCODE}/share/sgml/press.xml
 XML_NEWS_PRESS=		${WEB_PREFIX}/share/sgml/press.xml
 .endif
 XSL_NEWS_PRESS=		${WEB_PREFIX}/share/sgml/templates.press.xsl
+XSL_NEWS_PRESS_RSS=	${WEB_PREFIX}/share/sgml/templates.press-rss.xsl
 XSL_NEWS_PRESS_OLD=	${WEB_PREFIX}/share/sgml/templates.oldpress.xsl
 
 # DEPENDSET: events  ..........................................................
@@ -184,6 +187,7 @@ XML_EVENTS_EVENTS=	${XML_EVENTS_EVENTS_MASTER}
 .endif
 XSL_EVENTS=		${WEB_PREFIX}/share/sgml/templates.events.xsl
 XSL_EVENTS_ICS=		${WEB_PREFIX}/share/sgml/templates.events2ics.xsl
+XSL_EVENTS_PAST=	${WEB_PREFIX}/share/sgml/templates.pastevents.xsl
 
 # DEPENDSET: commercial ........................................................
 _DEPENDSET.commercial=	${XML_COMMERCIAL_CONSULT} \

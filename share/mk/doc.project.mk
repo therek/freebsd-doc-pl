@@ -1,5 +1,5 @@
 #
-# $FreeBSD: doc/share/mk/doc.project.mk,v 1.2 2007/05/19 20:23:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.project.mk,v 1.30 2006/08/19 21:18:54 hrs Exp $
 #
 # This include file <doc.project.mk> is the FreeBSD Documentation Project
 # co-ordination make file.

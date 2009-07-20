@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 
-<!-- $FreeBSD: doc/share/xsl/freebsd-html-chunk.xsl,v 1.1 2006/11/10 11:25:17 therek Exp $ -->
+<!-- $FreeBSD: doc/share/xsl/freebsd-html-chunk.xsl,v 1.1 2003/01/03 05:06:14 trhodes Exp $ -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version='1.0'

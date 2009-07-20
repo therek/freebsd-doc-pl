@@ -1,5 +1,5 @@
 #
-# $FreeBSD: doc/share/mk/doc.install.mk,v 1.1 2006/11/10 11:24:59 therek Exp $
+# $FreeBSD: doc/share/mk/doc.install.mk,v 1.8 2003/11/24 18:26:35 hrs Exp $
 #
 #
 # This include file <doc.install.mk> provides variables defining the default
