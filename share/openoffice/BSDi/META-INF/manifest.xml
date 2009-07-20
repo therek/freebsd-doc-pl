@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $FreeBSD: doc/share/openoffice/BSDi/META-INF/manifest.xml,v 1.1 2006/11/10 11:25:04 therek Exp $ -->
+<!-- $FreeBSD: doc/share/openoffice/BSDi/META-INF/manifest.xml,v 1.1 2005/08/29 02:15:24 murray Exp $ -->
 <!DOCTYPE manifest:manifest PUBLIC "-//OpenOffice.org//DTD Manifest 1.0//EN" "Manifest.dtd">
 <manifest:manifest xmlns:manifest="http://openoffice.org/2001/manifest">
  <manifest:file-entry manifest:media-type="application/vnd.sun.xml.impress" manifest:full-path="/"/>
