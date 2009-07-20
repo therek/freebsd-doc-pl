@@ -1,4 +1,4 @@
-$FreeBSD: doc/share/sgml/README.mirrors,v 1.1 2006/11/10 11:25:13 therek Exp $
+$FreeBSD: doc/share/sgml/README.mirrors,v 1.2 2005/01/02 13:05:30 ceri Exp $
 
 This is an instruction for use of the following files, which are used
 for both of www/ and doc/ tree:

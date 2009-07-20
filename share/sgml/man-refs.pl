@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# $FreeBSD: doc/share/sgml/man-refs.pl,v 1.1 2006/11/10 11:25:14 therek Exp $
+# $FreeBSD: doc/share/sgml/man-refs.pl,v 1.1 2002/06/07 13:16:50 des Exp $
 
 use strict;
 

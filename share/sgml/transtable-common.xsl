@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- $FreeBSD: doc/share/sgml/transtable-common.xsl,v 1.1 2006/11/10 11:25:14 therek Exp $ -->
+<!-- $FreeBSD: doc/share/sgml/transtable-common.xsl,v 1.3 2005/09/28 18:03:51 hrs Exp $ -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 

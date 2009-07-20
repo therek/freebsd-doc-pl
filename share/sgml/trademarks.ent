@@ -8,7 +8,7 @@
 
      Please keep this file sorted.
 
-     $FreeBSD: doc/share/sgml/trademarks.ent,v 1.2 2007/05/19 20:24:02 therek Exp $
+     $FreeBSD: doc/share/sgml/trademarks.ent,v 1.46 2009/07/19 20:31:50 manolis Exp $
 -->
 
 <!ENTITY tm-attrib.3com "<para>3Com and HomeConnect are registered
@@ -86,13 +86,23 @@
 <!ENTITY tm-attrib.cisco "<para>Cisco, Catalyst, and IOS are
   registered trademarks of Cisco Systems, Inc. and/or its affiliates
   in the United States and certain other countries.</para>">
+<!ENTITY cisco "<trademark class='registered'>Cisco</trademark>">
 <!ENTITY catalyst "<trademark class='registered'>Catalyst</trademark>">
+<!ENTITY etherchannel "<trademark class='registered'>EtherChannel</trademark>">
 <!ENTITY ios "<trademark class='registered'>IOS</trademark>">
 
 <!ENTITY tm-attrib.corel "<para>Corel and WordPerfect are trademarks
   or registered trademarks of Corel Corporation and/or its
   subsidiaries in Canada, the United States and/or other
   countries.</para>">
+<!ENTITY wordperfect "<trademark class='registered'>WordPerfect</trademark>">
+
+<!-- http://www.coverity.com/html/press_story45_07_25_07.html -->
+<!ENTITY tm-attrib.coverity "<para>Coverity is a registered trademark;
+Coverity Extend, Coverity Prevent and Coverity Prevent SQS are trademarks of
+Coverity, Inc.</para>">
+<!ENTITY coverity "<trademark class='registered'>Coverity</trademark>">
+<!ENTITY coverity.prevent "<trademark class='registered'>Coverity Prevent</trademark>">
 
 <!-- http://www.creative.com/legal.asp -->
 <!ENTITY tm-attrib.creative "<para>Sound Blaster is a trademark of
@@ -143,8 +153,10 @@
 <!ENTITY tm-attrib.ieee "<para>IEEE, POSIX, and 802 are registered
   trademarks of Institute of Electrical and Electronics Engineers,
   Inc. in the United States.</para>">
+<!ENTITY ieee "<trademark class='registered'>IEEE</trademark>">
 <!ENTITY posix "<trademark class='registered'>POSIX</trademark>">
 
+<!-- http://www.intel.com/intel/legal/tmnouns2.htm -->
 <!ENTITY tm-attrib.intel "<para>Intel, Celeron, EtherExpress, i386,
   i486, Itanium, Pentium, and Xeon are trademarks or registered
   trademarks of Intel Corporation or its subsidiaries in the United
@@ -157,6 +169,7 @@
 <!ENTITY itanium "<trademark class='registered'>Itanium</trademark>">
 <!ENTITY pentium "<trademark class='registered'>Pentium</trademark>">
 <!ENTITY xeon "<trademark>Xeon</trademark>">
+<!ENTITY core "<trademark>Core</trademark>">
 
 <!-- http://www.quicken.com/support/trademark/ -->
 <!ENTITY tm-attrib.intuit "<para>Intuit and Quicken are registered
@@ -250,7 +263,7 @@
   registered trademarks and IT DialTone and The Open Group are
   trademarks of The Open Group in the United States and other
   countries.</para>">
-<!ENTITY tm-attrib.unix "<para>UNIX is a registered trademarks of The
+<!ENTITY tm-attrib.unix "<para>UNIX is a registered trademark of The
   Open Group in the United States and other countries.</para>">
 <!ENTITY motif "<trademark class='registered'>Motif</trademark>">
 <!ENTITY unix "<trademark class='registered'>UNIX</trademark>">
@@ -279,6 +292,7 @@
 <!ENTITY tm-attrib.realnetworks "<para>RealNetworks, RealPlayer, and
   RealAudio are the registered trademarks of RealNetworks,
   Inc.</para>">
+<!ENTITY realplayer "<trademark class='registered'>RealPlayer</trademark>">
 
 <!-- Note: RedHat doesn't use (r)/(tm) for their own trademarks -->
 <!-- http://www.redhat.com/legal/legal_statement.html -->
@@ -315,9 +329,9 @@
 
 <!ENTITY tm-attrib.sun "<para>Sun, Sun Microsystems, Java, Java
   Virtual Machine, JavaServer Pages, JDK, JRE, JSP, JVM, Netra,
-  Solaris, StarOffice, Sun Blade, Sun Enterprise, Sun Fire, SunOS, and
-  Ultra are trademarks or registered trademarks of Sun Microsystems,
-  Inc. in the United States and other countries.</para>">
+  Solaris, StarOffice, Sun Blade, Sun Enterprise, Sun Fire, SunOS,
+  Ultra and VirtualBox are trademarks or registered trademarks of
+  Sun Microsystems, Inc. in the United States and other countries.</para>">
 <!ENTITY java "<trademark>Java</trademark>">
 <!ENTITY java.virtual.machine "<trademark>Java Virtual Machine</trademark>">
 <!ENTITY javaserver.pages "<trademark>JavaServer Pages</trademark>">
@@ -334,6 +348,7 @@
 <!ENTITY sun.fire "<trademark>Sun&nbsp;Fire</trademark>">
 <!ENTITY sun.ultra "Sun&nbsp;<trademark>Ultra</trademark>">
 <!ENTITY sunos "<trademark>SunOS</trademark>">
+<!ENTITY virtualbox "<trademark>VirtualBox</trademark>">
 
 <!-- http://www.symantec.com/legal/legal_note.html -->
 <!ENTITY tm-attrib.symantec "<para>Symantec and Ghost are registered

@@ -7,7 +7,7 @@
 
      The FPI for this DTD is "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"
 
-     $FreeBSD: doc/share/sgml/freebsd41.dtd,v 1.1 2006/11/10 11:25:13 therek Exp $
+     $FreeBSD: doc/share/sgml/freebsd41.dtd,v 1.4 2002/02/27 04:56:44 dd Exp $
 -->
 
 <!-- ..................................................................... -->

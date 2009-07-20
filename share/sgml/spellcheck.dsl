@@ -1,4 +1,4 @@
-<!-- $FreeBSD: doc/share/sgml/spellcheck.dsl,v 1.1 2006/11/10 11:25:14 therek Exp $ -->
+<!-- $FreeBSD: doc/share/sgml/spellcheck.dsl,v 1.3 2004/09/26 17:23:19 ceri Exp $ -->
 
 <!--
 

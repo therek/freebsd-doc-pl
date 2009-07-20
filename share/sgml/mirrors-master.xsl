@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- $FreeBSD: doc/share/sgml/mirrors-master.xsl,v 1.2 2007/05/19 20:24:02 therek Exp $ -->
+<!-- $FreeBSD: doc/share/sgml/mirrors-master.xsl,v 1.6 2007/01/26 19:14:39 pav Exp $ -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 

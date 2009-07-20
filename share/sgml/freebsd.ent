@@ -1,7 +1,7 @@
 <!-- -*- sgml -*-
      DocBook Miscellaneous FreeBSD Entities.
 
-     $FreeBSD: doc/share/sgml/freebsd.ent,v 1.3 2007/05/19 20:24:02 therek Exp $
+     $FreeBSD: doc/share/sgml/freebsd.ent,v 1.116 2009/05/04 00:03:21 hrs Exp $
 
 This file is now valid XML as well as SGML.  Please do not add CDATA
 attributes or anything else that will prevent this file from being
@@ -15,6 +15,22 @@ used in both environments.
 <!ENTITY os "FreeBSD">
 <!ENTITY os.current "&os;-CURRENT">
 <!ENTITY os.stable "&os;-STABLE">
+
+<!-- Entities for various architectures.  These are to be used
+     only for denoting a variant of FreeBSD for a particular
+     architecture (e.g. &os;/&arch.i386;).  Other entities should
+     be used when referring generically to an architecture,
+     particularly because entities such as &i386; properly
+     denote trademarks and registered trademarks. -->
+<!ENTITY arch.alpha "alpha">
+<!ENTITY arch.amd64 "amd64">
+<!ENTITY arch.arm "arm">
+<!ENTITY arch.i386 "i386">
+<!ENTITY arch.ia64 "ia64">
+<!ENTITY arch.pc98 "pc98">
+<!ENTITY arch.powerpc "powerpc">
+<!ENTITY arch.sparc64 "sparc64">
+<!ENTITY arch.sun4v "sun4v">
 
 <!--
   Use this entity when referring to 'UNIX' in your document.
@@ -32,20 +48,25 @@ used in both environments.
 <!-- Use an entity for the X.Org X server -->
 
 <!ENTITY xorg "Xorg">
-<!ENTITY xorg.version "6.9.0">
+<!ENTITY xorg.version "7.4">
+
+<!-- Use an entity for DTrace to avoid spelling
+     mistakes stem from unusual capitalization -->
+
+<!ENTITY dtrace "DTrace">
 
 <!-- The currently released version of FreeBSD.  This value is used to
      create some links on web sites and such, so do NOT change it until
      it's really release time -->
-<!ENTITY rel.current "6.2">
-<!ENTITY rel.current.date "Jan 2007">
+<!ENTITY rel.current "7.2">
+<!ENTITY rel.current.date "May 2009">
 <!ENTITY rel.current.notes 'http://www.FreeBSD.org/releases/&rel.current;R/notes.html'>
 <!ENTITY rel.current.hardware 'http://www.FreeBSD.org/releases/&rel.current;R/hardware.html'>
 <!ENTITY rel.current.errata 'http://www.FreeBSD.org/releases/&rel.current;R/errata.html'>
 
 <!-- Entities for multiple "latest" versions of FreeBSD -->
-<!ENTITY rel2.current "5.5">
-<!ENTITY rel2.current.date "May 2006">
+<!ENTITY rel2.current "6.4">
+<!ENTITY rel2.current.date "Nov 2008">
 <!ENTITY rel2.current.notes 'http://www.FreeBSD.org/releases/&rel2.current;R/notes.html'>
 <!ENTITY rel2.current.hardware 'http://www.FreeBSD.org/releases/&rel2.current;R/hardware.html'>
 <!ENTITY rel2.current.errata 'http://www.FreeBSD.org/releases/&rel2.current;R/errata.html'>
@@ -60,8 +81,8 @@ used in both environments.
 <!ENTITY % not.published 	"IGNORE">
 
 <!-- Number of ports in the ports tree -->
-<!ENTITY os.numports "16,000">
-<!ENTITY ports.size "440&nbsp;MB">
+<!ENTITY os.numports "20,000">
+<!ENTITY ports.size "417&nbsp;MB">
 
 <!-- GUI-buttons -->
 <!ENTITY gui.ok "<guibutton>[&nbsp;OK&nbsp;]</guibutton>">

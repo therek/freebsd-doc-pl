@@ -7,7 +7,7 @@
      in language-specific directory.  Otherwise the following entity
      set is used by default.
 
-     $FreeBSD: doc/share/sgml/l10n.ent,v 1.1 2006/11/10 11:25:13 therek Exp $
+     $FreeBSD: doc/share/sgml/l10n.ent,v 1.2 2004/11/07 16:26:09 hrs Exp $
 -->
 
 <!-- docformat navi -->

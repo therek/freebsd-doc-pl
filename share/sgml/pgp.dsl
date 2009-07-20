@@ -1,4 +1,4 @@
-<!-- $FreeBSD: doc/share/sgml/pgp.dsl,v 1.1 2006/11/10 11:25:14 therek Exp $ -->
+<!-- $FreeBSD: doc/share/sgml/pgp.dsl,v 1.1 2001/08/23 07:59:07 murray Exp $ -->
 
 <!DOCTYPE style-sheet PUBLIC "-//James Clark//DTD DSSSL Style Sheet//EN" [
 <!ENTITY docbook.dsl PUBLIC "-//Norman Walsh//DOCUMENT DocBook HTML Stylesheet//EN" CDATA DSSSL>

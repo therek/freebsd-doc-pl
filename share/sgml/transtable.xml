@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- $FreeBSD: doc/share/sgml/transtable.xml,v 1.1 2006/11/10 11:25:14 therek Exp $ -->
+<!-- $FreeBSD: doc/share/sgml/transtable.xml,v 1.2 2004/01/12 21:27:01 hrs Exp $ -->
 
 <!--
 
@@ -18,7 +18,7 @@
 <transtable>
   <cvs:keywords xmlns:cvs="http://www.FreeBSD.org/XML/CVS" version="1.0">
     <cvs:keyword name="freebsd">
-      $FreeBSD: doc/share/sgml/transtable.xml,v 1.1 2006/11/10 11:25:14 therek Exp $
+      $FreeBSD: doc/share/sgml/transtable.xml,v 1.2 2004/01/12 21:27:01 hrs Exp $
     </cvs:keyword>
   </cvs:keywords>
 
