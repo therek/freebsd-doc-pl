@@ -1,0 +1,25 @@
+                         FreeBSD Disklabel Editor
+
+Disk: ad0       Partition name: ad0s1   Free: 16514001 blocks (8063MB)
+
+Part      Mount          Size Newfs   Part      Mount          Size Newfs
+----      -----          ---- -----   ----      -----          ---- -----
+
+
+   .---------------------------- Value Required ----------------------------.
+   | Please specify the partition size in blocks or append a trailing G for |
+   | gigabytes, M for megabytes, or C for cylinders.                        |
+   | 16514001 blocks (8063MB) are free.                                     |
+   | .--------------------------------------------------------------------. |
+   | |16514001                                                            | |
+   +-`--------------------------------------------------------------------'-+
+   |                         [  OK  ]       Cancel                          |
+   `------------------------------------------------------------------------'
+The following commands are valid here (upper or lower case):
+C = Create        D = Delete   M = Mount pt.
+N = Newfs Opts    Q = Finish   S = Toggle SoftUpdates
+T = Toggle Newfs  U = Undo     A = Auto Defaults    R = Delete+Merge
+
+Use F1 or ? to get more help, arrow keys to select.
+
+

@@ -1,0 +1,25 @@
+  PINE 4.58   MAIN MENU                             Folder: INBOX  3 Messages
+
+
+          ?     HELP               -  Get help using Pine
+
+          C     COMPOSE MESSAGE    -  Compose and send a message
+
+          I     MESSAGE INDEX      -  View messages in current folder
+
+          L     FOLDER LIST        -  Select a folder to view
+
+          A     ADDRESS BOOK       -  Update address book
+
+          S     SETUP              -  Configure Pine Options
+
+          Q     QUIT               -  Leave the Pine program
+
+
+
+
+
+   Copyright 1989-2003.  PINE is a trademark of the University of Washington.
+
+? Help                     P PrevCmd                 R RelNotes
+O OTHER CMDS > [Index]     N NextCmd                 K KBLock

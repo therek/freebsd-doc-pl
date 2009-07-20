@@ -1,0 +1,25 @@
+
+   .------------------------ System Console Keymap -------------------------.
+   | The default system console driver for FreeBSD (syscons) defaults       |
+   | to a standard "American" keyboard map.  Users in other countries       |
+   | (or with different keyboard preferences) may wish to choose one of     |
+   | the other keymaps below.                                               |
+   | Note that sysinstall itself only uses the part of the keyboard map     |
+   | which is required to generate the ANSI character subset, but your      |
+   | choice of keymap will also be saved for later (fuller) use.            |
+   | .--------------------------------------------------------------------. |
+   | | Belgian                     Belgian ISO keymap                     | |
+   | |  Brazil CP850               Brazil CP850 keymap                    | |
+   | |  Brazil ISO (accent)        Brazil ISO keymap (accent keys)        | |
+   | |  Brazil ISO                 Brazil ISO keymap                      | |
+   | |  Bulgarian BDS              Bulgarian BDS keymap                   | |
+   | |  Bulgarian Phonetic         Bulgarian Phonetic keymap              | |
+   | |  Croatian ISO               Croatian ISO keymap                    | |
+   | |  Czech ISO (accent)         Czech ISO keymap (accent keys)         | |
+   | | Danish CP865                Danish Code Page 865 keymap            | |
+   | `-(+)---------------------------------------------------------------' |
+   +------------------------------------------------------------------------+
+   |                         [  OK  ]       Cancel                          |
+   `-----------------------[ Choose a keyboard map ]------------------------'
+
+

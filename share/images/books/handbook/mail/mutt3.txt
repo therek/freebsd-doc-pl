@@ -1,0 +1,25 @@
+y:Send  q:Abort  t:To  c:CC  s:Subj  a:Attach file  d:Descrip  ?:Help
+    From: Marc Silver <marcs@localhost>
+      To: Super-User <root@localhost>
+      Cc:
+     Bcc:
+ Subject: Re: test
+Reply-To:
+     Fcc:
+Security: Clear
+
+
+-- Attachments
+- I     1 /tmp/mutt-bsd-c0hobscQ             [text/plain, 7bit, us-ascii, 1.1K]
+
+
+
+
+
+
+
+
+
+
+-- Mutt: Compose  [Approx. msg size: 1.1K   Atts: 1]----------------------------
+

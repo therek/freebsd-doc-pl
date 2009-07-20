@@ -1,0 +1,1753 @@
+<!--
+     The FreeBSD Polish Documentation Project
+
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/multimedia/chapter.sgml,v 1.4 2007/06/20 18:54:15 therek Exp $
+     Original version: 1.126
+-->
+
+<chapter id="multimedia">
+ <chapterinfo>
+  <authorgroup>
+   <author>
+    <firstname>Ross</firstname>
+    <surname>Lippert</surname>
+    <contrib>Edytowa³ </contrib>
+   </author>
+  </authorgroup>
+  <authorgroup>
+    <author>
+      <firstname>Pawe³</firstname>
+      <surname>Sabat</surname>
+      <contrib>T³umaczy³ </contrib>
+    </author>
+  </authorgroup>
+ </chapterinfo>
+
+ <title>Multimedia</title>
+  <sect1 id="multimedia-synopsis">
+  <title>Streczenie</title>
+
+    <para>FreeBSD wspiera szerok± gamê kart muzycznych, pozwalaj±c nam
+      cieszyæ siê wysokiej jako¶ci d¼wiêkiem, w³±czaj±c w to zdolno¶æ
+      do nagrywania i odtwarzania
+      d¼wiêku w formacie MPEG Audio Layer 3 (MP3), WAV, Ogg Vorbis oraz wielu
+      innych. Kolekcja Portów FreeBSD zawiera aplikacje pozwalaj±ce nam
+      edytowaæ nagrany d¼wiêk, dodawaæ efekty i kontrolowaæ podpiête urz±dzenia
+      MIDI.</para>
+
+    <para>Z pewn± doz± chêci do eksperymentów, na FreeBSD mo¿liwe jest te¿
+      odtwarzanie filmów i p³yt DVD. Liczba aplikacji umo¿liwiaj±cych kodowanie,
+      konwersjê i odtwarzanie ró¿nych no¶ników wideo jest ograniczona
+      w porównianiu do aplikacji od d¼wiêku. Przyk³adowo podczas pisania
+      tego tekstu  nie ma dobrego programu w Kolekcji Portów FreeBSD,
+      który móg³by zostaæ u¿yty do konwersji pomiêdzy ró¿nymi formatami wideo,
+      takiego jak <filename role="package">audio/sox</filename> dla plików
+      d¼wiêkowych. Jednak¿e liczba programów w tym obszarze stale siê
+      zwiêksza.</para>
+
+    <para>Rozdzia³ ten opisuje niezbêdne kroki, potrzebne do skonfigurowania
+      karty muzycznej. Podczas instalacji i konfiguracji X11
+      (<xref linkend="x11">) zajêli¶my siê obs³ug± karty graficznej.
+      Mimo tego mo¿e zaj¶æ konieczno¶æ dokonania pewnych zmian,
+      aby uzyskaæ lepsz± jako¶æ odtwarzania.</para>
+
+    <para>Po przeczytaniu tego rozdzia³u bêdziemy wiedzieli/znali:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Jak skonfigurowaæ system,
+          aby nasza karta muzyczna zosta³a rozpoznana</para>
+      </listitem>
+
+      <listitem>
+        <para>Metody sprawdzenia, czy nasza karta muzyczna dzia³a, przy pomocy
+          przyk³adowych programów</para>
+      </listitem>
+
+      <listitem>
+        <para>Jak rozwi±zaæ problemy podczas konfiguracji
+          naszej karty muzycznej</para>
+      </listitem>
+
+      <listitem>
+        <para>Jak odtwarzaæ i tworzyæ pliki MP3 i inne</para>
+      </listitem>
+
+      <listitem>
+        <para>W jaki sposób wideo jest obs³ugiwane przez serwer X</para>
+      </listitem>
+
+      <listitem>
+        <para>Niektóre przeniesione odtwarzacze/kodery</para>
+      </listitem>
+
+      <listitem>
+        <para>Jak odtwarzaæ p³yty DVD, pliki <filename>.mpg</filename> i
+        <filename>.avi</filename></para>
+      </listitem>
+
+      <listitem>
+        <para>Jak zgraæ p³yty CD i DVD</para>
+      </listitem>
+
+      <listitem>
+    <para>Jak skonfigurowaæ kartê telewizyjn±</para>
+      </listitem>
+
+      <listitem>
+    <para>Jak skonfigurowaæ skaner</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Je¶li chcemy wkompilowaæ obs³ugê którego¶ urz±dzenia w j±dro,
+      powinni¶my wiedzieæ jak skonfigurowaæ i zainstalowaæ nowe j±dro.</para>
+
+
+
+    <warning>
+      <para>Próba zamontowania p³yt audio przy pomocy polecenia &man.mount.8;
+      bêdzie skutkowaæ komunikatem b³êdu lub, w najgorszym przypadku
+      <emphasis>panik± j±dra</emphasis>. Te no¶niki posiadaj± specjaln±
+      strukturê, która ró¿ni siê od zwyczajnego systemu plików ISO.</para>
+    </warning>
+
+  </sect1>
+
+  <sect1 id="sound-setup">
+    <sect1info>
+      <authorgroup>
+        <author>
+     <firstname>Moses</firstname>
+     <surname>Moore</surname>
+     <contrib>Napisa³ </contrib>
+     <!-- 20 November 2000 -->
+        </author>
+      </authorgroup>
+      <authorgroup>
+        <author>
+     <firstname>Marc</firstname>
+     <surname>Fonvieille</surname>
+     <contrib>Rozszerzenie dla &os;&nbsp;5.X </contrib>
+     <!-- 13 September 2004 -->
+        </author>
+      </authorgroup>
+    </sect1info>
+
+    <title>Ustawianie karty muzycznej</title>
+    
+  <sect2 id="sound-device">
+    <title>Konfigurowanie systemu</title>
+
+    <indexterm><primary>PCI</primary></indexterm>
+    <indexterm><primary>ISA</primary></indexterm>
+    <indexterm><primary>Karty muzyczne</primary></indexterm>
+    <para>Zanim zaczniemy cokolwiek robiæ, powinni¶my znaæ model karty muzycznej
+      któr± posiadamy, chip którego u¿ywa, oraz czy jest to karta PCI czy ISA.
+      FreeBSD wspiera szerok± paletê obu, zarówno PCI jak i ISA.
+      Sprawd¼my listê obs³ugiwanych urz±dzeñ audio w <ulink
+      url="&rel.current.hardware;">Hardware Notes</ulink>,
+      aby siê dowiedzieæ, czy nasza karta jest obs³ugiwana.
+      W tym dokumencie tak¿e bêdzie napisane, który sterownik odpowiada za jej
+      obs³ugê.</para>
+
+
+    <indexterm>
+      <primary>J±dra</primary>
+      <secondary>konfiguracja</secondary>
+    </indexterm>
+
+    <para>Aby móc u¿ywaæ naszej karty muzycznej, musimy za³adowaæ odpowiedni
+      sterownik. Mo¿emy to zrobiæ na jeden z dwóch sposobów. Najprostszy to
+      po prostu za³adowanie odpowiedniego modu³u j±dra dla naszej karty
+      muzycznej przy pomocy &man.kldload.8;. Mo¿e to byæ wykonane z linii
+      poleceñ:</para>
+
+    <screen>&prompt.root; <userinput>kldload snd_emu10k1</userinput></screen>
+
+    <para>albo przez dodanie odpowiedniej linii do pliku
+      <filename>/boot/loader.conf</filename> podobnej do tej:</para>
+
+    <programlisting>snd_emu10k1_load="YES"</programlisting>
+
+    <para>Te przyk³ady s± dla karty Creative &soundblaster; Live! Pozosta³e
+      dostêpne modu³y ³adowalne s± wypisane w
+      <filename>/boot/defaults/loader.conf</filename>. Je¶li nie jeste¶my pewni,
+      który nale¿y wybraæ, mo¿emy spróbowaæ za³adowaæ modu³
+      <filename>snd_driver</filename>:</para>
+
+    <screen>&prompt.root; <userinput>kldload snd_driver</userinput></screen>
+
+    <para>Jest to pseudosterownik ³aduj±cy wszystkie dostêpne sterowniki na raz.
+      Przy¶piesza to poszukiwania tego w³a¶ciwego. Jest te¿ mo¿liwe za³adowanie
+      wszystkich sterowników za pomoc± pliku
+      <filename>/boot/loader.conf</filename>.</para>
+
+    <para>Je¶li chcemy siê dowiedzieæ, który sterownik zosta³ wybrany do
+      obs³ugi naszej karty muzycznej po za³adowaniu pseudosterownika
+      <filename>snd_driver</filename>, mo¿emy sprawdziæ plik
+      <filename>/dev/sndstat</filename> przy u¿yciu komendy
+      <command>cat /dev/sndstat</command>:</para>
+
+    <para>Drugim sposobem jest statyczne wkompilowanie obs³ugi naszej
+      kary muzycznej w j±dro. Rozdzia³ poni¿ej dostarcza informacji jak dodaæ
+      obs³ugê naszego urz±dzenia w ten sposób. Po wiêcej informacji o
+      rekompilacji j±dra zobaczmy <xref linkend="kernelconfig">.</para>
+
+    <sect3>
+      <title>Konfigurowanie j±dra z obs³ug± d¼wiêku</title>
+
+      <para>Pierwsz± rzecz±, któr± musimy wykonaæ jest dodanie podstawowego
+        sterownika audio &man.sound.4; do j±dra. Aby to zrobiæ, musimy dodaæ
+        nastêpuj±c± liniê do pliku konfiguracyjnego j±dra:</para>
+
+      <programlisting>device sound</programlisting>
+
+      <para>Nastêpnie nale¿y dodaæ obs³ugê naszej karty. Oczywi¶cie musimy
+        wiedzieæ, który sterownik odpowiada za jej obs³ugê. Aby siê tego
+        dowiedzieæ, sprawd¼my listê obs³ugiwanych urz±dzeñ audio w
+        <ulink url="&rel.current.hardware;">Hardware Notes</ulink>.
+        Na przyk³ad dla karty Creative &soundblaster; Live! jest to
+        &man.snd.emu10k1.4;. ¯eby dodaæ obs³ugê tej karty wstawmy nastêpuj±cy
+        wpis:</para>
+
+      <programlisting>device snd_emu10k1</programlisting>
+
+      <para>Omówienie sk³adni dla sterownika jest w jego podrêczniku (man).
+        Informacje przybli¿aj±ce sk³adniê sterowników muzycznych w pliku
+        konfiguracyjnym j±dra znajduj± siê tak¿e w pliku
+        <filename>/usr/src/sys/conf/NOTES</filename></para>
+
+      <para>Karty ISA nie obs³uguj±ce PnP mog± wymagaæ dodatkowych informacji
+        przekazanych j±dru (IRQ, port we/wy, itp.). Jest to robione poprzez plik
+        <filename>/boot/device.hints</filename>. W czasie startu systemu
+        &man.loader.8; przeczyta ten plik i przeka¿e ustawienia do j±dra.
+        Na przyk³ad stara karta muzyczna Creative &soundblaster; 16 ISA non-PnP
+        bêdzie u¿ywa³a sterownika &man.snd.sbc.4; w po³±czeniu z snd_sb16(4).
+        Dla tej karty nastêpuj±ce linie musz± byæ dodane do pliku
+        konfiguracyjnego j±dra:</para>
+
+      <programlisting>device snd_sbc
+device snd_sb16</programlisting>
+
+      <para>oraz te do <filename>/boot/device.hints</filename>:</para>
+
+      <programlisting>hint.sbc.0.at="isa"
+hint.sbc.0.port="0x220"
+hint.sbc.0.irq="5"
+hint.sbc.0.drq="1"
+hint.sbc.0.flags="0x15"</programlisting>
+
+      <para>W tym przypadku karta u¿ywa <literal>0x220</literal> portu we/wy
+        i IRQ <literal>5</literal>.</para>
+
+      <para>Sk³adnia u¿yta w pliku <filename>/boot/device.hints</filename>
+        jest omówiona w podrêczniku sterownika muzycznego.</para>
+
+      <para>Ustawienia pokazane wy¿ej s± domy¶lnymi. W niektórych przypadkach
+        bêdzie wymagana zmiana IRQ lub pozosta³ych ustawieñ, aby siê zgadza³y
+        z nasz± kart±. Zobaczmy stronê podrêcznika o &man.snd.sbc.4; aby uzyskaæ
+        wiêcej informacji.</para>
+    </sect3>
+  </sect2>
+
+  <sect2 id="sound-testing">
+    <title>Testowanie karty muzycznej</title>
+
+    <para>Po ponownym uruchomieniu komputera ze zmodyfikowanym j±drem,
+      lub po za³adowaniu wymaganego modu³u, wiadomo¶æ o naszej karcie muzycznej
+      powinna pojawiæ siê w buforze wiadomo¶ci systemowych (&man.dmesg.8;)
+      jako co¶ w stylu:</para>
+
+    <screen>pcm0: &lt;Intel ICH3 (82801CA)&gt; port 0xdc80-0xdcbf,0xd800-0xd8ff irq 5 at device 31.5 on pci0
+pcm0: [GIANT-LOCKED]
+pcm0: &lt;Cirrus Logic CS4205 AC97 Codec&gt;</screen>
+
+    <para>Status karty mo¿e byæ sprawdzony poprzez plik
+      <filename>/dev/sndstat</filename>:</para>
+
+    <screen>&prompt.root; <userinput>cat /dev/sndstat</userinput>
+FreeBSD Audio Driver (newpcm)
+Installed devices:
+pcm0: &lt;Intel ICH3 (82801CA)&gt; at io 0xd800, 0xdc80 irq 5 bufsz 16384
+kld snd_ich (1p/2r/0v channels duplex default)</screen>
+
+    <para>Wiadomo¶æ z naszego systemu mo¿e siê ró¿niæ. Je¶li nie zosta³y
+      wy¶wietlone ¿adne urz±dzenia <devicename>pcm</devicename>, wróæmy i
+      przeczytajmy co zrobili¶my wcze¶niej. Je¶li wkompilowalismy sterowniki
+      w j±dro, przeczytajmy jego plik konfiguracyjny i upewnijmy siê,
+      ¿e odpowiednie urz±dzenie zosta³o wybrane. Czêste problemy s± wymienione
+      w <xref linkend="troubleshooting"></para>
+
+    <para>Je¶li wszystko posz³o pomy¶lnie mamy dzia³aj±c± kartê muzyczn±.
+      Je¶li nasz CD-ROM albo DVD-ROM jest poprawnie po³±czony z nasz±
+      kart± muzyczn±, mo¿emy w³o¿yæ p³ytê CD do napêdu i odtwarzaæ j±
+      za pomoc± &man.cdcontrol.1;:</para>
+
+      <screen>&prompt.user; <userinput>cdcontrol -f /dev/acd0 play 1</userinput></screen>
+
+    <para>Ró¿ne aplikacje, takie jak
+      <filename role="package">audio/workman</filename>
+      oferuja wygodniejszy interfejs. Mo¿emy równie¿ zainstalowaæ tak±
+      aplikacjê jak <filename role="package">audio/mpg123</filename>,
+      aby móc s³uchaæ plików MP3. Szybkim sposobem na przetestowanie karty
+      jest wys³anie danych do <filename>/dev/dsp</filename>, jak tutaj:</para>
+
+    <screen>&prompt.user; <userinput>cat <replaceable>filename</replaceable> &gt; /dev/dsp</userinput></screen>
+
+    <para>gdzie <replaceable>filename</replaceable> to dowolny plik
+      (byle nie za krótki). Komenda ta powinna spowodowaæ odtworzenie jakiego¶
+      d¼wiêku, potwierdzaj±c, ¿e karta dzia³a.</para>
+
+    <para>Poziomy miksera (czyli g³o¶no¶æ) karty muzycznej mog± byæ zmienione
+      za pomoc± komendy mixer(8). Wiêcej szczegó³ów mo¿emy znale¼æ w
+      podrêczniku na stronie mixer(8).</para>
+
+    <sect3 id="troubleshooting">
+      <title>Czêste problemy</title>
+
+      <indexterm><primary>device nodes</primary></indexterm>
+      <indexterm><primary>I/O port</primary></indexterm>
+      <indexterm><primary>IRQ</primary></indexterm>
+      <indexterm><primary>DSP</primary></indexterm>
+
+      <informaltable frame="none" pgwide="1">
+         <tgroup cols="2">
+        <thead>
+        <row>
+         <entry>B³±d</entry>
+          <entry>Rozwi±zanie</entry>
+        </row>
+          </thead>
+
+      <tbody>
+        <row>
+          <entry><errorname>unsupported subdevice XX</errorname></entry>
+          <entry><para>Jeden lub wiêcej plików/wêz³ów urz±dzeñ nie zosta³o
+              poprawnie utworzonych. Powtórzmy kroki wymienione powy¿ej.</para></entry>
+            </row>
+
+            <row>
+              <entry><errorname>sb_dspwr(XX) timed out</errorname></entry>
+              <entry><para>Port we/wy nie jest ustawiony poprawnie.</para></entry>
+            </row>
+
+            <row>
+              <entry><errorname>bad irq XX</errorname></entry>
+          <entry><para>IRQ nie jest ustawione poprawnie. Upewnijmy siê,
+              ¿e ustawione IRQ i IRQ karty jest takie samo.</para></entry>
+            </row>
+
+            <row>
+              <entry><errorname>xxx: gus pcm not attached, out of memory</errorname></entry>
+              <entry><para>Nie ma wystarczaj±co du¿o pamiêci, aby u¿ywaæ urz±dzenia.</para></entry>
+            </row>
+
+            <row>
+              <entry><errorname>xxx: can't open /dev/dsp!</errorname></entry>
+              <entry><para>Sprawd¼my <command>fstat | grep dsp</command>
+                czy inna aplikacja nie u¿ywa urz±dzenia. Wartymi wspomnienia s±
+                <application>esound</application> i system d¼wiêku <application>KDE</application>,
+                które mog± powodowaæ tego typu b³±d.</para></entry>
+
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect3>
+  </sect2>
+
+  <sect2 id="sound-multiple-sources">
+    <sect2info>
+     <authorgroup>
+      <author>
+       <firstname>Munish</firstname>
+       <surname>Chopra</surname>
+       <contrib>Napisa³ </contrib>
+      </author>
+     </authorgroup>
+    </sect2info>
+    <title>Wykorzystanie wielu ¼róde³ d¼wiêku</title>
+
+    <para>Potrzebujemy czasem, aby mo¿liwe by³o odtwarzanie z kilka ¼róde³
+      d¼wiêku jednocze¶nie, jednak nasze programy nam na to nie pozwalaj±.
+      Przyk³adem mog± byæ <application>esound</application> i
+      <application>artsd</application>, które nie wspieraj± wspó³dzielenia
+      urz±dzenia muzycznego.</para>
+
+    <para>FreeBSD pozwala nam na zrobienie tego poprzez
+      <emphasis>Wirtualne Kana³y D¼wiêku</emphasis>, które s± ustawiane przez
+      &man.sysctl.8;. Wirtualne kana³y pozwalaj± przeprowadziæ multipleksacjê
+      kana³ów naszej karty muzycznej, miksuj±c je bezpo¶rednio w j±drze.</para>
+
+    <para>Istniej± dwa parametry sysctl'a, pozwalaj±ce ustawiæ liczê
+      wirtualnych kana³ów które, je¶li jeste¶my <username>root</username>em,
+      mo¿emy ustawiæ:</para>
+
+    <screen>&prompt.root; <userinput>sysctl hw.snd.pcm0.vchans=4</userinput>
+&prompt.root; <userinput>sysctl hw.snd.maxautovchans=4</userinput></screen>
+
+    <para>Powy¿szy przyk³ad rezerwuje cztery wirtualne kana³y, które w
+      codziennym u¿ytku siê przydaj±.
+      <varname>hw.snd.pcm0.vchans</varname> jest liczb± wirtualnych kana³ów,
+      które posiada <devicename>pcm0</devicename>, które mo¿na ustawiæ
+      od chwili pod³±czenia (w systemie) urz±dzenia.
+      <literal>hw.snd.maxautovchans</literal> jest liczb± wirtualnych kana³ów
+      przypisanych urz±dzeniu, gdy jest ono pod³±czanie przez u¿ycie
+      &man.kldload.8;. Poniewa¿ modu³ <devicename>pcm</devicename> mo¿e byæ
+      ³adowany niezale¿nie od sterowników urz±dzeñ,
+      <varname>hw.snd.maxautovchans</varname> mo¿e przechowywaæ liczbê
+      wirtualnych kana³ów, która bêdzie automatycznie przypisana nowo
+      pod³±czonym urz±dzeniom.</para>
+
+    <note>
+      <para>Notatka: Nie mo¿na zmieniæ liczby wirtualnych kana³ów,
+        podczas gdy urz±dzenie jest w u¿yciu. Najpierw nale¿y zamkn±æ wszelkie
+        programy u¿ywaj±ce urz±dzenia, takie jak odtwarzacze muzyki czy
+        demony g³osu.</para>
+    </note>
+
+    <para>Je¶li nie u¿ywamy &man.devfs.5;, bêdziemy musieli sami wskazaæ naszym
+      aplikacjom na
+      <filename>/dev/dsp0</filename>.<replaceable>x</replaceable>,
+      gdzie <replaceable>x</replaceable> to 0 do 3,
+      je¶li <varname>hw.snd.pcm.0.vchans</varname> jest ustawione na 4,
+      jak w powy¿szym przyk³adzie. W systemie u¿ywaj±cym &man.devfs.5;,
+      powy¿sze bêdzie automatycznie przydzielone bez wiedzy u¿ytkownika.</para>
+   </sect2>
+
+  <sect2>
+    <sect2info>
+      <authorgroup>
+    <author>
+      <firstname>Josef</firstname>
+      <surname>El-Rayes</surname>
+      <contrib>Napisa³ </contrib>
+    </author>
+      </authorgroup>
+    </sect2info>
+
+    <title>Ustawianie domy¶lnych warto¶ci kana³ów miksera</title>
+
+    <note>
+      <para>To jest wspierane tylko w &os; 5.3-RELEASE i pó¼niejszych.</para>
+    </note>
+
+    <para>Domy¶lne warto¶ci dla ró¿nych kana³ów miksera s± wpisane w ¼ród³o
+      sterownika  &man.pcm.4;. Istnieje wiele ró¿nych aplikacji i demonów,
+      które umo¿liwiaj± nam ustawienie warto¶ci dla miksera i ich zapamiêtanie.
+      Nastêpnie przy ka¿dym uruchomieniu bêd± one ponownie ustawiane,
+      jednak nie jest to czyste rozwi±zanie. My chcemy mieæ domy¶lne warto¶ci
+      na poziomie sterownika. Jest to osi±gane przez zdefiniowane odpowiednich
+      warto¶ci w pliku <filename>/boot/device.hints</filename>, np.:</para>
+
+<programlisting>hint.pcm.0.vol="100"</programlisting>
+
+    <para>Ustawi to kana³ g³o¶no¶ci na domy¶ln± warto¶æ 100,
+      gdy modu³ &man.pcm.4; jest ³adowany.</para>
+  </sect2>
+</sect1>
+
+  <sect1 id="sound-mp3">
+    <sect1info>
+      <authorgroup>
+    <author>
+      <firstname>Chern</firstname>
+      <surname>Lee</surname>
+      <contrib>Napisa³ by </contrib>
+    </author>
+      </authorgroup>
+      <!-- 11 Sept 2001 -->
+    </sect1info>
+
+    <title>Dzwiêk MP3</title>
+
+    <para>MP3 (MPEG Layer 3 Audio) osi±ga jako¶æ d¼wiêku zbli¿on± do p³yty CD.
+      Nie pozostawia to powodu, dlaczego nasz komputer z FreeBSD mia³by go
+      nie obs³ugiwaæ.</para>
+
+    <sect2 id="mp3-players">
+      <title>Odtwarzacze MP3</title>
+
+      <para>Jak na razie, najpopularniejszym odtwarzaczem MP3 dla X11 jest
+        <application>XMMS</application> (X Multimedia System).
+        Skórki <application>Winamp</application>a mog± byæ u¿yte z
+        <application>XMMS</application>em, poniewa¿ jego GUI jest niemal
+        identyczne z <application>Winamp</application>em Nullsoftu.
+        <application>XMMS</application> posiada tak¿e w³asny system modu³ów
+        rozszerzaj±cych (plug-in).</para>
+
+      <para><application>XMMS</application> mo¿e byæ zainstalowany z portu
+        <filename role="package">multimedia/xmms</filename> lub z paczki.</para>
+
+      <para>Interfejs <application>XMMS</application>a jest intuicyjny,
+        posiada listê odtwarzania, graficzny korektor (equalizer) i inne.
+        Zaznajomieni z <application>Winamp</application>em nie bêd± mieli
+        problemów z <application>XMMS</application>em.</para>
+
+      <para>Port <filename role="package">audio/mpg123</filename>jest
+        alternatywnym, obs³ugiwanym z linii poleceñ odtwarzaczem MP3.</para>
+
+      <para><application>mpg123</application>  mo¿e byæ uruchomiony przez
+        okre¶lenie urz±dzenia audio i pliku MP3 w linii poleceñ,
+        jak pokazano poni¿ej:</para>
+
+      <screen>&prompt.root; <userinput>mpg123 -a <replaceable>/dev/dsp1.0</replaceable> Foobar-GreatestHits.mp3</userinput>
+High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3.
+Version 0.59r (1999/Jun/15). Written and copyrights by Michael Hipp.
+Uses code from various people. See 'README' for more!
+THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN RISK!
+
+
+
+
+
+Playing MPEG stream from Foobar-GreatestHits.mp3 ...
+MPEG 1.0 layer III, 128 kbit/s, 44100 Hz joint-stereo
+</screen>
+
+      <para><literal>/dev/dsp1.0</literal> powinni¶my zast±piæ wpisem
+        urz±dzenia <devicename>dsp</devicename> w naszym systemie.</para>
+
+    </sect2>
+
+    <sect2 id="rip-cd">
+      <title>Zgrywanie ¶cie¿ek Audio CD</title>
+
+      <para>Zanim zakodujemy p³ytê lub ¶cie¿kê do formatu MP3,
+        dane muzyczne na p³ycie musz± zostaæ zgrane na dysk twardy.
+        Robi siê to przez skopiowanie pierwotnych danych CDDA
+        (CD Digital Audio) do plików WAV.</para>
+
+      <para>Narzêdzie <command>cdda2wav</command>, które jest czê¶ci± zestawu
+        <filename role="package">sysutils/cdrtools</filename>,
+        jest u¿ywane do zgrywania danych audio z p³yt, oraz informacji
+        skojarzonej z nimi.</para>
+
+      <para>Z p³yt± CD w napêdzie, nastêpuj±ca komenda mo¿e byæ wywo³ana
+        (jako <username>root</username>), ¿eby zgraæ ca³± p³ytê CD do osobnych
+        (dla ka¿dego utworu) plików WAV:</para>
+
+      <screen>&prompt.root; <userinput>cdda2wav -D <replaceable>0,1,0</replaceable> -B</userinput></screen>
+
+      <para><application>cdda2wav</application> obs³uguje napêdy
+        ATAPI (IDE) CDROM. ¯eby zgraæ z napêdu IDE, podajmy nazwê urz±dzenia
+        w miejsce liczb jednostek SCSI. Dla przyk³adu, ¿eby zgraæ ¶cie¿kê 7
+        z napêdu IDE:</para>
+
+      <screen>&prompt.root; <userinput>cdda2wav -D <replaceable>/dev/acd0a</replaceable> -t 7</userinput></screen>
+
+      <para>Opcja <option>-D <replaceable>0,1,0</replaceable></option>
+        wskazuje urz±dzenie SCSI <devicename>0,1,0</devicename>,
+        które odpowiada wypisanemu przez
+        <command>cdrecord -scanbus</command>.</para>
+
+      <para>¯eby zgraæ pojedyncze ¶cie¿ki, u¿yjmy opcji <option>-t</option>
+        jak pokazano poni¿ej:</para>
+
+      <screen>&prompt.root; <userinput>cdda2wav -D <replaceable>0,1,0</replaceable> -t 7</userinput></screen>
+
+      <para>Ten przyk³ad zgrywa ¶cie¿kê siódm± z p³yty audio.
+        ¯eby zgraæ przedzia³ ¶cie¿ek, np. jeden do siedem,
+        okre¶lmy przedzia³:</para>
+
+      <screen>&prompt.root; <userinput>cdda2wav -D <replaceable>0,1,0</replaceable> -t 1+7</userinput></screen>
+
+      <para>Narzêdzie &man.dd.1; tak¿e mo¿e byæ u¿yte aby zgraæ ¶cie¿ki audio
+        w napêdach ATAPI. Przeczytajmy <xref linkend="duplicating-audiocds">,
+        ¿eby dowiedzieæ siê wiêcej.</para>
+
+    </sect2>
+
+    <sect2 id="mp3-encoding">
+      <title>Kodowanie MP3ójek</title>
+
+      <para>Obecnie najczê¶ciej wybieranym koderem mp3 jest
+        <application>lame</application>.
+        <application>Lame</application> mo¿na znale¼æ w
+        <filename role="package">audio/lame</filename> w drzewie portów.</para>
+
+      <para>U¿ywaj±c zgranych plików WAV, nastêpuj±ce polecenie skonwertuje
+        <filename>audio01.wav</filename> na
+        <filename>audio01.mp3</filename>:</para>
+
+      <screen>&prompt.root; <userinput>lame -h -b <replaceable>128</replaceable> \
+--tt "<replaceable>Foo Tytu³Piosenki</replaceable>" \
+--ta "<replaceable>FooBar Artysta</replaceable>" \
+--tl "<replaceable>FooBar Album</replaceable>" \
+--ty "<replaceable>2001</replaceable>" \
+--tc "<replaceable>Ripped and encoded by Foo</replaceable>" \
+--tg "<replaceable>Rodzaj</replaceable>" \
+<replaceable>audio01.wav audio01.mp3</replaceable></userinput></screen>
+
+      <para>128 kbitów zdaje siê byæ standardowym bitrate MP3 w u¿yciu.
+        Wielu jednak woli wy¿sze warto¶ci 160, lub 192. Im wy¿sze bitrate
+        tym wiêcej miejsca zajmuje MP3, jednak jako¶æ tak¿e bêdzie lepsza.
+        Opcja <option>-h</option> w³±cza tryb <quote>wy¿sza jako¶æ,
+        ale wolniejsze kodowanie</quote>. Opcje zaczynaj±ce siê od
+        <option>--t</option> oznaczaj± tagi ID3, które przewa¿nie zawieraj±
+        informacje o piosence. S± one zawarte bezpo¶rednio w pliku MP3.
+        Dodatkowe opcje kodowania mo¿na znale¼æ na stronie podrêcznika do
+        lame.</para>
+    </sect2>
+
+    <sect2 id="mp3-decoding">
+      <title>Dekodowania MP3ójek</title>
+
+      <para>W celu nagrania p³yty audio CD z plików MP3, musz± one zostaæ
+        skonwertowane do nieskompresowanego formatu. Zarówno
+        <application>XMMS</application> i <application>mpg123</application>
+        obs³uguj± wyj¶cie MP3 do nieskompresowanego formatu pliku.</para>
+
+      <para>Zapiswanie na dysk w <application>XMMS</application>ie:</para>
+
+      <procedure>
+    <step>
+      <para>W³±czmy <application>XMMS</application>.</para>
+    </step>
+
+    <step>
+      <para>Kliknijmy prawym przyciskiem na okno,
+          ¿eby pokazaæ menu <application>XMMS</application>a.</para>
+    </step>
+
+    <step>
+      <para>Wybierzmy <literal>Opcje</literal>
+          i nastêpnie <literal>Ustawienia</literal>.</para>
+    </step>
+
+    <step>
+      <para>Zmieñmy wtyczkê wyj¶cia na
+          <quote>Wtyczka zapisu na dysk</quote>.</para>
+    </step>
+
+    <step>
+      <para>Przyci¶nijmy <literal>Konfiguruj</literal>.</para>
+    </step>
+
+    <step>
+      <para>Wpiszmy (lub wybierzmy Przegl±daj) katalog do którego
+          maj± byæ zapisane nieskompresowane pliki.</para>
+    </step>
+
+    <step>
+      <para>Za³adujmy plik MP3 do <application>XMMS</application>a
+          jak zwykle, z g³o¶no¶ci± ustawion± na 100% i wy³±czonymi ustawieniami
+          korektora.</para>
+    </step>
+
+    <step>
+      <para>Naci¶nijmy Graj (<literal>Play</literal>) &mdash; XMMS bêdzie
+          wygl±da³ jakby odtwarza³ MP3ójkê, ale nie bêdzie s³ychaæ muzyki.
+          Plik MP3 jest grany do pliku WAV.</para>
+    </step>
+
+    <step>
+      <para>Po wszystkim pamiêtajmy, aby z powrotem ustawiæ domy¶ln±
+          wtyczkê wyj¶ciow±, aby móc ponownie s³ychaæ plików MP3.</para>
+    </step>
+      </procedure>
+
+      <para>Zapisywanie do standardowego wyj¶cia w
+        <application>mpg123</application>:</para>
+
+      <procedure>
+    <step>
+      <para>Uruchommy <command>mpg123 -s
+        <replaceable>audio01.mp3</replaceable> &gt; audio01.pcm</command></para>
+    </step>
+      </procedure>
+
+      <para><application>XMMS</application> zapisuje plik do formatu WAV,
+        podczas gdy <application>mpg123</application> konwertuje plik MP3
+        w surowe dane PCM audio. Oba te formaty mog± zostaæ u¿yte z
+        <application>cdrecord</application>, aby nagraæ p³yty audio CD.
+        &man.burncd.8; obs³uguje tylko surowy PCM. Je¶li u¿ywamy plików WAV,
+        zauwa¿ymy ma³y trzask na pocz±tku ka¿dego utworu. Jest to nag³ówek
+        pliku WAV. Mo¿emy w ³atwy sposób go usun±æ u¿ywaj±c
+        <application>SoX</application> (instalowany z portu
+        <filename role="package">audio/sox</filename> lub paczki):</para>
+
+      <screen>&prompt.user; <userinput>sox -t wav -r 44100 -s -w -c 2 <replaceable>track.wav track.raw</replaceable></userinput></screen>
+
+      <para>Przeczytajmy <xref linkend="creating-cds"> aby sie dowiedzieæ
+        wiêcej o u¿ywaniu nagrywarki CD we FreeBSD.</para>
+    </sect2>
+ </sect1>
+
+ <sect1 id="video-playback">
+  <sect1info>
+    <authorgroup>
+      <author>
+        <firstname>Ross</firstname>
+    <surname>Lippert</surname>
+    <contrib>Napisa³ </contrib>
+      </author>
+    </authorgroup>
+    <!-- 5 June 2002 -->
+  </sect1info>
+
+  <title>Odtwarzanie wideo</title>
+
+    <para>Odtwarzanie wideo to ca³kiem nowa i gwa³townie
+      rozwijaj±ca siê dziedzina. B±d¼my wiêc cierpliwi, poniewa¿ nie wszystko
+      pójdzie tak g³adko, jak z d¼wiêkiem.</para>
+
+    <para>Zanim zaczniemy, powinnismy znaæ model karty graficznej i chip,
+      którego u¿ywa. Mimo ¿e <application>&xorg;</application> i
+      <application>&xfree86;</application> obs³uguj± wiele kart graficznych,
+      tylko niektóre sprawdz± siê przy odtwarzaniu. ¯eby uzyskaæ listê
+      obs³ugiwanych rozszerzeñ przez serwer X u¿ywaj±cy naszej karty graficznej
+      u¿yjmy polecenia &man.xdpyinfo.1;, gdy X11 jest uruchomiony.</para>
+
+    <para>Dobrym pomys³em jest zaopatrzenie siê w krótki filmik MPEG,
+      który mo¿e byæ traktowany jako testowy i pos³u¿yæ do oceny ró¿nych
+      odtwarzaczy i opcji. Niektóre z odtwarzaczy DVD bêd± szuka³y no¶nika
+      DVD domy¶lnie w <filename>/dev/dvd</filename>, lub nawet bêd± mia³y
+      tê lokalizacjê na sta³e zapisan±. Z tego powodu mo¿e byæ konieczne
+      utworzenie symbolicznego dowi±zania do odpowiednich urz±dzeñ:</para>
+
+      <screen>&prompt.root; <userinput>ln -sf /dev/acd0c /dev/dvd</userinput>
+&prompt.root; <userinput>ln -sf /dev/racd0c /dev/rdvd</userinput></screen>
+
+    <para>We FreeBSD 5.X, który u¿ywa &man.devfs.5;
+      wygl±da to trochê inaczej:</para>
+
+      <screen>&prompt.root; <userinput>ln -sf /dev/acd0 /dev/dvd</userinput>
+&prompt.root; <userinput>ln -sf /dev/acd0 /dev/rdvd</userinput></screen>
+
+    <para>Pamiêtajmy, ¿e z powodu natury &man.devfs.5;,
+      rêcznie stworzone dowi±zania, takie jak te, nie pozostan± po ponownym
+      uruchomieniu systemu. W celu stworzenia symbolicznych dowi±zaæ,
+      za ka¿dym razem gdy bootujemy system, nale¿y dodaæ te linie do
+      <filename>/etc/devfs.conf</filename>:</para>
+
+    <programlisting>link acd0 dvd
+link acd0 rdvd</programlisting>
+
+    <para>Dodatkowo przy odtwarzaniu p³yt DVD wymagane s± uprawnienia do
+      zapisu do urz±dzenia, z powodu specjalnych dzia³añ podczas dekodowania
+      tego formatu.</para>
+
+    <indexterm>
+      <primary>kernel options</primary>
+      <secondary>CPU_ENABLE_SSE</secondary>
+    </indexterm>
+
+    <para>Niektóre z omówionych portów polegaj± na poni¿szych opcjach j±dra,
+      aby siê poprawnie zbudowaæ. Przed prób± budowania tych aplikacji,
+      dodajmy te opcje do pliku konfiguracyjnego j±dra, zbudujmy je na nowo
+      i uruchommy ponownie komputer:/para>
+
+      <programlisting>options CPU_ENABLE_SSE</programlisting>
+
+    <para>Aby polepszyæ interfejs dzielonej pamiêci X11, zalecane jest
+      zwiêkszenie warto¶ci niektórych zmiennych &man.sysctl.8;:</para>
+
+      <programlisting>kern.ipc.shmmax=67108864
+kern.ipc.shmall=32768</programlisting>
+
+  <sect2 id="video-interface">
+    <title>Ustalanie mo¿liwo¶ci wideo</title>
+
+    <indexterm><primary>XVideo</primary></indexterm>
+    <indexterm><primary>SDL</primary></indexterm>
+    <indexterm><primary>DGA</primary></indexterm>
+
+    <para>Jest kilka sposobów aby wy¶wietlaæ wideo w X11. Co naprawdê bêdzie
+      dzia³a³o jest w g³ównej mierze uzale¿nione od sprzêtu. Ka¿da opisana
+      tu metoda bêdzie mia³a ró¿ne efekty na ró¿nym sprzêcie. Po drugie,
+      odtwarzanie wideo na X11 jest tematem, któremu ostatnio po¶wiêca siê
+      du¿o uwagi i z ka¿d± wersj± <application>&xorg;</application>'a czy
+      <application>&xfree86;</application> mog± byæ wprowadzone znaczne
+      usprawnienia w tej kwestii.</para>
+
+    <para>Lista powszechnych interfejsów wideo:</para>
+
+    <orderedlist>
+    <listitem>
+      <para>X11: zwyczajne wyj¶cie X11, u¿ywaj±ce wspó³dzielonej pamiêci</para>
+    </listitem>
+    <listitem>
+      <para>XVideo: rozszerzenie do interfejsu X11</para>
+    </listitem>
+    <listitem>
+      <para>SDL: Simple Directmedia Layer</para>
+    </listitem>
+    <listitem>
+      <para>DGA: Direct Graphics Access</para>
+    </listitem>
+    <listitem>
+      <para>SVGAlib: niskiego poziomu warstwa graficzna konsoli</para>
+    </listitem>
+    </orderedlist>
+
+    <sect3 id="video-interface-xvideo">
+    <title>XVideo</title>
+
+      <para><application>&xorg;</application> i
+        <application>&xfree86; 4.X</application> posiadaj± rozszerzenie zwane
+        <emphasis>XVideo</emphasis> (aka Xvideo, Xv, lub xv), które pozwala
+        wy¶wietlaæ wideo w rysowalnych obiektach przez specjaln± akceleracjê.
+        Rozszerzenie to udostêpnia bardzo dobr± jako¶æ odtwarzania nawet na
+        s³abych maszynach.</para>
+
+      <para>Aby sprawdziæ, czy rozszerzenie dzia³a,
+        u¿yjmy <command>xvinfo</command>:</para>
+
+        <screen>&prompt.user; <userinput>xvinfo</userinput></screen>
+
+      <para>XVideo jest wspierane przez nasz± kartê, je¶li wynik wygl±da jak:</para>
+<screen>X-Video Extension version 2.2
+screen #0
+  Adaptor #0: "Savage Streams Engine"
+    number of ports: 1
+    port base: 43
+    operations supported: PutImage 
+    supported visuals:
+      depth 16, visualID 0x22
+      depth 16, visualID 0x23
+    number of attributes: 5
+      "XV_COLORKEY" (range 0 to 16777215)
+              client settable attribute
+              client gettable attribute (current value is 2110)
+      "XV_BRIGHTNESS" (range -128 to 127)
+              client settable attribute
+              client gettable attribute (current value is 0)
+      "XV_CONTRAST" (range 0 to 255)
+              client settable attribute
+              client gettable attribute (current value is 128)
+      "XV_SATURATION" (range 0 to 255)
+              client settable attribute
+              client gettable attribute (current value is 128)
+      "XV_HUE" (range -180 to 180)
+              client settable attribute
+              client gettable attribute (current value is 0)
+    maximum XvImage size: 1024 x 1024
+    Number of image formats: 7
+      id: 0x32595559 (YUY2)
+        guid: 59555932-0000-0010-8000-00aa00389b71
+        bits per pixel: 16
+        number of planes: 1
+        type: YUV (packed)
+      id: 0x32315659 (YV12)
+        guid: 59563132-0000-0010-8000-00aa00389b71
+        bits per pixel: 12
+        number of planes: 3
+        type: YUV (planar)
+      id: 0x30323449 (I420)
+        guid: 49343230-0000-0010-8000-00aa00389b71
+        bits per pixel: 12
+        number of planes: 3
+        type: YUV (planar)
+      id: 0x36315652 (RV16)
+        guid: 52563135-0000-0000-0000-000000000000
+        bits per pixel: 16
+        number of planes: 1
+        type: RGB (packed)
+        depth: 0
+        red, green, blue masks: 0x1f, 0x3e0, 0x7c00
+      id: 0x35315652 (RV15)
+        guid: 52563136-0000-0000-0000-000000000000
+        bits per pixel: 16
+        number of planes: 1
+        type: RGB (packed)
+        depth: 0
+        red, green, blue masks: 0x1f, 0x7e0, 0xf800
+      id: 0x31313259 (Y211)
+        guid: 59323131-0000-0010-8000-00aa00389b71
+        bits per pixel: 6
+        number of planes: 3
+        type: YUV (packed)
+      id: 0x0
+        guid: 00000000-0000-0000-0000-000000000000
+        bits per pixel: 0
+        number of planes: 0
+        type: RGB (packed)
+        depth: 1
+        red, green, blue masks: 0x0, 0x0, 0x0</screen>
+
+    <para>Zwróæmy uwagê, ¿e wypisane formaty (YUV2, YUV12, itp.)
+      nie s± obecne z ka¿d± implementacj± XVideo,
+      a ich brak mo¿e przeszkadzaæ niektórym odtwarzaczom.</para>
+
+    <para>Je¶li wynik wygl±da jak:</para>
+<screen>X-Video Extension version 2.2
+screen #0
+no adaptors present</screen>
+
+    <para>wtedy prawdopodobnie XVideo nie jest obs³ugiwane
+      dla naszej karty.</para>
+
+    <para>Je¶li XVideo nie jest obs³ugiwane dla naszej karty, nie przekre¶la to
+      szans na odtwarzanie wideo. Zale¿nie od karty graficznej i procesora,
+      nadal mo¿emy odtwarzaæ wideo, jednak wymagania co do sprzêtu rosn±.
+      W obu przypadkach powinni¶my te¿ przeczytaæ o sposobach podwy¿szania
+      wydajno¶ci w <xref linkend="video-further-reading">.</para>
+
+    </sect3>
+
+    <sect3 id="video-interface-SDL">
+    <title>Simple Directmedia Layer</title>
+
+    <para>Simple Directmedia Layer, SDL, by³a zaplanowana jako
+      przeno¶na warstwa pomiêdzy &microsoft.windows;, BeOS i &unix;em,
+      pozwalaj±ca tworzyæ wieloplatformowe aplikacje, efektywnie wykorzystuj±ce
+      g³os i grafikê. SDL jest niskopoziomow± warstw± abstrakcji do sprzêtu,
+      która czasem mo¿e siê okazaæ bardziej wydajna, ni¿ interfejs X11.</para>
+
+    <para>SDL mo¿na znale¼æ w
+      <filename role="package">devel/sdl12</filename>.</para>
+
+    </sect3>
+
+    <sect3 id="video-interface-DGA">
+    <title>Direct Graphics Access</title>
+
+    <para>Direct Graphics Access jest rozszerzeniem X11, które pozwala
+      programowi pomin±æ serwer X i bezpo¶rednio modyfikowaæ bufor graficzny.
+      Poniewa¿ opiera siê on na niskopoziomowym mapowaniu pamiêci, aby dzia³aæ,
+      programy go u¿ywaj±ce musz± byæ uruchomione jako
+      <username>root</username>.</para>
+
+    <para>Rozszerzenie DGA mo¿e byæ przetestowane i sprawdzone pod wzglêdem
+      wydajno¶ci przez &man.dga.1;. Gdy <command>dga</command> dzia³a,
+      zmienia kolory wy¶wietlacza za ka¿dym razem, gdy przycisk jest wci¶niêty.
+      Aby wyj¶æ u¿yjmy <keycap>q</keycap>.</para>
+
+    </sect3>
+
+  </sect2>
+
+  <sect2 id="video-ports">
+    <title>Porty i paczki obs³uguj±ce wideo</title>
+
+    <indexterm><primary>video ports</primary></indexterm>
+    <indexterm><primary>video packages</primary></indexterm>
+
+    <para>Sekcja ta omawia programy dostêpne w Kolekcji Portów FreeBSD,
+      które pozwalaj± odtwarzaæ wideo. Odtwarzanie wideo jest bardzo aktywnym
+      obszarem rozwoju aplikacji, a ich mo¿liwo¶ci mog± siê ró¿niæ od tych,
+      opisanych tutaj.</para>
+
+    <para>Na pocz±tek wa¿ne jest aby¶my wiedzieli, ¿e wiele z aplikacji wideo
+      dzia³aj±cych na FreeBSD by³o stworzonych jako Linux'owe. Wiele z nich
+      wci±¿ wymaga testowania (s± <quote>beta-quality</quote>). Niektóre z
+      problemów, na które mo¿emy siê natkn±æ, u¿ywaj±c paczek programów wideo
+      na FreeBSD to:</para>
+
+      <orderedlist>
+
+      <listitem>
+        <para>Program nie mo¿e odtworzyæ pliku stworzonego
+          przez inny program.</para>
+      </listitem> 
+
+      <listitem>
+        <para>Program nie mo¿e odtworzyæ pliku, który sam stworzy³.</para>
+      </listitem>
+
+      <listitem>
+        <para>Ta sama aplikacja na dwóch ró¿nych maszynach, przebudowana na
+          ka¿dej z nich dla niej, odtwarza ten sam plik inaczej.</para>
+      </listitem>
+
+      <listitem>
+        <para>Pozornie prosty filtr jak przeskalowanie rozmiaru obrazka
+          skutkuje bardzo z³ym produktem z wadliwej procedury
+          przeskalowania.</para>
+      </listitem>
+
+      <listitem>
+        <para>Program czêsto zrzuca j±dro (core dump).</para>
+      </listitem>
+
+      <listitem>
+        <para>Dokumentacja nie jest instalowana razem z portem
+          i mo¿na j± znale¼æ na stronie, albo w katalogu
+          <filename class='directory'>work</filename> danego portu.</para>
+      </listitem>
+
+      </orderedlist>
+
+    <para>Wiele z tych aplikacji mo¿e prezentowaæ <quote>Linux-isms</quote>.
+      To znaczy, ¿e mog± byæ pewne kwestie wynikaj±ce ze sposobu implementacji
+      pewnych bibliotek w dystrybucjach Linux'a, albo pewne w³a¶ciwo¶ci
+      j±dra Linux'a, które przyjêli autorzy programów. Te kwestie nie zawsze s±
+      zauwa¿one i rozwi±zane przez zarz±dców portów, co mo¿e doprowadziæ do
+      takich problemów:</para>
+
+      <orderedlist>
+
+      <listitem>
+        <para>U¿ycie <filename>/proc/cpuinfo</filename> do wykrycia
+          w³a¶ciwo¶ci procesora</para>
+      </listitem>
+
+      <listitem>
+        <para>Niepoprawne u¿ycie w±tków,
+          które powoduje zawieszenie siê programu</para>
+      </listitem>
+
+      <listitem>
+        <para>Inne programy nie znajduj±ce siê w Kolekcji Portów FreeBSD,
+   które s± powszechnie u¿ywane w po³±czeniu z aplikacj±</para>
+      </listitem>
+
+      </orderedlist>
+
+      <para>Jak na razie, programi¶ci tych aplikacji wspó³pracowali
+        z zarz±dcami portów, aby zminimalizowaæ prace potrzebne do
+        przeniesienia aplikacji.</para>
+
+    <sect3 id="video-mplayer">
+      <title>MPlayer</title>
+
+      <para><application>MPlayer</application> jest czêsto i gwa³townie
+        rozwijaj±cym siê odtwarzaczem wideo. Celem dru¿yny
+        <application>MPlayer</application>'a jest szybko¶æ i elastyczno¶æ
+        na Linux'ie i innych Unix'ach. Projekt wystartowa³, gdy jego za³o¿yciel
+        mia³ ju¿ do¶æ s³abego odtwarzania w innych programach. Niektórzy mog±
+        twierdziæ, ¿e graficzny interfejs u¿ytkownika zosta³ po¶wiêcony dla
+        strumieniowego modelu. Pomimo tego, gdy przyzwyczaisz siê do opcji
+        wiersza poleceñ i kontroli za pomoc± klawiszy, program dzia³a
+        bardzo dobrze. Zreszt±, posiada on tak¿e GUI.</para>
+
+      <sect4 id="video-mplayer-building">
+        <title>Budowanie MPlayer'a</title>
+        <indexterm><primary>MPlayer</primary>
+               <secondary>making</secondary></indexterm>
+
+      <para><application>MPlayer</application> znajduje siê w
+        <filename role="package">multimedia/mplayer</filename>.
+        <application>MPlayer</application> przeprowadza wiele testów sprzêtu
+        w czasie budowania. Wynikaj± z tego dwa fakty.
+        Pierwszy, ¿e tak stworzony program nie bêdzie przeno¶ny
+        z jednego systemu na drugi. Drugi, ¿e program bêdzie bardziej wydajny
+        dla konkretnego sprzêtu, dlatego wa¿ne jest, aby budowaæ program
+        z portów i nie u¿ywaæ gotowych binarnych paczek. Dodatkowo w czasie
+        budowania mo¿e byæ przekazanych wiele opcji opisanych w pliku
+        <filename>Makefile</filename> i na pocz±tku budowania:</para>
+
+    <screen>&prompt.root; <userinput>cd /usr/ports/multimedia/mplayer</userinput>
+&prompt.root; <userinput>make</userinput>
+N - O - T - E
+
+Take a careful look into the Makefile in order
+to learn how to tune mplayer towards you personal preferences!
+For example,
+make WITH_GTK1
+builds MPlayer with GTK1-GUI support.
+If you want to use the GUI, you can either install
+/usr/ports/multimedia/mplayer-skins
+or download official skin collections from
+http://www.mplayerhq.hu/homepage/dload.html
+</screen>
+
+    <para>Domy¶lne opcje portu powinny byæ wystarczaj±ce dla wiêkszo¶ci
+      u¿ytkowników. Je¶li jednak potrzebujesz kodeka XviD, musisz podaæ opcjê
+      <makevar>WITH_XVID</makevar> w linii poleceñ. Domy¶lne urz±dzenie DVD
+      tak¿e mo¿e byæ zdefiniowane za pomoc± opcji
+      <makevar>WITH_DVD_DEVICE</makevar>, standardowo przyjmowanym jako
+      <filename>/dev/acd0</filename>.</para>
+
+    <para>Podczas pisania tego tekstu port <application>MPlayer</application>'a
+      zbuduje swoj± dokumentacjê HTML oraz dwa programy,
+      <command>mplayer</command> i <command>mencoder</command>,
+      który jest narzêdziem do przekodowywania wideo.</para>
+
+    <para>Dokumentacja HTML dla <application>MPlayer</application>'a
+      jest bardzo tre¶ciwa. Je¶li czytelnik znajdzie braki w informacjach
+      o sprzêcie wideo i interfejsie w tym rozdziale, dokumentacja powinna
+      byæ bardzo dobrym dodatkiem. Powinni¶my zdecydowanie po¶wiêciæ trochê
+      czasu na jej przeczytanie, je¶li szukamy informacji o obs³udze
+      wideo w &unix;'ie.</para>
+
+      </sect4>
+
+      <sect4 id="video-mplayer-using">
+        <title>Using MPlayer</title>
+        <indexterm><primary>MPlayer</primary>
+               <secondary>use</secondary></indexterm>
+
+      <para>Ka¿dy u¿ytkownik <application>MPlayer</application>'a musi
+        ustawiæ katalog <filename>.mplayer</filename> we w³asnym katalogu
+        domowym. ¯eby to zrobiæ, mo¿emy u¿yæ nastêpuj±cych poleceñ:</para>
+
+<screen>&prompt.user; <userinput>cd /usr/ports/multimedia/mplayer</userinput>
+&prompt.user; <userinput>make install-user</userinput></screen>
+
+    <para>Opcje poleceñ dla <command>mplayer</command>'a s± wypisane na
+      stronie podrêcznika (man). Dla wiêkszej liczby szczegó³ów,
+      zobaczmy dokumentacjê HTML. W tej sekcji opiszemy tylko te najczê¶ciej
+      u¿ywane.</para>
+
+    <para>Oby odtworzyæ plik, taki jak
+      <filename><replaceable>testfile.avi</replaceable></filename>,
+      poprzez jeden z interfejsów wideo u¿yjmy opcji
+      <option>-vo</option> :</para>
+
+      <screen>&prompt.user; <userinput>mplayer -vo xv testfile.avi</userinput></screen>
+      <screen>&prompt.user; <userinput>mplayer -vo sdl testfile.avi</userinput></screen>
+      <screen>&prompt.user; <userinput>mplayer -vo x11 testfile.avi</userinput></screen>
+      <screen>&prompt.root; <userinput>mplayer -vo dga testfile.avi</userinput></screen>
+      <screen>&prompt.root; <userinput>mplayer -vo 'sdl:dga' testfile.avi</userinput></screen>
+
+    <para>Warto spróbowaæ ka¿dej z tych opcji, jako ¿e na ich wzglêdn± szybko¶æ
+      wp³ywa wiele czynników, które s± zwi±zane g³ównie ze sprzêtem.</para>
+
+    <para>Aby pu¶ciæ co¶ z DVD, zast±pmy <filename>testfile.avi</filename> na
+      <option>dvd://<replaceable>N</replaceable> -dvd-device 
+      <replaceable>DEVICE</replaceable></option>,
+      gdzie <replaceable>N</replaceable> jest numerem fragmentu do odtworzenia,
+      a <filename><replaceable>DEVICE</replaceable></filename> jest wêz³em
+      urz±dzenia DVD. Dla przyk³adu, aby pu¶ciæ 3 fragment z
+      <filename>/dev/dvd</filename>:</para>
+
+    <screen>&prompt.root; <userinput>mplayer -vo xv dvd://3 -dvd-device /dev/dvd</userinput></screen>
+
+    <note>
+      <para>Domy¶lne urz±dzenie DVD mo¿e byæ zdefiniowane podczas budowania
+        portu <application>MPlayer</application>'a przez opcjê
+        <makevar>WITH_DVD_DEVICE</makevar>. Domy¶lnie urz±dzeniem tym jest
+        <filename>/dev/acd0</filename>. Wiêcej szczegó³ów znajdziemy w pliku
+        <filename>Makefile</filename> portu.</para>
+    </note>
+
+    <para>Aby zatrzymaæ, pu¶ciæ, przewin±æ itp. przeczytajmy o przypisaniach
+      klawiszowych, które s± wypisane przez uruchomienia
+      <command>mplayer -h</command>, albo przeczytajmy stronê
+      podrêcznika.</para>
+
+    <para>Dodatkowo wa¿nymi opcjami s±: <option>-fs -zoom</option>,
+      które wy¶wietlaj± obraz na pe³nym ekranie oraz
+      <option>-framedrop</option>, które powoduje opuszczanie klatek,
+      ale poprawia wydajno¶æ.</para>
+
+    <para>W celu zmniejszenia d³ugo¶ci linii poleceñ, u¿ytkownik mo¿e stworzyæ
+      plik <filename>.mplayer/config</filename> i ustawiæ w nim
+      domy¶lne opcje, np.:</para>
+
+<programlisting>vo=xv
+fs=yes
+zoom=yes</programlisting>
+
+    <para>Ostatecznie <command>mplayer</command> mo¿e zostaæ u¿yty do zgrania
+      fragmentu DVD do pliku <filename>.vob</filename>.
+      Aby zgraæ drugi fragment z DVD wpiszmy to:</para>
+
+    <screen>&prompt.root; <userinput>mplayer -dumpstream -dumpfile out.vob dvd://2 -dvd-device /dev/dvd</userinput></screen>
+
+    <para>Plik wyj¶ciowy <filename>out.vob</filename> bêdzie w formacie
+      MPEG i mo¿e byæ manipulowany przy pomocy innych programów opisanych w tej sekcji.</para>
+
+      </sect4>
+      <sect4 id="video-mencoder">
+        <title>mencoder</title>
+        <indexterm>
+      <primary>mencoder</primary>
+    </indexterm>
+
+    <para>Dobrym pomys³em przed u¿yciem <command>mencoder</command>'a jest
+      zapoznanie siê z jego opcjami w dokumentacji HTML. Wprawdzie istnieje
+      strona podrêcznika, ale nie jest ona zbyt u¿yteczna bez dokumentacji HTML.
+      Istnieje mnóstwo sposobów na poprawienie jako¶ci, zmniejszenie bitrate
+      i zmianê formatów. Niektóre z tych sztuczek mog± byæ granic± pomiêdzy
+      dobr± i z³± wydajno¶ci±. Podaje tutaj kilka przyk³adów aby umo¿liwiæ
+      nam start. Najpierw prosta kopia:</para>
+
+     <screen>&prompt.user; <userinput>mencoder input.avi -oac copy -ovc copy -o output.avi</userinput></screen>
+
+    <para>Nieprawid³owe kombinacje opcji w linii poleceñ mog± utworzyæ
+      pliki wyj¶ciowe, które nie jest w stanie odtworzyæ nawet
+      <command>mplayer</command>. Dlatego, je¶li chcemy tylko zgraæ do pliku,
+      u¿yjmy <option>-dumpfile</option> w <command>mplayer</command>'rze.</para>
+
+    <para>Aby przekonwertowaæ <filename>input.avi</filename> do kodeka MPEG4
+      z d¼wiêkiem MPEG3 (<filename role="package">audio/lame</filename>
+      jest wymagane):</para>
+
+    <screen>&prompt.user; <userinput>mencoder input.avi -oac mp3lame -lameopts br=192 \
+     -ovc lavc -lavcopts vcodec=mpeg4:vhq -o output.avi</userinput></screen>
+
+    <para>Utworzony zosta³ plik, mo¿liwy do odtworzenia w
+      <command>mplayer</command> i <command>xine</command>.</para>
+
+    <para><filename>input.avi</filename> mo¿e byæ zast±pione przez
+      <option>dvd://1 -dvd-device /dev/dvd</option> i uruchomione jako
+      <username>root</username>, aby skonwertowaæ fragment DVD bezpo¶rednio.
+      Je¶li jeste¶my zawiedzeni wynikiem pierwszej próby, zaleca siê,
+      aby¶my zgrali fragment do pliku i na nim pracowali.</para>
+    </sect4>
+
+    </sect3>
+
+    <sect3 id="video-xine">
+    <title>xine</title>
+
+    <para>Odtwarzacz wideo <application>xine</application> to projekt
+      o szerokim zakresie d±¿±cy nie tylko do bycia rozwi±zaniem wideo
+      <quote>wszystko w jednym</quote>, ale tak¿e tworz±cym podstawowe
+      biblioteki, mo¿liwe do ponownego u¿ycia i modu³owych plików wykonywalnych,
+      które mog± zostaæ rozszerzone za pomoc± wtyczek.
+      xine jest dostêpny jako paczka, oraz port
+      <filename role="package">multimedia/xine</filename>.</para>
+
+    <para>Odtwarzacz <application>xine</application> jest wci±¿ do¶æ surowy,
+      ale jest wystarczaj±co prosty na pocz±tek. W rzeczywisto¶ci
+      <application>xine</application> wymaga szybkiego CPU i szybkiej karty
+      graficznej, lub obs³ugi XVideo. GUI jest u¿ytkowalne,
+      ale nieco szorstkie.</para>
+
+    <para>Podczas pisania tego tekstu <application>xine</application>
+      nie posiada swojego modu³u, który pozwala na odtwarzanie zakodowanych
+      p³yt DVD CSS. Istniej± za to modu³y od osób trzecich,
+      które na to pozwalaj±, jednak ¿aden z nich nie znajduje siê w
+      Kolekcji Portów FreeBSD.</para>
+
+    <para>W porównaniu do <application>MPlayer</application>'a,
+      <application>xine</application> robi wiêcej dla u¿ytkownika, ale w tym
+      samym czasie odbiera mu mo¿liwo¶æ wiêkszej kontroli co do jako¶ci.
+      <application>xine</application> najlepiej sprawuje siê na interfejsie
+      XVideo.</para>
+
+    <para>Domy¶lnie <application>xine</application> uruchomi siê z
+      graficznym interfejsem u¿ytkownika. Menu mo¿e byæ wtedy u¿yte do
+      otworzenia danego pliku:</para>
+
+      <screen>&prompt.user; <userinput>xine</userinput></screen>
+
+    <para>Alternatyw± mo¿e byæ wywo³anie do bezpo¶redniego odtworzenia pliku,
+      bez GUI:</para>
+
+      <screen>&prompt.user; <userinput>xine -g -p mymovie.avi</userinput></screen>
+
+    </sect3>
+
+    <sect3 id="video-ports-transcode">
+    <title>Narzêdzia transcode</title>
+
+    <para>Program <application>transcode</application> nie jest odtwarzaczem,
+      ale zbiorem narzêdzi do przekodowywania plików audio i wideo.
+      <application>transcode</application> pozwala nam ³±czyæ pliki wideo,
+      naprawiaæ uszkodzone pliki u¿ywaj±c narzêdzi linii poleceñ z interfejsami
+      strumieniowymi <filename>stdin/stdout</filename>.</para>
+
+    <para>Du¿a liczba opcji mo¿e byæ podana podczas budowania portu
+      <filename role="package">multimedia/transcode</filename>.
+      Buduj±c <application>transcode</application> zalecamy u¿ycie make
+      z parametrami jak poni¿ej:</para>
+
+    <screen>&prompt.root; <userinput>make WITH_OPTIMIZED_CFLAGS=yes WITH_LIBA52=yes WITH_LAME=yes WITH_OGG=yes \
+WITH_MJPEG=yes -DWITH_XVID=yes</userinput></screen>
+
+    <para>Zaproponowane ustawienia powinny byæ wystarczaj±ce
+      dla wiêkszo¶ci u¿ytkowników.</para>
+
+    <para>Aby zilustrowaæ zdolno¶ci <command>transcode</command>,
+      przyk³ad jak skonwertowaæ plik DivX do pliku PAL MPEG-1 (PAL VCD):</para>
+
+      <screen>&prompt.user; <userinput>transcode -i input.avi -V --export_prof vcd-pal -o output_vcd</userinput>
+&prompt.user; <userinput>mplex -f 1 -o output_vcd.mpg output_vcd.m1v output_vcd.mpa</userinput></screen>
+
+    <para>Wynikowy plik MPEG, <filename>output_vcd.mpg</filename>,
+      jest gotowy do odtwarzania <application>MPlayer</application>'em.
+      Mogliby¶my nawet wypaliæ go na p³ytê CD-R aby utworzyæ Video CD.
+      W tym przypadku potrzebowaliby¶my dodatkowych narzêdzi,
+      <filename role="package">multimedia/vcdimager</filename>
+      oraz <filename role="package">sysutils/cdrdao</filename>.</para>
+
+    <para>Istnieje strona podrêcznika dla <command>transcode</command>,
+      ale powinni¶my zajrzeæ na
+      <ulink url="http://www.transcoding.org/cgi-bin/transcode">wiki
+      transcode</ulink> po wiêcej informacji.</para>
+    </sect3>
+
+  </sect2>
+
+  <sect2 id="video-further-reading">
+    <title>Dodatkowe informacje</title>
+
+    <para>Ró¿ne paczki programów wideo dla FreeBSD s± rozwijane gwa³townie.
+      Jest ca³kiem prawdopodobnym, ¿e w bliskiej przysz³o¶ci wiele z omawianych
+      tutaj problemów zostanie rozwi±zanych. Tymczasem Ci, którzy chc± dostaæ
+      jak najwiêcej z mo¿liwo¶ci audio/wideo na FreeBSD bêd± musieli u¿yæ wiedzy
+      po³±czonej z przeczytania kilku FAQ i tutoriali, oraz u¿yæ kilku ró¿nych
+      aplikacji. Sekcja ta istnieje, aby daæ tym czytelnikom odno¶niki do tych
+      dodatkowych informacji.</para>
+
+    <para><ulink url="http://www.mplayerhq.hu/DOCS/">Dokumentacja
+      MPlayer'a</ulink> jest bardzo bogata w informacje techniczne.
+      Dokumenty te powinny byæ przeczytane przez ka¿dego, kto chce uzyskaæ
+      do¶wiadczenie w obszarze wideo w &unix;'ie. Lista dyskusyjna
+      <application>MPlayer</application>'a jest nieprzyjazna wobec ka¿dego,
+      kto nie fatygowa³ siê z przeczytaniem dokumentacji. Je¶li wiêc planujemy
+      tworzyæ raporty b³êdów dla nich, RTFM.</para>
+
+    <para><ulink url="http://dvd.sourceforge.net/xine-howto/en_GB/html/howto.html">xine HOWTO</ulink>
+      zawiera rozdzia³ nt. usprawnieñ wydajno¶ci, który jest przydatny
+      dla wszystkich odtwarzaczy.</para>
+
+    <para>Ostatecznie, s± inne obiecuj±ce programy,
+      które czytelnik mo¿e spróbowaæ:</para>
+
+    <itemizedlist>
+
+       <listitem>
+         <para><ulink url="http://avifile.sourceforge.net/">Avifile</ulink>,
+który jest tak¿e portem <filename role='package'>multimedia/avifile</filename></para>
+       </listitem>
+
+       <listitem>
+         <para><ulink
+       url="http://www.dtek.chalmers.se/groups/dvd/">Ogle</ulink>,
+dostepny jako port <filename role='package'>multimedia/ogle</filename>.</para>
+       </listitem>
+
+       <listitem>
+         <para><ulink url="http://xtheater.sourceforge.net/">Xtheater</ulink></para>
+       </listitem>
+
+    <listitem>
+         <para><filename
+           role="package">multimedia/dvdauthor</filename>,
+paczka open source do autoryzacji zawarto¶ci DVD</para>
+        </listitem>
+
+    </itemizedlist>
+
+  </sect2>
+ </sect1>
+
+  <sect1 id="tvcard">
+    <sect1info>
+      <authorgroup>
+    <author>
+      <firstname>Josef</firstname>
+      <surname>El-Rayes</surname>
+      <contrib>Napisa³ </contrib>
+    </author>
+      </authorgroup>
+      <authorgroup>
+    <author>
+      <firstname>Marc</firstname>
+      <surname>Fonvieille</surname>
+      <contrib>Rozszerzy³ i przystosowa³ </contrib>
+      <!-- 02 January 2004 -->
+    </author>
+      </authorgroup>
+    </sect1info>
+
+    <title>Ustawianie karty TV</title>
+    <indexterm>
+      <primary>TV cards</primary>
+    </indexterm>
+
+    <sect2>
+      <title>Wstêp</title>
+
+    <para>Karty TV pozwalaj± nam ogl±daæ telewizjê zwyczajn± i kablow± na
+      naszym komputerze. Wiêkszo¶æ z nich akceptuje wej¶cie wideo przez RCA
+      albo S-video, a niektóre z nich maj± tak¿e tuner radiowy FM.</para>
+
+    <para>&os; umo¿liwia obs³ugê kart TV na PCI, u¿ywaj±cych chipów Broktree
+      Bt848/849/878/879 albo Conexant CN-878/Fusion 878a przy pomocy sterownika
+      &man.bktr.4;. Musimy siê tak¿e upewniæ, ¿e karta zawiera wspierany tuner.
+      Zobaczmy stronê podrêcznika &man.bktr.4; po listê wspieranych tunerów.</para>
+    </sect2>
+
+    <sect2>
+      <title>Dodawanie sterownika</title>
+
+      <para>¯eby u¿ywaæ naszej karty, musimy za³adowaæ sterownik &man.bktr.4;,
+        co mo¿emy zrobiæ dodaj±c tak± linijkê do pliku
+        <filename>/boot/loader.conf</filename>:</para>
+
+      <programlisting>bktr_load="YES"</programlisting>
+
+      <para>Alternatywnie, mo¿emy statycznie wkompilowaæ obs³ugê karty TV
+        w naszym j±drze. W tym przypadku dodajmy nastêpuj±ce linie do
+        pliku konfiguracyjnego j±dra:</para>
+    
+      <programlisting>device     bktr
+device    iicbus
+device    iicbb
+device    smbus</programlisting>
+
+      <para>Te dodatkowe sterowniki urz±dzeñ s± niezbêdne,
+        poniewa¿ czê¶ci karty zosta³y po³±czone ze sob± przez magistralê I2C.
+        Nastêpnie zbudujmy i zainstalujmy nowe j±dro.</para>
+
+      <para>Gdy obs³uga zosta³a ju¿ dodana do naszego systemu, musimy
+        uruchomiæ ponownie nasz± maszynê. W czasie procesu bootowania, nasza
+        karta TV powinna spowodowaæ wy¶wietlenie podobnych komunikatów:</para>
+
+      <programlisting>bktr0: &lt;BrookTree 848A&gt; mem 0xd7000000-0xd7000fff irq 10 at device 10.0 on pci0
+iicbb0: &lt;I2C bit-banging driver&gt; on bti2c0
+iicbus0: &lt;Philips I2C bus&gt; on iicbb0 master-only
+iicbus1: &lt;Philips I2C bus&gt; on iicbb0 master-only
+smbus0: &lt;System Management Bus&gt; on bti2c0
+bktr0: Pinnacle/Miro TV, Philips SECAM tuner.</programlisting>
+
+      <para>Oczywi¶cie komunikaty te mog± siê ró¿niæ, w zale¿no¶ci od
+        posiadanego sprzêtu. Powinni¶my te¿ sprawdziæ, czy tuner zosta³
+        poprawnie wykryty. Ci±gle jest mo¿liwe nadpisanie pewnych wykrytych
+        parametrów przy pomocy zmiennych &man.sysctl.8;'a i opcji
+        pliku konfiguracyjnego j±dra. Dla przyk³adu, je¶li chcemy wymusiæ,
+        aby tuner zosta³ wykryty jako Philips SECAM, dodajmy t± liniê do pliku
+        konfiguracyjnego j±dra:</para>
+
+      <programlisting>options OVERRIDE_TUNER=6</programlisting>
+
+      <para>albo bezpo¶rednio u¿yjmy &man.sysctl.8;'a:</para>
+
+      <screen>&prompt.root; <userinput>sysctl hw.bt848.tuner=6</userinput></screen>
+
+      <para>Zobacz stronê podrêcznika &man.bktr.4; i plik
+        <filename>/usr/src/sys/conf/NOTES</filename> po wiêcej szczegó³ów
+        nt. dostêpnych opcji.</para>
+    </sect2>
+
+    <sect2>
+      <title>Przydatne aplikacje</title>
+
+      <para>Aby u¿ywaæ karty TV, potrzebujemy zainstalowaæ jedn±
+        z nastêpuj±cych aplikacji:</para>
+
+      <itemizedlist>
+    <listitem>
+      <para><filename role="package">multimedia/fxtv</filename>
+        umo¿liwia TV-w-oknie i zdolno¶æ zgrywania
+  obrazów/d¼wiêku/wideo.</para>
+    </listitem>
+    <listitem>
+      <para><filename role="package">multimedia/xawtv</filename>
+        tak¿e jest aplikacj± TV, z takimi samymi mo¿liwo¶ciami
+  jak <application>fxtv</application>.</para>
+    </listitem>
+    <listitem>
+      <para><filename role="package">misc/alevt</filename> dekoduje
+        i wy¶wietla Videotext/Teletext</para>
+    </listitem>
+    <listitem>
+      <para><filename role="package">audio/xmradio</filename>,
+umo¿liwia u¿ycia tunera FM bêd±cego na niektórych kartach TV</para>
+    </listitem>
+    <listitem>
+      <para><filename role="package">audio/wmtune</filename>,
+podrêczna aplikacja biurkowa dla tunerów radio</para>
+    </listitem>
+      </itemizedlist>
+
+      <para>Wiêcej aplikacji dostêpnych jest w Kolekcji Portów &os;.</para>
+    </sect2>
+
+    <sect2>
+      <title>Rozwi±zywanie problemów</title>
+
+      <para>Je¶li napotkamy jakikolwiek problem z nasz± kart± TV,
+        powinni¶my najpierw sprawdziæ, czy chip przechwytywania wideo i tuner
+        s± na pewno obs³ugiwane przez sterownik &man.bktr.4; oraz czy u¿yli¶my
+        prawid³owych opcji konfiguracyjnych. Po wiêcej pomocy mo¿emy zobaczyæ
+        archiwum grupy dyskusyjnej &a.multimedia.name;, na której tak¿e sami
+        mo¿emy zadwaæ pytania.</para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="scanners">
+    <sect1info>
+      <authorgroup>
+    <author>
+      <firstname>Marc</firstname>
+      <surname>Fonvieille</surname>
+      <contrib>Written by </contrib>
+      <!-- 04 August 2004 -->
+    </author>
+      </authorgroup>
+    </sect1info>
+
+    <title>Skanery obrazów</title>
+    <indexterm>
+      <primary>image scanners</primary>
+    </indexterm>
+
+    <sect2>
+      <title>Wstêp.</title>
+
+      <para>We &os; dostêp do skanerów jest udostêpniany przez
+        <application>SANE</application> (Scanner AccessNow Easy)
+        <acronym role="Application Programming Interface">API</acronym>,
+        dostêpne w Kolekcji Portów &os;. <application>SANE</application>
+        u¿ywa tak¿e niektórych ze sterowników urz±dzeñ &os; aby uzyskaæ dostêp
+        do sprzêtu sterownika.</para>
+
+      <para>&os; obs³uguje skanery SCSI oraz USB. Zanim zrobimy cokolwiek,
+        upewnijmy siê, ¿e <application>SANE</application> obs³uguje nasz skaner.
+        <application>SANE</application> posiada listê
+        <ulink url="http://sane-project.org/sane-supported-devices.html">obs³ugiwanych urz±dzeñ</ulink>,
+        zawieraj±c± informacjê nt. obs³ugi skanera, oraz jego status.
+        Strona podrêcznika &man.uscanner.4; tak¿e udostêpnia listê
+        obs³ugiwanych skanerów USB.</para>
+    </sect2>
+
+    <sect2>
+      <title>Konfiguracja j±dra</title>
+
+      <para>Jak wspomnia³em powy¿ej, interfejsy SCSI oraz USB s± obs³ugiwane.
+        W zale¿no¶ci od interfejsu naszego skanera, ró¿ne sterowniki urz±dzeñ
+        s± wymagane.</para>
+
+      <sect3 id="scanners-kernel-usb">
+    <title>Interfejs USB</title>
+
+    <para>J±dro <filename>GENERIC</filename> domy¶lnie zawiera sterowniki
+      potrzebne do obs³ugi skanerów USB. Je¶li u¿ywamy w³asnego j±dra,
+      upewnijmy siê, ¿e nastêpuj±ce linie s± obecne w
+      pliku konfiguracyjnym j±dra:</para>
+
+    <programlisting>device usb
+device uhci
+device ohci
+device uscanner</programlisting>
+
+    <para>Zale¿nie od chipsetu USB na naszej p³ycie g³ównej,
+      bêdziemy potrzebowali tylko <literal>device uhci</literal>,
+      albo <literal>device ohci</literal>. Posiadanie obu te¿ jest mo¿liwe
+      i nieszkodliwe.</para>
+
+    <para>Je¶li nie chcemy przebudowaæ j±dra, a nasze nie jest
+      <filename>GENERIC</filename> i nie posiada obs³ugi tych urz±dzeñ,
+      mo¿emy bezpo¶rednio za³adowaæ sterownik urz±dzenia &man.uscanner.4;
+      u¿ywaj±c polecenia &man.kldload.8;:</para>
+
+    <screen>&prompt.root; <userinput>kldload uscanner</userinput></screen>
+
+    <para>Aby za³adowaæ ten modu³ przy ka¿dym starcie systemu,
+      dodajmy t± linijkê do <filename>/boot/loader.conf</filename>:</para>
+
+    <programlisting>uscanner_load="YES"</programlisting>
+
+    <para>Po ponownym uruchomieniu komputera z odpowiednim j±drem,
+      lub po za³adowaniu wymaganego modu³u, podepnijmy skaner USB.
+      Linia pokazuj±ca wykrycie naszego skanera powinna pojawiæ siê
+      w buforze wiadomo¶ci systemowych (&man.dmesg.8;):</para>
+
+    <screen>uscanner0: EPSON EPSON Scanner, rev 1.10/3.02, addr 2</screen>
+
+    <para>Przyk³ad ten pokazuje, ¿e nasz skaner u¿ywa wêz³a
+      <filename>/dev/uscanner0</filename>.</para>
+    </sect3>
+
+      <sect3>
+    <title>Interfejs SCSI</title>
+
+    <para>Je¶li nasz skaner posiada interfejs SCSI, wa¿nym jest,
+      ¿eby¶my znali jaki kontroler SCSI bêdziemy u¿ywali. W zale¿no¶ci od
+      u¿ytego chipsetu SCSI, bêdziemy musieli poprawiæ nasz plik konfiguracyjny
+      j±dra. J±dro <filename>GENERIC</filename> obs³uguje wiêkszo¶æ popularnych
+      kontrolerów SCSI. Po przeczytaniu pliku <filename>NOTES</filename>
+      dodajmy odpowiedni± liniê do pliku konfiguracyjnego j±dra. Dodatkowo do
+      sterownika adaptera SCSI wymagane s± nastêpuj±ce linie w pliku
+      konfiguracyjnym j±dra:</para>
+
+    <programlisting>device scbus
+device pass</programlisting>
+
+    <para>Po skonfigurowaniu, skompilowaniu i zainstalowaniu j±dra,
+      powinni¶my zobaczyæ podczas bootowania urz±dzenia w buforze wiadomo¶ci
+      systemowych:</para>
+
+    <screen>pass2 at aic0 bus 0 target 2 lun 0
+pass2: &lt;AGFA SNAPSCAN 600 1.10&gt; Fixed Scanner SCSI-2 device
+pass2: 3.300MB/s transfers</screen>
+
+    <para>Je¶li nasz skaner nie by³ w³±czony podczas startu systemu,
+      mo¿emy wymusiæ jego wykrycie przez skanowanie szyny SCSI poleceniem
+      &man.camcontrol.8;:</para>
+
+    <screen>&prompt.root; <userinput>camcontrol rescan all</userinput>
+Re-scan of bus 0 was successful
+Re-scan of bus 1 was successful
+Re-scan of bus 2 was successful
+Re-scan of bus 3 was successful</screen>
+
+    <para>Skaner pojawi siê w li¶cie urz±dzeñ SCSI:</para>
+
+    <screen>&prompt.root; <userinput>camcontrol devlist</userinput>
+&lt;IBM DDRS-34560 S97B&gt;              at scbus0 target 5 lun 0 (pass0,da0)
+&lt;IBM DDRS-34560 S97B&gt;              at scbus0 target 6 lun 0 (pass1,da1)
+&lt;AGFA SNAPSCAN 600 1.10&gt;           at scbus1 target 2 lun 0 (pass3)
+&lt;PHILIPS CDD3610 CD-R/RW 1.00&gt;     at scbus2 target 0 lun 0 (pass2,cd0)</screen>
+
+    <para>Wiêcej szczegó³ów o urz±dzeniach SCSI jest dostêpnych na
+      stronach podrêcznika &man.scsi.4; i &man.camcontrol.8;.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Konfiguracja SANE</title>
+
+      <para>System <application>SANE</application> jest podzielony na
+      dwie czê¶ci:
+      zaplecza (<filename role="package">graphics/sane-backends</filename>)
+      i nak³adkê (<filename role="package">graphics/sane-frontends</filename>).
+      Zaplecza obs³uguj± dostêp do skanera. Lista
+      <ulink url="http://sane-project.org/sane-supported-devices.html">obs³ugiwanych urz±dzeñ</ulink>
+      <application>SANE</application>'a okre¶la które zaplecze bêdzie
+      obs³ugiwa³o nasz skaner. Wa¿ne jest, aby ustaliæ w³a¶ciwe zaplecze
+      dla naszego skanera, je¶li chcemy go u¿ywaæ. Czê¶æ nak³adka obs³uguje
+      graficzny interfejs skanowania (<application>xscanimage</application>).</para>
+
+      <para>Pierwsz± rzecz±, któr± nale¿y zrobiæ, jest zainstalowanie portu
+      <filename role="package">graphics/sane-backends</filename>, albo paczki.
+      Nastêpnie nale¿y u¿yæ polecenia <command>sane-find-scanner</command>,
+      aby sprawdziæ czy <application>SANE</application> wykrywa skaner:</para>
+
+      <screen>&prompt.root; <userinput>sane-find-scanner -q</userinput>
+found SCSI scanner "AGFA SNAPSCAN 600 1.10" at /dev/pass3</screen>
+
+      <para>Wyj¶cie poka¿e typ interfejsu skanera i wêze³ urz±dzenia u¿ywany
+      do pod³±czenia urz±dzenia do systemu. Producent i model mog± siê
+      nie pojawiæ, to nie jest wa¿ne.</para>
+
+      <note>
+    <para>Niektóre skanery USB wymagaj± za³adowania firmware.
+      Jest to wyja¶nione na stronie podrêcznika zapleczy (sane-backends).
+      Powininni¶my tak¿e przeczytaæ strony &man.sane-find-scanner.1; i
+      &man.sane.7;.</para>
+      </note>
+
+      <para>Teraz musimy sprawdziæ, czy skaner bêdzie zidentyfikowany przez
+      nak³adkê. Domy¶lnie w zapleczach <application>SANE</application>
+      jest narzêdzie &man.scanimage.1;. Komenda ta pozwala nam na wypisanie
+      urz±dzeñ i zeskanowanie obrazka z wiersza poleceñ.  Opcja
+      <option>-L</option> jest u¿ywana do wypisania urz±dzeñ skanuj±cych:</para>
+
+      <screen>&prompt.root; <userinput>scanimage -L</userinput>
+device `snapscan:/dev/pass3' is a AGFA SNAPSCAN 600 flatbed scanner</screen>
+
+      <para>Brak wyj¶cia albo wiadomo¶æ mówi±ca o tym, ¿e nie zidentyfikowano
+      skanerów wskazuje, ¿e &man.scanimage.1; nie móg³ zidentyfikowaæ skanera.
+      Je¶li to siê zdarzy, edytujmy plik konfiguracji zaplecza i okre¶lmy
+      urz±dzenie skanuj±ce. Katalog
+      <filename class="directory">/usr/local/etc/sane.d/</filename>
+      zawiera wszystkie pliki konfiguracyjne zaplecza. Problem identyfikacji
+      nie wystêpuje ze skanerami USB.</para>
+
+      <para>Dla przyk³adu, ze skanerem USB u¿ytym w
+      <xref linkend="scanners-kernel-usb">, <command>sane-find-scanner</command>
+      da nam nastêpuj±c± informacjê:</para>
+
+      <screen>&prompt.root; <userinput>sane-find-scanner -q</userinput>
+found USB scanner (UNKNOWN vendor and product) at device /dev/uscanner0</screen>
+
+      <para>Skaner zosta³ prawid³owo wykryty, u¿ywa interfejsu USB i
+      jest podpiêty do wêz³a <filename>/dev/uscanner0</filename>.
+      Teraz mo¿emy sprawdziæ, czy skaner jest prawid³owo zidentyfikowany:</para>
+
+      <screen>&prompt.root; <userinput>scanimage -L</userinput>
+
+No scanners were identified. If you were expecting something different,
+check that the scanner is plugged in, turned on and detected by the
+sane-find-scanner tool (if appropriate). Please read the documentation
+which came with this software (README, FAQ, manpages).</screen>
+
+      <para>Je¶li skaner nie zosta³ zidentyfikowany, musimy edytowaæ plik
+      <filename>/usr/local/etc/sane.d/epson.conf</filename>. Model skanera to
+      &epson.perfection; 1650, wiêc wiemy, ¿e skaner bêdzie u¿ywa³ zaplecza
+      <literal>epson</literal>. Przed przyst±pieniem do edycji przeczytajmy
+      komentarze pomocy w plikach konfiguracyjnych zaplecza. Zmiany wierszy
+      s± ca³kiem proste: zakomentujmy wszystkie linie, które maj± z³y interfejs
+      dla naszego skanera (w naszym przypadku zakomentujemy wszystkie linie
+      zaczynaj±ce siê na <literal>scsi</literal>, jako ¿e nasz skaner
+      ma interfejs USB). Nastêpnie dodajmy na koñcu pliku wiersz okre¶laj±cy
+      interfejs i u¿ywany wêze³. W tym przypadku dodamy
+      nastêpuj±cy wiersz:</para>
+
+      <programlisting>usb /dev/uscanner0</programlisting>
+
+      <para>Upewnijmy siê, ¿e przeczytali¶my komentarze dostarczone w
+        pliku konfiguracyjnym zaplecza oraz stronê podrêcznika zaplecza,
+        która dostarcza dodatkowe informacje o konfiguracji i omawia
+        prawid³ow± sk³adniê do u¿ycia. Teraz mo¿emy sprawdziæ,
+        czy skaner jest zidentyfikowany:</para>
+
+      <screen>&prompt.root; <userinput>scanimage -L</userinput>
+device `epson:/dev/uscanner0' is a Epson GT-8200 flatbed scanner</screen>
+
+      <para>Nasz skaner USB zosta³ zidentyfikowany. Nie wa¿ne, czy rodzaj
+        i model siê zgadzaj±. Kluczowym elementem jest pole
+        <literal>`epson:/dev/uscanner0'</literal>, które daje nam
+        prawid³ow± nazwê zaplecza i prawid³owy wêze³ urz±dzenia.</para>
+
+      <para>Je¶li polecenie <command>scanimage -L</command> widzi skaner,
+        konfiguracja zosta³a zakoñczona, a urz±dzenie jest gotowe
+        do pracy.</para>
+
+      <para>Dopóki &man.scanimage.1; nie pozwala nam wykonaæ skanowania
+        z wiersza poleceñ, preferowan± metod± jest u¿ycie graficznego
+        interfejsu u¿ytkownika do wykonania skanowania.
+        <application>SANE</application> oferuje prosty ale efektowny
+        graficzny interfejs: <application>xscanimage</application>
+        (<filename role="package">graphics/sane-frontends</filename>).</para>
+
+      <para><application>Xsane</application>
+        (<filename role="package">graphics/xsane</filename>) jest innym
+        popularnym graficznym interfejsem skanowania. Interfejs ten oferuje
+        zaawansowane mo¿liwo¶ci, takie jak ró¿ne tryby skanowania 
+        (fotokopia, fax, itp.), korekcja kolorów, grupowe skanowanie itp.
+        Obie z tych aplikacji mo¿na u¿ywaæ jako wtyczkê
+        <application>GIMP</application>'a.</para>
+    </sect2>
+
+    <sect2>
+      <title>Udostêpnianie skanera innym u¿ytkownikom</title>
+
+      <para>Wszystkie poprzednie dzia³ania zosta³y zrobione z uprawnieniami
+        <username>root</username>a. Mimo tego, mo¿emy chcieæ udostêpniæ nasz
+        skaner innym u¿ytkownikom. U¿ytkownik chc±cy go u¿ywaæ,
+        musi mieæ prawa odczytu i zapisu do wêz³a u¿ywanego przez skaner.
+        Jako przyk³ad, nasz skaner USB u¿ywa wêz³a
+        <filename>/dev/uscanner0</filename>, który jest w posiadaniu grupy
+        <groupname>operator</groupname>. Dodaj±c u¿ytkownika
+        <username>joe</username> do grupy <groupname>operator</groupname>
+        pozwalamy mu na korzystanie ze skanera:</para>
+
+      <screen>&prompt.root; <userinput>pw groupmod operator -m <replaceable>joe</replaceable></userinput></screen>
+
+      <para>Po wiêcej szczegó³ów zobacz stronê podrêcznika &man.pw.8;.
+        Musimy tak¿e ustawiæ prawid³owe prawa zapisu (0660 lub 0664) do wêz³a
+        <filename>/dev/uscanner0</filename>. Domy¶lnie grupa
+        <groupname>operator</groupname> mo¿e go tylko odczytywaæ.
+        Mo¿emy to zrobiæ przez dodanie nastêpuj±cych linijek do pliku
+        <filename>/etc/devfs.rules</filename>:</para>
+
+      <programlisting>[system=5]
+add path uscanner0 mode 660</programlisting>
+
+      <para>Nastêpnie dodajmy to do <filename>/etc/rc.conf</filename>
+        i uruchommy ponownie komputer:</para>
+
+      <programlisting>devfs_system_ruleset="system"</programlisting>
+
+      <para>Wiêcej informacji dotycz±cych tych wierszy mo¿emy znale¼æ
+        na stronie &man.devfs.8; w podrêczniku.</para>
+
+      <note>
+        <para>Oczywi¶cie z powodów bezpieczeñstwa pomy¶lmy dwa razy zanim dodamy
+          u¿ytkownika do jakiej¶ grupy, w szczególno¶ci grupy
+          <groupname>operator</groupname>.</para>
+      </note>
+    </sect2>
+  </sect1>
+</chapter>
+
+<!--
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "part" "chapter")
+     End:
+-->

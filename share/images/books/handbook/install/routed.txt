@@ -1,0 +1,25 @@
+
+.--------------------------- Network Services Menu ---------------------------.
+| You may have already configured one network device (and the other           |
+| various hostname/gateway/name server parameters) in the process             |
+| of installing FreeBSD.  This menu allows you to configure other             |
+| aspects of your system's network configuration.                             |
+| .-----.----------------------- Value Required -----------------------.----. |
+| | [ ] | Please specify the router you wish to use.  Routed is        |    | |
+| | [ ] | provided with the stock system and gated is provided         |    | |
+| | [ ] | as an optional package which this installation system        |    | |
+| | [ ] | will attempt to load if you select gated.  Any other         |    | |
+| | [ ] | choice of routing daemon will be assumed to be something     |FS. | |
+| | [ ] | the user intends to install themselves before rebooting      |    | |
+| | [ ] | the system.  If you don't want any routing daemon, choose NO |    | |
+| | [ ] | .----------------------------------------------------------. |    | |
+| | [ ] | |/sbin/routed                                              | |    | |
+| | [ ] +-`----------------------------------------------------------'-+    | |
+| | [X] |                    [  OK  ]       Cancel                     |    | |
+| | [X] `--------------------------------------------------------------'    | |
+| `-------------------------------------------------------------------------' |
++-----------------------------------------------------------------------------+
+|                           [  OK  ]       Cancel                             |
+`-----------------------------------------------------------------------------'
+
+

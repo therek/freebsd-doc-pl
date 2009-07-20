@@ -1,0 +1,620 @@
+<!--
+    The FreeBSD Polish Documentation Project
+
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/preface/preface.sgml,v 1.4 2007/05/30 20:26:11 therek Exp $
+     Original revision: 1.39
+-->
+
+<preface id="book-preface">
+  <title>Przedmowa</title>
+  
+  <bridgehead id="preface-audience" renderas=sect1>Docelowy
+    czytelnik</bridgehead>
+
+  <para>Osoba poznaj±ca dopiero system FreeBSD odnajdzie w pierwszej
+    czê¶ci niniejszej ksi±¿ki szereg porad prowadz±cych u¿ytkownika
+    przez proces instalacji i delikatnie prezentuj±cych pewne koncepcje
+    i konwencje stoj±ce u podstaw systemów &unix;. Przebrniêcie przez
+    tê czê¶æ wymaga niewiele wiêcej ni¿ chêæ poznania i umiejêtno¶æ
+    przyswajania sobie nowych koncepcji w miarê jak bêd± one
+    prezentowane.</para>
+
+  <para>Po dotrwaniu do drugiej, zdecydowanie obszerniejszej czê¶ci
+    Podrêcznika, czytelnik bêdzie mia³ do dyspozycji pe³n± wiedzê z
+    zakresu wszystkich zagadnieñ znajduj±cych siê w polu zainteresowañ
+    administratorów systemów FreeBSD. Niektóre z zawartych tutaj
+    rozdzia³ów mog± wymagaæ wcze¶niejszego zapoznania siê z odpowiedni±
+    literatur±. W takich przypadkach, bêdzie to wyszczególnione w
+    streszczeniu na pocz±tku ka¿dego rozdzia³u.</para>
+
+  <para><xref linkend="bibliography"> zawiera listê dodatkowych ¼róde³
+    informacji.</para>
+
+  <bridgehead id="preface-changes-from2" renderas=sect1>Zmiany od wydania
+    drugiego</bridgehead>
+
+  <para>Niniejsze trzecie wydanie stanowi punkt kulminacyjny przesz³o
+    dwuletniej pracy oddanych cz³onków Projektu Dokumentacji FreeBSD.
+    G³ówne zmiany jakie w tym okresie zosta³y dokonane to:</para>
+
+  <itemizedlist>
+      <listitem>
+        <para><xref linkend="config-tuning">, Konfiguracja i dostrajanie zosta³
+          poszerzony o nowe informacje o zarz±dzaniu moc± i zasobami APCI,
+          opis narzêdzia <command>cron</command> i kolejn± porcjê opcji dostrajania j±dra.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="security">, Bezpieczeñstwo, zosta³ poszerzony
+          o nowe informacje odno¶nie wirtualnych sieci prywatnych (VPN),
+	  list kontroli dostêpu do systemu plików i biuletynach
+          bezpieczeñstwa.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="mac">, Obowi±zkowa kontrola dostêpu (MAC), jest nowym
+	  rozdzia³em.  Wyja¶nia on czym jest MAC i jak wykorzystaæ ten mechanizm
+	  do zabezpieczenia systemu FreeBSD.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="disks">, Pamiêæ, zosta³ rozszerzony o informacje
+	  o urz±dzeniach pamiêci masowej USB, obrazy systemu plików,
+	  limity miejsca w systemie plików, siecowe systemy plików b±d¼
+          zawarte w pojedynczym pliku oraz zaszyfrowane partycje.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="vinum-vinum">, Vinum, jest nowym rozdzia³em.
+	Opisuje on jak korzystaæ z mened¿era dysków logicznych Vinum, który
+	udostêpnia niezale¿ne od urz±dzeñ fizycznych dyski logiczne, a tak¿e
+        programowe macierze RAID-0, RAID-1 i RAID-5.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="ppp-and-slip">, PPP i SLIP, zosta³ poszerzony
+        o sekcjê opisuj±c± metody rozwi±zywania problemów.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="mail">, Poczta elektroniczna, zosta³
+          rozszerzony o informacje odno¶nie korzystania z alternatywnych
+	  serwerów pocztowych, uwierzytelniania SMTP, UUCP, <application>fetchmail</application>,
+	  <application>procmail</application> i inne zaawansowane zagadnienia.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="network-servers">, Serwery sieciowe, jest nowym
+	  rozdzia³em dodanym w tym wydaniu.  Rozdzia³ ten zawiera informacje
+	  o konfiguracji serwera <application>HTTP Apache</application>,
+	  <application>ftpd</application> oraz konfiguracji
+	  serwera <application>Samba</application> dla klientów &microsoft; &windows;.  Przeniesione tutaj
+          zosta³y równie¿ niektóre sekcje <xref linkend="advanced-networking">,
+          Zaawansowana praca sieciowa.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="advanced-networking">, Zaawansowana praca w sieci,
+          zosta³ rozszerzony o nowe informacje odno¶nie korzystania z urz±dzeñ
+	  &bluetooth; we FreeBSD, konfiguracji sieci bezprzewodowych i sieci
+	  transmisji asynchronicznej ATM.</para>
+      </listitem>
+
+      <listitem>
+        <para>Definicje oraz wykorzystywane w ksi±¿ce terminy techniczne
+          zosta³y zebrane razem w formie leksykonu.</para>
+      </listitem>
+
+      <listitem>
+        <para>Dokonano wielu estetycznych poprawek tabel i rysunków.</para>
+      </listitem>
+    </itemizedlist>
+
+  <bridgehead id="preface-changes" renderas=sect1>Zmiany od wydania pierwszego</bridgehead>
+
+    <para>Wydanie drugie stanowi³o punkt kulminacyjny przesz³o dwuletniej pracy
+      oddanych cz³onków Projektu Dokumentacji FreeBSD. G³ówne zmiany jakie w tym
+      okresie zosta³y dokonane to:</para>
+
+<!-- Talk a little about justification and other stylesheet changes? -->
+
+    <itemizedlist>
+      <listitem>
+	<para>Dodano indeks.</para>
+      </listitem>
+      <listitem>
+	<para>Wszystkie diagramy ASCII zosta³y zast±pione rysunkami graficznymi.</para>
+      </listitem>
+      <listitem>
+	<para>Dodano standardowe streszczenie do wszystkich rozdzia³ów, informuj±ce
+          jakie informacje rozdzia³ zawiera i co powinien wiedzieæ czytelnik nim
+          przyst±pi do czytania.</para>
+      </listitem>
+      <listitem>
+	<para>Zawarto¶æ podrêcznika zosta³a zreorganizowana w trzy logiczne czê¶ci:
+          <quote>Pierwsze kroki</quote>, <quote>Administracja systemem</quote> oraz
+	<quote>Dodatki</quote>.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="install"> (<quote>Instalacja FreeBSD</quote>) zosta³ ca³kowicie
+          przepisany na nowo.Do³±czono wiele zrzutów ekranu, by u³atwiæ nowym u¿ytkownikom
+          przyswojenie tekstu.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="basics"> (<quote>Podstawy Uniksa</quote>) zosta³ poszerzony
+          o dodatkowe informacje o procesach, demonach i sygna³ach.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="ports"> (<quote>Instalacja programów</quote>) zosta³ poszerzony
+	o dodatkowe informacje o zarz±dzaniu pakietami binarnymi.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="x11"> (<quote>System okien X</quote>) zosta³ w ca³o¶ci
+ 	napisany od nowa k³ad±c nacisk na wspó³czesne ¶rodowiska graficzne we &xfree86; 4.X,
+        takie jak <application>KDE</application> i <application>GNOME</application>.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="boot"> (<quote>Proces uruchamiania FreeBSD</quote>) zosta³
+          poszerzony.</para>
+      </listitem>
+      <listitem>
+        <para><xref linkend="disks"> (<quote>Pamiêæ</quote>) zosta³ napisany na podstawie
+          rozdzia³ów <quote>Dyski</quote> oraz <quote>Kopie zapasowe</quote>.  Uwa¿amy, ¿e
+          zagadnienia te ³atwiej jest zrozumieæ, gdy s± przedstawiane jako jeden rozdzia³.
+          Dodano równie¿ podrozdzia³ traktuj±cy o RAID (zarówno sprzêtowym jak
+          i programowym).</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="serialcomms"> (<quote>Komunikacja szeregowa</quote>) zosta³ ca³kowicie
+          zreorganizowany i zaktualizowany dla FreeBSD 4.X/5.X.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="ppp-and-slip"> (<quote>PPP i SLIP</quote>) zosta³y zasadniczo
+	zaktualizowane.</para>
+      </listitem>
+      <listitem>
+        <para><xref linkend="advanced-networking"> (<quote>Zaawansowana praca sieciowa</quote>) zosta³
+          zaktualizowany.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="mail"> (<quote>Poczta elektroniczna</quote>) zosta³ rozszerzony materia³y
+	  traktuj±ce o konfiguracji programu <application>sendmail</application>.</para>
+      </listitem>
+      <listitem>
+	<para><xref linkend="linuxemu"> (<quote>Kompatybilno¶æ z Linuksem</quote>) zosta³ poszerzony
+          o informacje o instalacji bazy <application>&oracle;</application> oraz
+          <application>&sap.r3;</application>.</para>
+      </listitem>
+      <listitem>
+	<para>W drugim wydaniu dodano nowe rozdzia³y:</para>
+	<itemizedlist>
+	  <listitem>
+	    <para>Konfiguracja i dostrajanie (<xref linkend="config-tuning">).</para>
+	  </listitem>
+	  <listitem>
+           <para>Multimedia (<xref linkend="multimedia">)</para>
+	  </listitem>
+	</itemizedlist>
+      </listitem>
+    </itemizedlist>
+
+  <bridgehead id="preface-overview" renderas=sect1>Uk³ad ksi±¿ki</bridgehead>
+
+  <para>Niniejsza ksi±¿ka zosta³a podzielona na piêæ logicznych
+    czê¶ci. Czê¶æ pierwsza, <emphasis>Pierwsze kroki</emphasis>, opisuje
+    proces instalacji oraz podstawy u¿ytkowania systemu FreeBSD. Zaleca
+    siê aby czytelnik zapozna³ siê z tymi rozdzia³ami kolejno,
+    pomijaj±c jedynie znane tematy. Czê¶æ druga, <emphasis>Codzienne
+    czynno¶ci</emphasis>, prezentuje niektóre z najczê¶ciej wykorzystywanych
+    funkcji FreeBSD. Ta czê¶æ, wraz kolejnymi, mo¿e byæ czytania bez
+    okre¶lonej kolejno¶ci. Ka¿dy z wchodz±cych w jej sk³ad rozdzia³ów
+    zaczyna siê od zwiêz³ego streszczenia zawarto¶ci i przedstawienia
+    co czytelnik powinien ju¿ wiedzieæ. Celem takiego uk³adu jest pozwolenie
+    zwyk³emu czytelnikowi pomin±æ pewne rozdzia³y, by przej¶æ od razu do
+    najbardziej interesuj±cych. Czê¶æ trzecia, <emphasis>Administracja
+    Systemem</emphasis>, opisuje zagadnienia administracyjne. Czê¶æ czwarta,
+    <emphasis>Komunikacja sieciowa</emphasis>, zawiera tematy zwi±zane z prac±
+    w sieci oraz obs³ug± serwerów. Czê¶æ pi±ta zawiera dodatki.</para>
+
+  <variablelist>
+
+<!-- Part I - Introduction -->
+
+    <varlistentry>
+      <term><emphasis><xref linkend="introduction">, Wprowadzenie</emphasis></term>
+      <listitem>
+        <para>Wprowadza nowego u¿ytkownika w ¶wiat FreeBSD. Streszcza historiê
+          Projektu FreeBSD, stawiane przed nim cele oraz model rozwoju.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="install">, Instalacja</emphasis></term>
+      <listitem>
+        <para>Przeprowadza u¿ytkownika przez ca³y proces instalacji. Opisuje
+          równie¿ kilka zaawansowanych zagadnieñ, jak np. instalacjê przez
+          konsolê szeregow±.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="basics">, Podstawy Uniksa</emphasis></term>
+      <listitem>
+        <para>Przedstawia podstawowe polecenie i funkcje systemu operacyjnego
+          FreeBSD. Je¶li pracowali¶my w Linuksie b±d¼ w innym systemie typu
+          &unix; najprawdopodobniej mo¿emy pomin±æ ten rozdzia³.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="ports">, Instalacja programów</emphasis></term>
+      <listitem>
+        <para>Opisuje metody instalacji dodatkowego oprogramowania we FreeBSD
+          za pomoc± systemu <quote>Kolekcji portów</quote> oraz typowych
+          pakietów binarnych.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="x11">, System okien X</emphasis></term>
+      <listitem>
+        <para>Opisuje ogólnie System okien X oraz wykorzystanie X11 we FreeBSD.
+          Ponadto, przedstawia typowe ¶rodowiska graficzne jak np.
+          <application>KDE</application> czy <application>GNOME</application>.</para>
+      </listitem>
+    </varlistentry>
+
+<!-- Part II Common Tasks -->
+
+    <varlistentry>
+      <term><emphasis><xref linkend="desktop">, Aplikacje biurowe</emphasis></term>
+      <listitem>
+        <para>Przedstawia kilka popularnych aplikacji biurowych, takich jak przegl±darki internetowe
+         czy pakiety biurowe, wraz z opisem ich instalacji w systemie FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="multimedia">, Multimedia</emphasis></term>
+      <listitem>
+      <para>Przedstawia jak skonfigurowaæ programy odtwarzaj±ce d¼wiêk i obraz w naszym
+      systemie.  Opisuje równie¿ niektóre przyk³adowe aplikacje audio i wideo.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="kernelconfig">, Konfiguracja j±dra FreeBSD</emphasis></term>
+      <listitem>
+	<para>Wyja¶nia czemu mo¿emy potrzebowaæ skonfigurowaæ nowe j±dro, a tak¿e dostarcza
+          szczegó³owych instrukcji odno¶nie konfiguracji, kompilacji i instalacji indywidualnego
+	  j±dra.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="printing">, Drukowanie</emphasis></term>
+      <listitem>
+	<para>Prezentuje metody zarz±dzania drukarkami we &os;, w tym kontroli drukarek
+	oraz wstêpnej konfiguracji.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="linuxemu">, Zgodno¶æ binarna z systemami &linux;</emphasis></term>
+      <listitem>
+	<para>Opisuje tryb zgodno¶ci binarnej FreeBSD z Linuksem.  Dostarcza równie¿
+        szczegó³owych instrukcji instalacji wielu popularnych aplikacji linuksowych, jak np.
+	<application>&oracle;</application>, <application>&sap.r3;</application> czy
+	  <application>&mathematica;</application>.</para>
+      </listitem>
+    </varlistentry>
+
+<!-- Part III - System Administration -->
+
+    <varlistentry>
+      <term><emphasis><xref linkend="config-tuning">, Konfiguracja i dostrajanie</emphasis></term>
+      <listitem>
+	<para>Omawia dostêpne administratorom parametry dostrajania
+	systemu &os; w celu osi±gniêcia optymalnej wydajno¶ci.  Obja¶nia równie¿
+	ró¿ne pliki konfiguracyjne wykorzystywane we FreeBSD, wraz z informacj±
+	gdzie mo¿na je odnale¼æ.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="boot">, Proces uruchamiania</emphasis></term>
+      <listitem>
+	<para>Opisuje proces uruchamiania FreeBSD oraz wyja¶nia jak kontrolowaæ
+          ten proces za pomoc± opcji konfiguracyjnych.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="users">, U¿ytkownicy i podstawy zarz±dzania
+      kontami</emphasis></term>
+      <listitem>
+	<para>Opisuje metody tworzenia i manipulacji kontami u¿ytkowników.
+	  Omawia równie¿ sposoby ograniczania dostêpu u¿ytkowników do zasobów
+	  systemowych oraz inne zadania zwi±zane z zarz±dzaniem kontami.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="security">, Bezpieczeñstwo</emphasis></term>
+      <listitem>
+	<para>Opisuje wiele ró¿norodnych narzêdzi pomagaj±cych utrzymaæ bezpieczeñstwo
+          systemu FreeBSD, m.in. Kerberos, IPsec i OpenSSH.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="jails">, Wiêzienia</emphasis></term>
+      <listitem>
+	<para>Przedstawia strukturê wiêzieñ i wnoszonych przezeñ usprawnieñ w stosunku
+	  do tradycyjnego ¶rodowiska chroot we &os;.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="mac">, Obowi±zkowa kontrola dostêpu</emphasis></term>
+      <listitem>
+	<para>Wyja¶nia czym jest Obowi±zkowa kontrola dostêpu (ang. Mandatory Access Control, MAC)
+          i jak wykorzystaæ ten mechanizm do zabezpieczenia systemu FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="audit">, Audyt bezpieczeñstwa</emphasis></term>
+      <listitem>
+	<para>Opisuje czym jest audyt bezpieczeñstwa &os;, jak go zainstalowaæ,
+	  skonfigurowaæ i w jaki sposób nadzorowaæ i monitorowaæ dziennik nadzoru.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="disks">, Pamiêæ</emphasis></term>
+      <listitem>
+	<para>Omawia jak zarz±dzaæ no¶nikami danych i systemami plików
+  	  we FreeBSD, m.in. dyski fizyczne, macierze RAID, no¶niki optyczne
+  	  i ta¶mowe, oraz sieciowe systemy plików.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="geom">, GEOM</emphasis></term>
+      <listitem>
+	<para>Omawia czym jest struktura GEOM we FreeBSD i jak skonfigurowaæ
+	  ró¿ne dostêpne poziomy RAID.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="vinum-vinum">, Vinum</emphasis></term>
+      <listitem>
+	<para>Opisuje jak jak korzystaæ z z mened¿era dysków logicznych Vinum,
+          który udostêpnia niezale¿ne od urz±dzeñ fizycznych logiczne woluminy,
+          a tak¿e programowe macierze RAID-0, RAID-1 i RAID-5.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="virtualization">, Wirtualizacja</emphasis></term>
+      <listitem>
+	<para>Opisuje jakie systemy wirtualizacji oferuje &os; i jak z nich korzystaæ.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="l10n">, Lokalna wersja jêzykowa</emphasis></term>
+      <listitem>
+	<para>Opisuje jak korzystaæ z FreeBSD w innych jêzykach ni¿ angielski.
+	Omawia zarówno lokalizacjê systemu jak i dostêpnych aplikacji.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="cutting-edge">, Kierunek rozwoju</emphasis></term>
+      <listitem>
+	<para>Wyja¶nia ró¿nice pomiêdzy FreeBSD-STABLE,
+	FreeBSD-CURRENT, i wydaniami FreeBSD.  Opisuje, którzy u¿ytkownicy
+	najwiêcej zyskaj± ¶ledz±c system rozwoju FreeBSD i przybli¿a
+	ten proces.</para>
+      </listitem>
+    </varlistentry>
+
+<!-- Part IV - Network Communications -->
+
+    <varlistentry>
+      <term><emphasis><xref linkend="serialcomms">, Komunikacja szeregowa</emphasis></term>
+      <listitem>
+	<para>Wyja¶nia jak do³±czyæ terminale i modemy do naszego systemu FreeBSD
+  	w celu realizacji po³±czeñ wdzwanianych i wychodz±cych.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="ppp-and-slip">, PPP i SLIP</emphasis></term>
+      <listitem>
+	<para>Omawia jak korzystaæ z PPP, SLIP b±d¼ PPP over Ethernet, by ³±czyæ
+	siê ze zdalnymi systemami za pomoc± FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="mail">, Poczta elektroniczna</emphasis></term>
+      <listitem>
+	<para>Opisuje ró¿norodne elementy serwera pocztowego i przybli¿a podstawowe
+          zagadnienia zwi±zane z konfiguracj± najpopularniejszego serwera pocztowego:
+	<application>sendmail</application>.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="network-servers">, Serwery sieciowe</emphasis></term>
+      <listitem>
+	<para>Dostarcza szczegó³owych informacji i przyk³adowych konfiguracji
+	  maszyny FreeBSD jako serwera plików, domeny, informacji sieciowych
+	  czy serwera synchronizacji czasu.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="firewalls">, Zapory ogniowe</emphasis></term>
+      <listitem>
+        <para>Wyja¶nia filozowiê stoj±c± za programowymi zaporami ogniowymi
+          i dostarcza szczegó³owych informacji o konfiguracji ró¿nych zapór
+          dostêpnych we FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="advanced-networking">, Zaawansowana praca w sieci</emphasis></term>
+      <listitem>
+	<para>Omawia wiele zagadnieñ zwi±zanych z prac± w sieci, w tym wspó³dzielenie ³±cza
+	internetowego z innymi komputerami w naszej sieci LAN, zaawansowane zagadnienia
+	rutingu, sieci bezprzewodowe, &bluetooth;, ATM, IPv6 i wiele innych.</para>
+      </listitem>
+    </varlistentry>
+
+<!-- Part V - Appendices -->
+
+    <varlistentry>
+      <term><emphasis><xref linkend="mirrors">, Pozyskanie FreeBSD</emphasis></term>
+      <listitem>
+	<para>Zawiera zestawienie ró¿nych ¼róde³ sk±d mo¿na uzyskaæ FreeBSD na p³ytach CDROM
+	b±d¼ DVD, jak równie¿ witryny internetowe, z których mo¿na pobraæ i pó¼niej
+        zainstalowaæ FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="bibliography">, Bibliografia</emphasis></term>
+      <listitem>
+	<para>Ksi±¿ka ta porusza wiele ró¿norodnych zagadnieñ, niekoniecznie szczegó³owo
+	je wyja¶niaj±c.  Bibliografia zawiera listê wielu doskona³ych ksi±¿ek,
+	do których odniesienia mo¿na znale¼æ w tek¶cie Podrêcznika.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="eresources">, Zasoby w Internecie</emphasis></term>
+      <listitem>
+	<para>Opisuje wiele for po¶wiêconych FreeBSD, gdzie u¿ytkownicy mog± zadawaæ
+	pytania i braæ udzia³ w technicznych rozmowach o FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="pgpkeys">, Klucze PGP</emphasis></term>
+      <listitem>
+	<para>Zawiera listê kluczy PGP niektórych z twórców FreeBSD.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+
+  <bridgehead id="preface-conv" renderas=sect1>Konwencje u¿yte w tej ksi±¿ce</bridgehead>
+
+    <para>W celu utrzymania jednolito¶ci i ³atwo¶ci czytania
+      niniejszego tekstu w ksi±¿ce zastosowane zosta³y nastêpuj±ce
+      konwencje.</para>
+
+  <bridgehead id="preface-conv-typographic" renderas=sect2>Konwencje typograficzne</bridgehead>
+
+  <variablelist>
+    <varlistentry>
+      <term><emphasis>Kursywa</emphasis></term>
+      <listitem>
+        <para>Czcionka <emphasis>pochy³a</emphasis> stosowana jest do wskazania
+          plików, adresów URL, szczególnie akcentowanych fragmentów i pierwszego
+          zastosowania zwrotów technicznych.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><literal>Sta³a szeroko¶æ</literal></term>
+      <listitem>
+        <para>Czcionka o <literal>sta³ej szeroko¶ci</literal> stosowana jest do
+          przedstawienia komunikatów o b³êdach, poleceñ, zmiennych ¶rodowiskowych,
+          nazw portów, nazw komputerów, nazw u¿ytkowników i grup, nazw urz±dzeñ,
+          zmiennych i fragmentów kodu.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><application>Pogrubienie</application></term>
+      <listitem>
+        <para>Czcionka <application>pogrubiona</application> stosowana jest do
+          nazw programów, poleceñ i klawiszy.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+
+<!-- Var list -->
+  <bridgehead id="preface-conv-commands"
+  renderas=sect2>Zadania u¿ytkownika</bridgehead>
+
+  <para>Zgodnie z konwencj± typograficzn±, klawisze, które ma nacisn±æ
+    u¿ytkownik w trakcie pracy z opisywanym programem, zosta³y oznaczone
+    <keycap>pogrubieniem</keycap> by wyró¿nia³y siê z reszty tekstu.
+    Kombinacje klawiszy, które nale¿y nacisn±æ jednocze¶nie zawieraj± znak
+    `<literal>+</literal>' pomiêdzy, np.:</para>
+
+  <para>
+    <keycombo action="simul">
+      <keycap>Ctrl</keycap>
+      <keycap>Alt</keycap>
+      <keycap>Del</keycap>
+    </keycombo>
+  </para>
+
+  <para>Oznacza, ¿e u¿ytkownik powinien nacisn±æ <keycap>Ctrl</keycap>,
+    <keycap>Alt</keycap> i <keycap>Del</keycap> jednocze¶nie.</para>
+
+  <para>Klawisze, które nale¿y nacisn±æ kolejno bêd± oddzielone
+    przecinkiem, np.:</para>
+
+  <para>
+    <keycombo action="simul">
+      <keycap>Ctrl</keycap>
+      <keycap>X</keycap>
+    </keycombo>,
+    <keycombo action="simul">
+      <keycap>Ctrl</keycap>
+      <keycap>S</keycap>
+    </keycombo>
+  </para>
+
+  <para>Co oznacza, ¿e u¿ytkownik powinien nacisn±æ klawisze
+    <keycap>Ctrl</keycap> i <keycap>X</keycap> jednocze¶nie,
+    a nastêpnie <keycap>Ctrl</keycap> i <keycap>S</keycap>.</para>
+
+<!-- How to type in key stokes, etc.. -->
+  <bridgehead id="preface-conv-examples"
+  renderas=sect2>Przyk³ady</bridgehead>
+
+  <para>Przyk³ady zaczynaj±ce siê od <devicename>E:\&gt;</devicename>
+    wskazuj± polecenie systemu &ms-dos;. Je¶li nie jest wyra¼nie zaznaczone,
+    ¿e jest inaczej, polecenia te mog± byæ wprowadzane bezpo¶rednio w
+    oknie <quote>Linii poleceñ</quote> w ¶rodowisku &microsoft.windows;.</para>
+
+  <screen><prompt>E:\&gt;</prompt> <userinput>tools\fdimage floppies\kern.flp A:</userinput></screen>
+
+  <para>Przyk³ady zaczynaj±ce siê od &prompt.root; wskazuj± polecenie,
+    które musi byæ wprowadzone przez u¿ytkownika z uprawnieniami
+    administratora systemu FreeBSD. Mo¿esz zalogowaæ siê jako <username>root</username>
+    i wprowadziæ polecenie, b±d¼ zalogowaæ jako zwyk³y u¿ytkownik i wykorzystaæ
+    &man.su.1; by uzyskaæ prawa administratora.</para>
+
+  <screen>&prompt.root; <userinput>dd if=kern.flp of=/dev/fd0</userinput></screen>
+
+  <para>Przyk³ady zaczynaj±ce siê od &prompt.user; wskazuj±, i¿ polecenie
+    powinno byæ wprowadzone przez zwyk³ego u¿ytkownika. Je¶li nie jest
+    inaczej zaznaczone, stosowana jest sk³adnia pow³oki C (csh) do ustawiania
+    zmiennych ¶rodowiskowych i uruchamiania innych poleceñ pow³oki.</para>
+
+  <screen>&prompt.user; <userinput>top</userinput></screen>
+
+  <bridgehead id="preface-acknowledgements"
+  renderas=sect1>Podziêkowania</bridgehead>
+
+  <para>Niniejsza ksi±¿ka jest efektem pracy setek ludzi z ca³ego ¶wiata.
+    Niezale¿nie czy przys³ali poprawkê literówki czy ca³y rozdzia³, ka¿dy
+    wk³ad jest doceniany.</para>
+
+  <para>Kilka firm wspar³o rozwój tego dokumentu op³acaj±c autorów,
+    by mogli pracowaæ nad ni± w pe³nym wymiarze czasowym, finansuj±c
+    publikacjê w formie papierowej, itd. Pragniemy wymieniæ przede
+    wszystkim BSDi (przejête pó¼niej przez
+    <ulink url="http://www.windriver.com">Wind River Systems</ulink>),
+    które op³aci³o pracê cz³onków Projektu Dokumentacji FreeBSD nad korektami
+    ksi±¿ki, przygotowuj±c j± do pierwszej publikacji drukowanej
+    w Marcu 2000 r. (ISBN 1-57176-241-8). Nastêpnie, Wind River Systems
+    sfinansowa³o pracê kolejnych osób przygotowuj±cych nowe rozdzia³y,
+    a tak¿e format wydruku. Kulminacj± ich pracy jest drugie wydanie, które ujrza³o
+    ¶wiat³o dzienne w Listopadzie 2001 r. (ISBN 1-57176-303-1). W latach 2003-2004,
+    <ulink url="http://www.freebsdmall.com">FreeBSD Mall, Inc</ulink> sfinansowa³o
+    prace nad korekt± Podrêcznika, przygotowywanego do trzeciego wydania
+    w postaci drukowanej.</para>
+
+</preface>
+
+<!-- 
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "book" "preface")
+     End:
+-->

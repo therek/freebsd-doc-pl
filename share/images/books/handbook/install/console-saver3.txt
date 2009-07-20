@@ -1,0 +1,25 @@
+
+
+  .---------------------- System Console Screen Saver ----------------------.
+  | By default, the console driver will not attempt to do anything          |
+  | special with your screen when it's idle.  If you expect to leave your   |
+  | monitor switched on and idle for long periods of time then you should   |
+  | probably enable one of these screen savers to prevent phosphor burn-in. |
+  | .---------------------------------------------------------------------. |
+  | |    1 Blank   Simply blank the screen                                | |
+  | |    2 Da.----------------- Value Required ------------------.        | |
+  | |    3 Fa| Enter time-out period in seconds for screen saver |        | |
+  | |    4 Fi| .-----------------------------------------------. |        | |
+  | |    5 Gr| |300                                            | |tor)    | |
+  | |    6 Lo+-`-----------------------------------------------'-+        | |
+  | |    7 Ra|              [  OK  ]       Cancel                |        | |
+  | |    8 Sn`---------------------------------------------------'        | |
+  | |    9 Star    A "twinkling stars" effect                             | |
+  | |    Warp      A "stars warping" effect                               | |
+  | |    Timeout   Set the screen saver timeout interval                  | |
+  | `---------------------------------------------------------------------' |
+  +-------------------------------------------------------------------------+
+  |                         [  OK  ]       Cancel                           |
+  `-----------------[ Choose a nifty-looking screen saver ]-----------------'
+
+

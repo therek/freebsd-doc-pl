@@ -1,0 +1,25 @@
+
+
+   .--------------------- Please configure your mouse ----------------------.
+   | You can cut and paste text in the text console by running the mouse    |
+   | daemon.  Specify a port and a protocol type of your mouse and enable   |
+   | the mouse daemon.  If you don't want this feature, select 6 to disable |
+   | the daemon.                                                            |
+   | Once you've enabled the mouse daemon, you can specify "/dev/sysmouse"  |
+   | as your mouse device and "SysMouse" or "MouseSystems" as mouse         |
+   | protocol when running the X configuration utility (see Configuration   |
+   | menu).                                                                 |
+   | .--------------------------------------------------------------------. |
+   | |         X Exit     Exit this menu (returning to previous)          | |
+   | |         2 Enable   Test and run the mouse daemon                   | |
+   | |         3 Type     Select mouse protocol type                      | |
+   | |         4 Port     Select mouse port                               | |
+   | |         5 Flags    Set additional flags                            | |
+   | |         6 Disable  Disable the mouse daemon                        | |
+   | `--------------------------------------------------------------------' |
+   +------------------------------------------------------------------------+
+   |                         [  OK  ]       Cancel                          |
+   `------------------------------------------------------------------------'
+
+
+

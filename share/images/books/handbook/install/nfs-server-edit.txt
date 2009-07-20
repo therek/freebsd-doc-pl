@@ -1,0 +1,25 @@
+^[ (escape) menu ^y search prompt ^k delete line    ^p prev line  ^g prev page
+^o ascii code    ^x search        ^l undelete line  ^n next line  ^v next page
+^u end of file   ^a begin of line ^w delete word    ^b back char  ^z next word
+^t begin of file ^e end of line   ^r restore word   ^f forward char
+^c command       ^d delete char   ^j undelete char              ESC-Enter: exit
+===============================================================================
+#The following examples export /usr to 3 machines named after ducks,
+#/home and all directories under it to machines named after dead rock stars
+#and, finally, /a to 2 privileged machines allowed to write on it as root.
+#/usr                huey louie dewie
+#/home   -alldirs    janice jimmy frank
+#/a      -maproot=0  bill albert
+#
+# You should replace these lines with your actual exported filesystems.
+
+
+
+
+
+
+
+
+
+
+file "/etc/exports", 9 lines

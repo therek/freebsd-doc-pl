@@ -1,0 +1,25 @@
+q:Quit  d:Del  u:Undel  s:Save  m:Mail  r:Reply  g:Group  ?:Help
+   1 N   Mar 09 Super-User      (   1) test
+   2 N   Mar 09 Super-User      (   1) user account
+   3 N   Mar 09 Super-User      (   1) sample
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-*-Mutt: /var/mail/marcs [Msgs:3 New:3 1.6K]---(date/date)--------------(all)---
+

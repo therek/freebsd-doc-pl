@@ -1,0 +1,25 @@
+                         FreeBSD Disklabel Editor
+
+Disk: ad0       Partition name: ad0s1   Free: 0 blocks (0MB)
+
+Part      Mount          Size Newfs   Part      Mount          Size Newfs
+----      -----          ---- -----   ----      -----          ---- -----
+ad0s1a    /             128MB UFS   Y
+ad0s1b    swap          503MB SWAP
+ad0s1e    /var          256MB UFS+S Y
+ad0s1f    /tmp          256MB UFS+S Y
+ad0s1g    /usr         6919MB UFS+S Y
+
+
+
+
+
+
+The following commands are valid here (upper or lower case):
+C = Create        D = Delete   M = Mount pt.   W = Write
+N = Newfs Opts    Q = Finish   S = Toggle SoftUpdates
+T = Toggle Newfs  U = Undo     A = Auto Defaults    R = Delete+Merge
+
+Use F1 or ? to get more help, arrow keys to select.
+
+

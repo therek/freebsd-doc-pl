@@ -1,0 +1,25 @@
+
+
+
+
+      .----------------- System Console Configuration ------------------.
+      | The default system console driver for FreeBSD (syscons) has a   |
+      | number of configuration options which may be set according to   |
+      | your preference.                                                |
+      |                                                                 |
+      | When you are done setting configuration options, select Cancel. |
+      | .-------------------------------------------------------------. |
+      | |     X Exit       Exit this menu (returning to previous)     | |
+      | |     2 Font       Choose an alternate screen font            | |
+      | |     3 Keymap     Choose an alternate keyboard map           | |
+      | |     4 Repeat     Set the rate at which keys repeat          | |
+      | |     5 Saver      Configure the screen saver                 | |
+      | |     6 Screenmap  Choose an alternate screenmap              | |
+      | `-------------------------------------------------------------' |
+      +-----------------------------------------------------------------+
+      |                     [  OK  ]       Cancel                       |
+      `-----------[ Configure your system console settings ]------------'
+
+
+
+

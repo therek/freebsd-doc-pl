@@ -1,0 +1,25 @@
+  PINE 4.58   GREETING TEXT                                        No Messages
+
+                    <<<This message will appear only once>>>
+
+           Welcome to Pine ... a Program for Internet News and Email
+
+We hope you will explore Pine's many capabilities. From the Main Menu,
+select Setup/Config to see many of the options available to you. Also
+note that all screens have context-sensitive help text available.
+
+SPECIAL REQUEST: This software is made available world-wide as a public
+service of the University of Washington in Seattle. In order to justify
+continuing development, it is helpful to have an idea of how many people
+are using Pine. Are you willing to be counted as a Pine user? Pressing
+Return will send an anonymous (meaning, your real email address will not
+be revealed) message to the Pine development team at the University of
+Washington for purposes of tallying.
+
+              Pine is a trademark of the University of Washington.
+
+
+
+                             [ALL of greeting text]
+? Help      E Exit this greeting              - PrevPage % Print
+          Ret [Be Counted!]                 Spc NextPage

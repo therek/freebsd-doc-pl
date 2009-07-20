@@ -1,0 +1,16 @@
+<!-- -*- sgml -*-
+     DocBook Language Specific Entities for Localization (pl).
+
+     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/l10n.ent,v 1.1 2006/11/10 11:41:06 therek Exp $
+     Original revision: 1.2
+-->
+
+<!-- docformat navi -->
+<!ENTITY docnavi.single-html "Pojedyncza strona HTML">
+<!ENTITY docnavi.split-html  "HTML z podzia³em na podstrony">
+
+<!ENTITY doc.langcode.pl "pl_PL.ISO8859-2">
+<!ENTITY doc.langcode    "&doc.langcode.pl;">
+
+<!-- charset for HTML output -->
+<!ENTITY doc.html.charset "iso-8859-2">

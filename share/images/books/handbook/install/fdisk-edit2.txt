@@ -1,0 +1,25 @@
+Disk name:      ad0                                    FDISK Partition Editor
+DISK Geometry:  16383 cyls/16 heads/63 sectors = 16514064 sectors (8063MB)
+
+Offset       Size(ST)        End     Name  PType       Desc  Subtype    Flags
+
+         0         63         62        -      6     unused        0
+        63   16514001   16514063    ad0s1      3    freebsd      165    CA
+
+
+
+
+
+
+
+The following commands are supported (in upper or lower case):
+
+A = Use Entire Disk    G = set Drive Geometry   C = Create Slice   F = `DD' mode
+D = Delete Slice       Z = Toggle Size Units    S = Set Bootable   | = Wizard m.
+T = Change Type        U = Undo All Changes     Q = Finish
+
+
+Use F1 or ? to get more help, arrow keys to select.
+
+
+

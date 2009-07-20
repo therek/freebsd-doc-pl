@@ -1,0 +1,10 @@
+<!--
+     Names of FreeBSD newsgroups
+
+     $FreeBSD: doc/en_US.ISO8859-1/share/sgml/newsgroups.ent,v 1.1 2006/11/28 21:36:36 therek Exp $
+-->
+
+<!ENTITY ng.misc "the
+ <ulink url='news:comp.unix.bsd.freebsd.misc'>comp.unix.bsd.freebsd.misc</ulink>
+ newsgroup">
+

@@ -1,0 +1,25 @@
+---Active-Drivers----------------------------------------------Dev---IRQ--Port--
+  Storage :
+   ATA/ATAPI compatible disk controller                       ata0     14 0x1f0
+   ATA/ATAPI compatible disk controller                       ata1     15 0x170
+   Floppy disk controller                                     fdc0     6  0x3f0
+  Network :
+   NE1000,NE2000,3C503,WD/SMC80xx Ethernet adapters           ed0      10 0x280
+  Communications :
+   Parallel Port chipset                                      ppc0     7
+---Inactive-Drivers--------------------------------------------Dev--------------
+  Storage :          (Collapsed)
+  Network :          (Collapsed)
+  Communications :   (Collapsed)
+  Input :
+  Multimedia :
+  Miscellaneous :    (Collapsed)
+
+--------------------------------------------------------------------------------
+ Port address : 0x1f0
+ IRQ number   : 14
+ Flags        : 0x0
+--------------------------------------------------------------------------------
+  [Enter] Edit device parameters  [DEL] Disable device
+  [TAB]   Change fields           [Q]   Save and Exit             [?] Help
+

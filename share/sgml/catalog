@@ -1,0 +1,70 @@
+  -- ...................................................................... --
+  -- FreeBSD SGML Public Identifiers ...................................... --
+  
+  -- $FreeBSD: doc/share/sgml/catalog,v 1.1 2006/11/10 11:25:13 therek Exp $
+  --
+
+  -- ...................................................................... --
+  -- Language neutral ..................................................... --
+ 
+  -- These identifiers are shared across all translations of the FreeBSD
+     documentation, even though the listed language is "EN"
+  --
+
+PUBLIC "-//FreeBSD//DTD DocBook V3.1-Based Extension//EN" 
+       "freebsd.dtd"
+
+PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"
+	"freebsd41.dtd"
+
+PUBLIC "-//FreeBSD//DOCUMENT DocBook Stylesheet//EN"
+	"freebsd.dsl"
+
+PUBLIC "-//FreeBSD//DOCUMENT DocBook Language Neutral Stylesheet//EN"
+	"freebsd.dsl"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Articles Entity Set//EN" 
+       "articles.ent"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Books Entity Set//EN" 
+       "books.ent"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN" 
+       "man-refs.ent"
+
+PUBLIC	"-//FreeBSD//ENTITIES DocBook Miscellaneous FreeBSD Entities//EN"
+	"freebsd.ent"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook Language Specific Entities//EN"
+	"l10n.ent"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook Language Neutral Entities//EN"
+	"l10n.ent"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook Trademark Entities//EN"
+	"trademarks.ent"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook URL Entities//EN"
+	"urls.ent"
+  -- ...................................................................... --
+  -- English specific ..................................................... --
+
+  -- These identifiers should only be used by English language versions of 
+     the FreeBSD Documentation.
+
+     All other translations should base their FPIs on these, but change the
+     final parameter in the FPI to represent the target language, as 
+     appropriate.  Do not change the rest of the FPI
+  --
+
+PUBLIC 	"-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN" 
+	"../../en_US.ISO8859-1/share/sgml/bookinfo.ent"
+
+PUBLIC  "-//FreeBSD//ENTITIES DocBook Author Entities//EN"
+        "../../en_US.ISO8859-1/share/sgml/authors.ent"
+
+PUBLIC  "-//FreeBSD//ENTITIES DocBook Team Entities//EN"
+        "../../en_US.ISO8859-1/share/sgml/teams.ent"
+
+PUBLIC  "-//FreeBSD//ENTITIES DocBook Newsgroup Entities//EN"
+        "../../en_US.ISO8859-1/share/sgml/newsgroups.ent"

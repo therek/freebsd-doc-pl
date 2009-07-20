@@ -1,0 +1,1720 @@
+<!--
+     The FreeBSD Polish Documentation Project
+
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/cutting-edge/chapter.sgml,v 1.3 2007/07/22 18:12:20 therek Exp $
+     Original revision: 1.225
+-->
+
+<chapter id="cutting-edge">
+  <chapterinfo>
+    <authorgroup>
+      <author>
+	<firstname>Jim</firstname>
+	<surname>Mock</surname>
+	<contrib>Zrekonstruowa³, zreorganizowa³ i czêsciowo zaktualizowa³ </contrib>
+      </author>
+      <!-- Mar 2000 -->
+    </authorgroup>
+    <authorgroup>
+      <author>
+	<firstname>Jordan</firstname>
+	<surname>Hubbard</surname>
+	<contrib>Pierwotnie napisa³ </contrib>
+      </author>
+      <author>
+	<firstname>Poul-Henning</firstname>
+	<surname>Kamp</surname>
+      </author>
+      <author>
+	<firstname>John</firstname>
+	<surname>Polstra</surname>
+      </author>
+      <author>
+	<firstname>Nik</firstname>
+	<surname>Clayton</surname>
+      </author>
+    </authorgroup>
+    <!-- with feedback from various others -->
+
+    <authorgroup>
+      <author>
+        <firstname>Artur</firstname>
+        <surname>Zych</surname>
+        <contrib>T³umaczy³ </contrib>
+      </author>
+    </authorgroup>
+  </chapterinfo>
+
+  <title>Najnowsze rozwi±zania</title>
+
+  <sect1 id="cutting-edge-synopsis">
+    <title>Streszczenie</title>
+
+    <para>&os; jest ca³y czas rozwijany pomiêdzy kolejnymi wydaniami. Dla
+      ludzi chc±cych byæ na bie¿±co istnieje kilka prostych
+      mechanizmów s³u¿±cych utrzymaniu systemu zsynchronizowanego z najnowszymi 
+      zmianami. Pamiêtajmy jednak&mdash; ¿e najnowsze rozwi±zania nie s± dla ka¿dego!
+      Rozdzia³ ten pomo¿e zdecydowaæ, czy chcemy pod±¿aæ za ci±g³ymi zmianami w systemie, 
+      czy te¿ trzymaæ siê wydanych ju¿ wersji.</para>
+
+    <para>Po przeczytaniu tego rozdzia³u, dowiemy siê:</para>
+
+    <itemizedlist>
+      <listitem><para>Jaka jest ró¿nica pomiêdzy dwiema ga³êziami rozwoju
+	 : &os.stable; i &os.current;.</para>
+      </listitem>
+      <listitem><para>Jak utrzymywaæ nasz system na bie¿±co przy pomocy:
+	  <application>CVSup</application>,
+	  <application>CVS</application>, lub
+	  <application>CTM</application>.</para>
+      </listitem>
+      <listitem><para>Jak przebudowaæ i zreinstalowaæ ca³y podstawowy system
+      przy pomocy <command>make buildworld</command> (etc).</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para>Zanim zaczniemy czytaæ ten rozdzia³, powinni¶my:</para>
+
+    <itemizedlist>
+      <listitem><para>Poprawnie ustanowiæ po³±czenie sieciowe (<xref
+      linkend="advanced-networking">).</para>
+      </listitem>
+      <listitem><para>Wiedzieæ, jak zainstalowaæ dodatkowe
+        oprogramowanie (<xref linkend="ports">).</para></listitem>
+    </itemizedlist>
+  </sect1>
+  
+  <sect1 id="current-stable">
+    <title>&os.current; kontra &os.stable;</title>
+    <indexterm><primary>-CURRENT</primary></indexterm>
+    <indexterm><primary>-STABLE</primary></indexterm>
+
+    <para>Istniej± dwie ga³êzie rozwoju FreeBSD: &os.current; i
+      &os.stable;.  Sekcja ta omówi ka¿d± z nich po krótce oraz opisze
+      w jaki sposób mo¿emy utrzymaæ nasz system na bie¿±co z ka¿dym poszczególnym drzewem.
+      &os.current; zostanie omówiony jako pierwszy, nastêpnie &os.stable;.</para>
+
+    <sect2 id="current">
+      <title>Pod±¿anie za &os.current;</title>
+
+      <para>Czytaj±c to pamiêtajmy, ¿e &os.current; znajduje siê				
+	<quote>na czele</quote> rozwoju &os;.
+	Od u¿ytkowników &os.current; oczekuje siê wysokiego stopnia
+	umiejêtno¶ci technicznych oraz umiejêtno¶ci samodzielnego rozwi±zywania
+	trudnych problemów systemowych. Je¿eli jeste¶my nowymi u¿ytkownikami &os; lepiej
+	zastanówmy siê dwa razy zanim siê na to zdecydujemy.  </para>
+
+      <sect3>
+	<title>Czym jest &os.current;?</title>
+	<indexterm><primary>snapshot</primary></indexterm>
+
+	<para>&os.current; to zbiór najnowszych sprawnych ¼róde³ &os;.
+	  Zawiera niedokoñczone prace, eksperymentalne zmiany a tak¿e
+	  przej¶ciowe mechanizmy które mog± lub nie, zostaæ umieszczone
+	  w kolejnym oficjalnym wydaniu oprogramowania.  Podczas, 
+	  gdy wielu deweloperów &os; kompiluje kod ¼ród³owy &os.current; 
+	  codziennie, zdarzaj± siê okresy czasowe, kiedy ¼ród³a nie mog± zostaæ 
+	  zbudowane. Takie problemy rozwi±zywane s± tak szybko jak to mo¿liwe, ale to, czy &os.current; 
+	  spowoduje szkody, czy wniesie d³ugo oczekiwane usprawnienia zale¿y czêsto od 
+	  momentu, w którym zastaniemy kod ¼ród³owy!</para>
+      </sect3>
+
+      <sect3>
+	<title>Kto potrzebuje &os.current;?</title>
+
+	<para>&os.current; jest kierowany do 3
+	  podstawowych grup zainteresowañ:</para>
+
+	<orderedlist>
+	  <listitem>
+	    <para>Cz³onkowie spo³eczno¶ci &os; którzy aktywnie pracuj±
+	      nad czê¶ciami drzewa ¼ród³owego oraz dla których utrzymywanie
+	      <quote>current</quote> jest warunkiem
+	      koniecznym.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Cz³onkowie spo³eczno¶ci &os; którzy s± aktywnymi testerami,
+	      gotowymi po¶wiêciæ czas na rozwi±zywanie problemów aby zapewniæ, 
+	      ¿e &os.current; pozostanie tak stabilny jak to mo¿liwe.
+	      S± to rownie¿ ludzie, którzy wysuwaj± pewne fachowe sugestie dotycz±ce
+	      zmian a tak¿e generalnego kierunku rozwoju &os;, 
+	      czêsto nadsy³aj±cy ³atki implementuj±ce zmiany.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Ci, którzy rzadko pilnuj± czegokolwiek lub
+	      u¿ywaj± ¼róde³ current-a do celów informacyjnych
+	      (np. po to aby <emphasis>czytaæ</emphasis> kod, a nie go u¿ywaæ).			
+	      Okazjonalnie zdarza im siê wnosiæ wk³ad w rozwój, w postaci kodu 
+              czy komentarza.</para>
+	  </listitem>
+	</orderedlist>
+      </sect3>
+
+      <sect3>
+	<title>Czym &os.current; <emphasis>Nie</emphasis> jest?</title>
+
+	<orderedlist>
+	  <listitem>
+	    <para>Szybkim sposobem na zdobycie przedwydaniowych czê¶ci,
+	      poniewa¿ us³yszeli¶my, ¿e maj± one jakie¶ nowe, cudowne w³a¶ciwo¶ci
+	      i chcemy byæ pierwszymi z naszego bloku, którzy je zdobêd±.  To, ¿e
+	      jako pierwsi z naszego bloku zdobêdziemy now± opcjê znaczy, ¿e
+	      bêdziemy rownie¿ pierwszymi, u których pojawi± siê nowe
+	      b³êdy.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Szybkim sposobem na zdobycie ³atek naprawiaj±cych b³êdy.  Ka¿da dana wersja
+	      &os.current; w podobnym zakresie naprawia poprzednie b³êdy co
+	      wnosi nowe.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>W ¿aden sposób <quote>wspierana oficjalnie</quote>.  Robimy
+	      co w naszej mocy aby realnie pomóc ludziom z jednej z 3
+	      <quote>s³usznych</quote> grup &os.current;, ale po prostu
+	      <emphasis>nie mamy czasu</emphasis> aby zapewniæ odpowiednie
+	      wsparcie techniczne.  Nie dla tego, ¿e jeste¶my wrednymi i z³ymi
+	      ludzmi, którzy nie lubi± pomagaæ innym (gdyby¶my byli, 
+              nie tworzyliby¶my nawet &os;).  Po prostu 
+	      nie mo¿emy odpowiadaæ na setki wiadomo¶ci codziennie
+	      <emphasis>i jednocze¶nie</emphasis> pracowaæ nad FreeBSD!  W wyborze
+	      pomiêdzy ulepszaniem &os; a odpowiadaniem na stosy pytañ dotycz±cych
+	      eksperymentalnego kodu, deweloperzy optuj± 
+	      za tym pierwszym.</para>
+	  </listitem>
+	</orderedlist>
+      </sect3>
+
+      <sect3>
+	<title>U¿ywanie &os.current;</title>
+      
+	<indexterm>
+	  <primary>-CURRENT</primary>
+	  <secondary>using</secondary>
+	</indexterm>
+	<orderedlist>
+	  <listitem>
+	    <para>Zapiszmy siê na listy &a.current.name; i &a.cvsall.name;.  Nie jest to tylko
+	      dobra rada, jest to wrêcz <emphasis>niezbêdne</emphasis>.  Je¿eli
+	      nie jeste¶my zapisani na listê <emphasis>&a.current.name;</emphasis>,
+	      nie bêdziemy mógli obserwowaæ komentarzy ludzi, dotycz±cych
+	      obecnego stanu systemu i prawdopodobnie bêdziemy g³owiæ siê  
+	      nad wieloma problemami, które inni ju¿ odkryli i rozwi±zali.  
+	      Co wa¿niejsze, przegapimy wa¿ne biuletyny, które mog± mieæ
+	      istotny wp³yw na kondycjê naszego systemu.</para>
+
+	    <para>Lista &a.cvsall.name; pozwoli nam na obserwowanie dokumentacji
+	      ka¿dej wprowadzanej zmiany razem ze stosownymi informacjami
+	      dotycz±cymi jej ewentualnych efektów ubocznych.</para>
+
+	    <para>Aby do³±czyæ do wy¿ej wymienionych list lub jednej z innych
+	      dostêpnych, przejd¼my do &a.mailman.lists.link; i kliknijmy listê, 
+              któr± chcemy subskrybowaæ.  Tam znajdziemy resztê potrzebnych
+	      informacji.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Zdob±d¼my ¼ród³a ze <link linkend="mirrors">strony				
+	      lustrzanej</link> &os;.  Mo¿na to zrobiæ na dwa sposoby:</para>
+
+	    <orderedlist>
+              <indexterm>
+                <primary><command>cvsup</command></primary>
+              </indexterm>
+              <indexterm>
+                <primary><command>cron</command></primary>
+              </indexterm>
+              <indexterm>
+	        <primary>-CURRENT</primary>
+		<secondary>Synchronizacja za pomoc± <application>CVSup</application></secondary>
+	      </indexterm>
+
+	      <listitem>
+		<para>U¿yjmy programu <link linkend="cvsup">cvsup</link>
+                  z <filename>supfile</filename> o nazwie <filename>standard-supfile</filename>
+                  znajduj±cego siê w <filename>/usr/share/examples/cvsup</filename>.
+		  Jest to najbardziej zalecana metoda,
+		  poniewa¿ umo¿liwia pozyskanie ca³ej kolekcji za jednym razem
+		  a przy kolejnych u¿yciach, jedynie tego co zosta³o zmienione.
+                  Wielu ludzi u¿ywa <command>cvsup</command> dopisanego do 
+		  <command>cron</command>'a, automatycznie utrzymuj±c swoje
+ 		  ¼ród³a zaktualizowane.  Musimy zmieniæ
+ 		  przyk³adowy <filename>supfile</filename> zamieszczony powy¿ej, i skonfigurowaæ
+ 		  <link linkend="cvsup">cvsup</link> dla potrzeb naszego ¶rodowiska</para>
+	      </listitem>
+
+              <indexterm>
+	        <primary>-CURRENT</primary>
+		<secondary>Synchronizacja za pomoc± CTM</secondary>
+	      </indexterm>
+	      <listitem>
+		<para>U¿yjmy <application><link
+		  linkend="ctm">CTM</link></application>.  Je¶li posiadamy
+		  bardzo kiepskie po³±czenie (np. drogie lub jedynie z dostêpem
+		  do e-maila) opcj± jest <application>CTM</application>.
+		  Niemniej jednak, jest z tym trochê mêczenia i mo¿e tak¿e skutkowaæ uszkodzonymi
+		  plikami. Doprowadzi³o to do tego, ¿e metoda ta jest raczej rzadko u¿ywana,
+		  co zwiêksza znowu szanse na niedzia³anie przez d³ugie okresy czasu.
+                  Zalecamy wiêc u¿ywanie
+		  <application><link linkend="cvsup">CVSup</link></application>
+		  ka¿demu, kto posiada modem o przepustowo¶ci 9600&nbsp;bps lub szybsze ³±cze.
+		</para>
+	      </listitem>
+	    </orderedlist>
+	  </listitem>
+
+	  <listitem>
+	    <para>Je¶li pozyskujemy ¼ród³a aby ich u¿ywaæ a nie tylko przegl±daæ,
+	      wybierzmy <emphasis>all</emphasis> z &os.current; zamiast
+	      wybranych czê¶ci.  Powodem tego jest to, ¿e ró¿ne czêsci ¼róde³ zale¿±
+	      od aktualizacji w innych czê¶ciach wiêc kompilacja podgrupy
+	      prawie zawsze gwarantuje wpêdzenie siê w k³opoty.</para>
+
+	  <indexterm>
+	    <primary>-CURRENT</primary>
+	    <secondary>compiling</secondary>
+	  </indexterm>
+	    <para>Przed rozpoczêciem kompilacji &os.current;, dok³adnie przeczytajmy
+	      <filename>Makefile</filename> z <filename>/usr/src</filename>.
+	      Powinni¶my, przynajmniej za pierwszym razem <link
+	      linkend="makeworld">zainstalowaæ nowe j±dro i przebudowaæ ¶wiat</link> jako czê¶æ
+	      procesu aktualizacji.  Czytanie &a.current;
+	      i <filename>/usr/src/UPDATING</filename> zapewni, ¿e bêdziemy na bie¿±co ze	
+	      wszystkimi innymi procedurami rozruchowymi, które czasem staj± siê niezbêdne,
+	      kiedy przechodzimy do nastêpnego wydania.</para>
+	  </listitem>
+	      
+	  <listitem>
+	    <para>B±d¼my aktywni! Je¶li u¿ywamy &os.current; deweloperzy chcieliby wiedzieæ
+	      co mamy o nim do powiedzenia, zwlaszcza je¶li posiadamy jakies sugestie
+	      dotycz±ce ulepszeñ czy naprawy b³êdów.  Sugestie z do³±czonym
+	      kodem s± przyjmowane wyj±tkowo entuzjastycznie!</para>
+	  </listitem>
+	</orderedlist>
+      </sect3>
+    </sect2>
+  
+    <sect2 id="stable">
+      <title>Pod±¿anie za &os.stable;</title>
+
+      <sect3>
+	<title>Czym jest &os.stable;?</title>
+	<indexterm><primary>-STABLE</primary></indexterm>
+
+	<para>&os.stable; jest ga³êzi± rozwojow±, z której tworzone s± g³ówne wydania.
+	  Zmiany w tej ga³êzi wprowadzane s± z inn± prêdko¶ci±, zak³adaj±c, ¿e
+	  najpierw pomy¶lnie przesz³y testy w &os.current;.
+	  Jednak¿e, jest to <emphasis>ci±gle</emphasis>
+	  ga³±¼ rozwojowa, co oznacza, ¿e w danym czasie ¼ród³a &os.stable;
+	  mog±, lub nie, byæ odpowiednie do konkretnego celu.
+	  Jest to po prostu kolejna deweloperska ¶cie¿ka a nie ¼ród³o
+	  dla zwyk³ych u¿ytkowników.</para>
+      </sect3>
+
+      <sect3>
+	<title>Kto potrzebuje &os.stable;?</title>
+
+	<para>Je¿eli jeste¶my zainteresowani ¶ledzeniem, lub wniesieniem wk³adu w
+          proces rozwoju FreeBSD, zwlaszcza je¶li ³±czy siê to z nastêpnym
+	  <quote>g³ównym</quote> wydaniem FreeBSD, powinni¶my wtedy rozwa¿yæ
+	  pod±¿anie za &os.stable;.</para>
+
+	<para>Podczas, gdy prawd± jest, ¿e ³atki bezpieczeñstwa równie¿ trafiaj± do ga³êzi
+	  &os.stable;, wcale nie <emphasis>musimy</emphasis> pod±¿aæ
+	  za &os.stable; aby je mieæ. Ka¿dy poradnik bezpieczeñstwa (ang. security advisory)			
+	  FreeBSD wyja¶nia jak naprawiæ problem w wydaniach, w których on wystêpujê
+	  <footnote><para>Nie jest to do koñca prawd±.  Nie mo¿emy kontynuowaæ
+  	    wspierania starych wydañ FreeBSD w nieskoñczono¶æ, aczkolwiek
+  	    wspieramy je przez wiele lat.  Po kompletny opis polityki
+  	    bezpieczeñstwa dotycz±cej starych wydañ FreeBSD, 
+  	    zobacz <ulink
+  	    url="&url.base;/security/">http://www.FreeBSD.org/security/</ulink>.</para>
+	  </footnote>
+	  a ¶ledzenie ca³ej ga³êzi rozwojowej tylko ze wzglêdów bezpieczeñstwa
+	  najpewniej przyniesie wiele niechcianych zmian.</para>
+
+	<para>Pomimo tego, ¿e staramy siê zapewniæ ¿eby ga³±¼ &os.stable;
+	  kompilowa³a siê i dzia³a³a ca³y czas, nie mo¿na tego zagwarantowaæ.
+	  Dodatkowo, podczas gdy kod jest rozwijany w &os.current; przed wprowadzeniem
+	  go do &os.stable;, wiêcej ludzi u¿ywa &os.stable; ni¿ &os.current; wiêc
+	  nieuchronne jest, aby b³êdy lub przeoczenia, które nie by³y widoczne w &os.current;	  
+	  odnajdywano czasem w &os.stable;.</para>
+
+	<para>Z tych powodów <emphasis>nie</emphasis> zalecamy ¶lepego 
+	  pod±¿ania za &os.stable; i jest szczególnie wa¿ne aby nie aktualizowaæ
+	  ¿adnych serwerów produkcyjnych do &os.stable; bez uprzedniego
+	  gruntownego prztesowania kodu w swoim ¶rodowisku deweloperskim.</para>
+
+	<para>Je¿eli nie ma mo¿liwo¶ci zrobienia tego, zalecamy
+	  aby¶ u¿ywa³ jak najnowszego wydania FreeBSD i wykorzystywa³ binarny
+	  mechanizm aktualizacji do przesiadania siê na kolejne wydania.</para>				
+      </sect3>
+
+      <sect3>
+	<title>U¿ywanie &os.stable;</title>
+      
+	<indexterm>
+	  <primary>-STABLE</primary>
+	  <secondary>using</secondary>
+	</indexterm>
+	<orderedlist>
+	  <listitem>
+	    <para>Do³±czmy do listy &a.stable.name;.  To pozwoli nam na bycie zorientowanymi
+	      w zale¿no¶ciach dotycz±cych budowy, które mog± pojawiæ siê w &os.stable;
+	      a tak¿e w innych kwestiach wymagaj±cych uwagi.
+  	      Równie¿ na tej li¶cie mailingowej deweloperzy bêd± og³aszaæ
+	      swoj± niepewno¶æ dotycz±c± jakiej¶ kontrowersyjnej poprawki
+	      czy aktualizacji, daj±c u¿ytkownikom mo¿liwo¶æ reakcji, je¶li bêd±
+	      oni mieli jakie¶ argumenty odno¶nie proponowanej zmiany.</para>
+
+	    <para>Lista &a.cvsall.name; pozwoli na obserwacjê dokumentacji
+	      ka¿dej wprowadzanej zmiany, razem, ze stosownymi informacjami
+	      dotycz±cymi jej ewentualnych efektów ubocznych.</para>
+
+	    <para>Aby do³±czyæ do wy¿ej wymienionych list lub jednej z innych
+	      dostêpnych, przejd¼my do &a.mailman.lists.link; i kliknijmy listê,
+	      któr± chcemy subskrybowaæ.  Tam znajdziemy resztê potrzebnych
+	      informacji.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Je¿eli zamierzamy zainstalowaæ nowy system i chcemy u¿yæ 
+	      comiesiêcznej migawki zbudowanej z &os.stable;, sprawd¼my
+	      stronê z <ulink url="&url.base;/snapshots/">Migawkami</ulink> w celu
+	      uzyskania wiêcej informacji. Alternatywnie, mo¿liwe jest
+	      zainstalowanie najnowszego &os.stable; ze
+	      <link linkend="mirrors">stron lustrzanych</link> i pod±¿anie za
+	      instrukcjami poni¿ej w celu zaktualizowania systemu do jak
+	      najnowszej wersji kodu ¼ród³owego &os.stable;.</para>
+
+	    <para>Je¿eli u¿ywamy poprzedniego wydania &os;
+	      i chcemy zaktualizowaæ go poprzez ¼ród³a, mo¿emy to w prosty
+	      sposób zrobiæ korzystaj±c ze <link linkend="mirrors">stron lustrzanych</link> $os;.  Mo¿na
+	      tego dokonaæ na dwa sposoby:</para>
+
+	    <orderedlist>
+	      <indexterm>
+		<primary><command>cvsup</command></primary>
+	      </indexterm>
+	      <indexterm>
+		<primary><command>cron</command></primary>
+	      </indexterm>
+	      <indexterm>
+	        <primary>-STABLE</primary>
+		<secondary>Synchronizacja z <application>CVSup</application></secondary>
+	      </indexterm>
+	      <listitem>
+		<para>U¿yjmy programu <link linkend="cvsup">cvsup</link>
+                  z <filename>supfile</filename> o nazwie <filename>stable-supfile</filename>
+                  znajduj±cego siê w 
+                  <filename>/usr/share/examples/cvsup</filename>.
+		  Jest to najbardziej zalecana metoda
+		  poniewa¿ pozwala na jednorazowe pozyskanie ca³ej kolekcji,
+		  a przy kolejnych u¿yciach, jedynie tego co zosta³o zmienione.
+		  Wielu ludzi u¿ywa <command>cvsup</command> dopisanego do 
+		  <command>cron</command>'a, automatycznie utrzymuj±c swoje
+		  ¼ród³a zaktualizowane.  Musimy zmieniæ
+		  przyk³adowy <filename>supfile</filename> wymieniony powy¿ej
+	          i skonfigurowaæ <link linkend="cvsup">cvsup</link> dla potrzeb naszego ¶rodowiska</para>
+	      </listitem>
+
+	      <indexterm>
+	        <primary>-STABLE</primary>
+		<secondary>Synchronizacja za pomoc± CTM</secondary>
+	      </indexterm>
+	      <listitem>
+		<para>U¿yj <application><link
+		  linkend="ctm">CTM</link></application>.  Je¶li
+		  nie posiadamy szybkiego i taniego po³±czenia z internetem
+		  powinni¶my wzi±¶æ pod uwagê skorzystanie z tej metody.
+		  </para>
+	      </listitem>
+	   </orderedlist>
+	 </listitem>
+
+	  <listitem>
+	    <para>Szczególnie je¶li potrzebujemy b³yskawicznego dostêpu do ¼róde³
+	      na ¿±danie, a szeroko¶c pasma komunikacji nie gra roli,
+	      u¿yjmy <command>cvsup</command> lub <command>ftp</command>.
+	      W innym przypadku skorzystajmy z <application>CTM</application>.</para>
+	  </listitem>
+
+	  <indexterm>
+	    <primary>-STABLE</primary>
+	    <secondary>compiling</secondary>
+	  </indexterm>
+	  <listitem>
+	    <para>Przed rozpoczêciem kompilacji &os.stable;, dok³adnie przeczytajmy
+	    <filename>Makefile</filename> z <filename>/usr/src</filename>
+	    Powinni¶my, przynajmniej za pierwszym razem, <link
+	    linkend="makeworld">zainstalowaæ nowe j±dro i przebudowaæ ¶wiat</link> jako czê¶æ
+	    procesu aktualizacji.  Czytanie &a.stable; i 
+	    <filename>/usr/src/UPDATING</filename> zapewni, ¿e bêdziemy na bie¿±co ze
+            wszystkimi innymi procedurami rozruchowymi, które czasem staj± siê niezbêdne,
+            kiedy przechodzimy do nastêpnego wydania.</para>
+	  </listitem>
+	</orderedlist>
+      </sect3>
+    </sect2>
+  </sect1>
+
+  <sect1 id="synching">
+    <title>Synchronizacja ¼róde³</title>
+    
+    <para>Istnieje wiele sposobów na wykorzystanie ³±cza internetowego
+      w celu utrzymywania na bie¿±co wszystkich, b±d¼ wybranego obszaru ¼róde³ projektu &os;
+      , zale¿nie od tego co nas interesuje.  Podstawowymi oferowanymi
+      us³ugami s±: <link linkend="anoncvs">Anonimowy system
+      CVS</link>, <link linkend="cvsup">CVSup</link>, a tak¿e <link
+      linkend="ctm">CTM</link>.</para>
+
+    <warning>
+      <para>Podczas, gdy mo¿liwym jest aktualizowanie jedynie czê¶ci naszego
+        drzewa ¼ród³owego, jedyn± wspieran± form± aktualizacji jest aktualizacja
+        ca³ego drzewa i rekompilacja zarówno tzw. userlandu (czyli wszystkich
+        programów pracuj±cych na obszarze u¿ytkownika, np. jak te z <filename>/bin</filename> i
+        <filename>/sbin</filename>) jak i ¼róde³ j±dra.  Czê¶ciowa aktualizacja drzewa ¼ród³owego
+        jak np. tylko j±dra, b±d¼ tylko userlandu skutkuje czêsto problemami.
+        Problemy te s± zró¿nicowane, od b³êdów w trakcie kompilacji po 						
+        krytyczne b³êdy j±dra czy uszkodzenie danych.</para>
+    </warning>
+
+    <indexterm>
+      <primary>CVS</primary>
+      <secondary>anonymous</secondary>
+    </indexterm>
+
+    <para><application>Anonimowy CVS</application> i								
+      <application>CVSup</application> u¿ywaj± tzw. <emphasis>aktywnego</emphasis>
+      modelu aktualizacji ¼róde³.  W przypadku
+      <application>CVSup</application>, u¿ytkownik (b±d¼ 
+      skrypt w <command>cron</command>'ie) wywo³uje
+      program <command>cvsup</command>, który komunikuje siê z
+      danym serwerem <command>cvsupd</command> w celu zaktualizowania naszych
+      plików.  Aktualizacje, które otrzymujemy, s± ¶wie¿e co do minuty i
+      otrzymujemy je wtedy, i tylko wtedy, kiedy chcemy.  Mo¿emy w ³atwy sposób
+      ograniczyæ aktualizacjê do okre¶lonych plików lub folderów, które
+      nas interesuj±.  Aktualizacje s± generowanie "w biegu" przez serwer,
+      w zale¿no¶ci od tego co mamy i tego co chcemy mieæ.
+      <application>Anonimowy CVS</application> jest prostrzy
+      od <application>CVSup</application>, poniewa¿ stanowi on jedynie rozszerzenie
+      <application>CVS</application>'a pozwalaj±ce mu na pobieranie zmian
+      bezpo¶rednio ze zdalnego respozytorium CVS.
+      <application>CVSup</application> mo¿e to zrobiæ o wiele bardziej wydajnie,
+      ale <application>Anonimowy CVS</application> jest ³atwiejszy w u¿yciu.</para>
+
+    <indexterm>
+      <primary><application>CTM</application></primary>
+    </indexterm>
+    <para><application>CTM</application>, z drugiej strony, nie porównuje
+      interaktywnie ¼róde³ które mamy, z tymi w archiwum g³ównym, ani nie
+      pobiera ich.  Zamiast tego, kilkana¶cie razy na dzieñ, na 
+      g³ównej maszynie systemu CTM, uruchamiany jest skrypt, który identyfikuje 
+      zmiany dokonane w plikach od czasu ich poprzedniego uruchomienia.
+      Wszystkie wykryte zmiany zostaj± skompresowane, oznakowane
+      numerem sekwencji i zakodowane dla wys³ania e-mailem
+      (tylko w formacie ASCII gotowym do druku).  Kiedy ju¿ otrzymamy
+      <quote>pliki syngalizuj±ce zmiany CTM</quote>, mo¿emy je przekazaæ
+      do narzêdzia &man.ctm.rmail.1;, które automatycznie rozkoduje, zweryfikuje i
+      naniesie okre¶lone zmiany w kopii ¼róde³ u¿ytkownika.  Ten proces
+      jest o wiele bardziej wydajny ni¿ <application>CVSup</application>,
+      i wykorzystuje o wiele mniej naszych zasobów systemowych, poniewa¿ bazuje raczej na modelu
+      <emphasis>pasywnym</emphasis> ni¿ <emphasis>aktywnym</emphasis>.</para>
+
+    <para>Oczywi¶cie, s± pewne kompromisy.  Je¿eli nieopatrznie
+      skasujemy czê¶æ swoich archiwów, <application>CVSup</application>
+      wykryje i przebuduje uszkodzone czê¶ci.
+      <application>CTM</application> tego nie zrobi, a je¿eli skasujemy
+      jakie¶ czê¶ci naszego drzewa ¼ród³owego (i nie masz jego kopii bezpieczeñstwa), bêdziemy
+      musieli zacz±æ od pocz±tku (od jak najnowszej listy zmian CVS 
+      tzw. <quote>base delta</quote>) i przebudowaæ wszystko u¿ywaj±c <application>CTM</application> lub
+      <application>Anonimowego CVS</application>'a, po prostu usuwaj±c uszkodzone bity i sychronizuj±c ponownie.</para>
+  </sect1>
+
+  <sect1 id="makeworld">
+    <title>Przebudowa <quote>¶wiata</quote></title>
+
+    <indexterm>
+      <primary>Rebuilding <quote>world</quote></primary>
+    </indexterm>
+    <para>Kiedy ju¿ zsynchronizujemy nasze drzewo ¼ród³owe z konkretn±
+      wersj± &os; (&os.stable;, &os.current;, itd.)
+      mo¿emy go u¿yæ
+      do przebudowania systemu.</para>
+
+    <warning>
+      <title>Zróbmy kopiê bezpieczeñstwa</title>							
+
+      <para>Nieocenione mo¿e siê okazaæ wykonanie kopii bezpieczeñstwa
+	systemu <emphasis>zanim</emphasis> przyst±pimy do dzia³ania.
+	Podczas, gdy przebudowa ¶wiata jest (tak d³ugo, jak d³ugo stosujemy siê
+	do tych instrukcji) do¶æ ³atwym zadaniem, zawsze mo¿emy pope³niæ
+	jak±¶ pomy³kê lub pomy³ka pope³niona przez innych w drzewie ¼ród³owym
+	uczyni nasz system niemo¿liwym do uruchomienia.</para>
+
+      <para>Upewnijmy siê, ¿e zrobili¶my kopiê bezpieczeñstwa i mamy w pobli¿u
+	rozruchowy CD-ROM lub naprawcz± dyskietkê.
+	Pewnie nigdy nie bêdziemy musieli z nich korzystaæ, niemniej jednak lepiej byæ przezornym
+	i ubezpieczonym.</para>
+    </warning>
+
+    <warning>
+      <title>Subskrybujmy odpowiednie listy mailingowe</title>
+
+      <indexterm><primary>mailing list</primary></indexterm>
+      <para>Ga³êzie &os.stable; i  &os.current; s± z natury w ci±g³ym 
+	<emphasis>rozwoju</emphasis> a ludzie pracuj±cy nad &os;
+	s± tylko lud¼mi, wiêc, niestety, b³êdy czasem siê zdarzaj±.</para>
+
+      <para>Czasami s± to niegro¼ne b³êdy powoduj±ce np. wypisanie przez system
+	nowego ostrze¿enia diagnostycznego a czasami mog± byæ katastrofalne w skutkach
+	powoduj±c niemo¿no¶æ uruchomienia systemu, zniszczenie systemów plików
+        lub nawet gorzej.</para>
+
+      <para>Je¿eli pojawiaj± siê takie problemy, do odpowiedniej listy mailingowej 
+	jest wysy³ana tzw. <quote>zapowied¼</quote> (ang. heads up) wyja¶niaj±ca naturê problemu
+	a tak¿e to, których wersji systemu on dotyczy. Kiedy problem zostanie rozwiazany
+	wys³ane zostanie og³oszenie <quote>wszystko jasne</quote> (ang. all clear).</para>
+
+      <para>Je¿eli pod±¿amy za &os.stable; lub &os.current; 
+	i nie czytamy odpowiednio &a.stable; ani
+	&a.current;, sami prosimy siê o k³opoty.
+	</para>
+    </warning>
+
+    <warning>
+      <title>Nie u¿ywajmy <command>make world</command></title>
+
+      <para>Wiêkszo¶æ wcze¶niejszych dokumentacji zaleca skorzystanie z
+	<command>make world</command> w celu wykonania przebudowy.  Komenda ta
+	pomija jednak pewne wa¿ne kroki i powinna byæ u¿yta jedynie pod warunkiem, ¿e
+	wiemy, co robimy. <command>make world</command> 
+	jest z wielu wzglêdów z³ym sposobem i zamiast niej powinna zostaæ u¿yta
+	procedura opisana poni¿ej.</para>
+    </warning>
+
+    <sect2>
+      <title>Kanoniczny sposób aktualizacji systemu</title>
+
+      <para>Aby zaktualizowaæ system sprawd¼my <filename>/usr/src/UPDATING</filename>. 
+	Znajdziemy tam wszystkie niezbêdne, dostosowane do naszej wersji ¼róde³ 
+	kroki dla przygotowania przebudowy. Nastêpnie wpiszmy kolejno:</para>
+
+      <screen>&prompt.root; <userinput>make buildworld</userinput>
+&prompt.root; <userinput>make buildkernel</userinput>
+&prompt.root; <userinput>make installkernel</userinput>
+&prompt.root; <userinput>reboot</userinput></screen>
+
+      <note>
+	<para>Istnieje parê sytuacji, w których wymagane jest u¿ycie
+	  <command>mergemaster -p</command> przed krokiem
+	  <maketarget>buildworld</maketarget>.  S± one opisane
+	  w <filename>UPDATING</filename>.  W wiêkszo¶ci przypadków
+	  mo¿na to pomin±æ je¶li nie aktualizujê siê omijaj±c kilka
+	  wersji &os;.</para>
+      </note>
+
+      <para>Po tym, jak <maketarget>installkernel</maketarget> zakoñczy siê
+	sukcesem, powinni¶my uruchomiæ system w trybie awaryjnym (ang. single user mode)
+	(np.&nbsp;wpisuj±c <command>boot -s</command> na zachêcie
+	startowej).  Nastêpnie wpiszmy:</para>
+
+      <screen>&prompt.root; <userinput>mergemaster -p</userinput>
+&prompt.root; <userinput>make installworld</userinput>
+&prompt.root; <userinput>mergemaster</userinput>
+&prompt.root; <userinput>reboot</userinput></screen>
+
+      <warning>
+	<title>Przeczytajmy poni¿sze wyja¶nienia</title>
+
+	<para>Opisana powy¿ej sekwenja stanowi jedynie krótkie streszczenie,
+	  które ma pomóc nam zacz±æ.  Niemniej jednak, powinni¶my przeczytaæ poni¿sze sekcje
+	  aby jasno zrozumieæ ka¿dy krok, zw³aszcza, je¶li zamierzamy
+	  u¿yæ w³asnej konfiguraji j±dra.</para>
+      </warning>
+    </sect2>
+
+    <sect2>
+      <title>Przeczytajmy <filename>/usr/src/UPDATING</filename></title>
+
+      <para>Zanim zaczniemy cokolwiek robiæ, przeczytajmy
+	<filename>/usr/src/UPDATING</filename> (lub jego odpowiednik w
+	miejscu, gdzie znajdujê siê kopia kodu ¼ród³owego).  Plik ten powininien
+	zawieraæ wa¿ne informacje dotycz±ce problemów, które mo¿emy napotkaæ, lub
+	porz±dek, w którym bêdziemy musieli uruchamiaæ poszczególne komendy.
+	Je¶li <filename>UPDATING</filename> zaprzecza czemu¶ co przeczytali¶my tutaj,
+	<filename>UPDATING</filename> ma pierwszeñstwo.</para>
+
+      <important>
+	<para>Czytanie <filename>UPDATING</filename> nie jest akceptowalnym
+	  zamiennikiem subskrybowania odpowiednich list mailingowych, co zosta³o 
+	  opisane wcze¶niej.  Oba stanowi± konieczne, uzupe³niaj±ce siê warunki.</para>
+      </important>
+    </sect2>
+
+    <sect2>
+      <title>Sprawd¼my <filename>/etc/make.conf</filename></title>
+      <indexterm>
+        <primary><filename>make.conf</filename></primary>
+      </indexterm>
+
+      <para>Zbadajmy plik
+	<filename>/usr/share/examples/etc/make.conf</filename>
+	i
+	<filename>/etc/make.conf</filename>.  Pierwszy zawiera standardowe
+	definicje &ndash; z których wiêkszo¶æ jest zakomentowana.  Aby
+	wykorzystaæ je podczas przebudowywania systemu ze ¼róde³, dodajmy je do
+	<filename>/etc/make.conf</filename>.  Pamiêtajmy jednak, ¿e
+	wszystko co dodajemy do <filename>/etc/make.conf</filename> jest tak¿e
+	u¿ywane za ka¿dym razem kiedy korzystamy z <command>make</command>, wiêc dobrym
+	pomys³em jest ustawienie ich w rozs±dny sposób dla naszego systemu.</para>
+
+      <para>Wiêkszo¶æ u¿ytkowników zapragnie zapewne skopiowaæ linie
+	<makevar>CFLAGS</makevar> i
+	<makevar>NO_PROFILE</makevar>, znalezione w 
+	<filename>/usr/share/examples/etc/make.conf</filename>
+	do
+	<filename>/etc/make.conf</filename> i usun±æ ich komentarze.</para>
+
+      <para>Zbadajmy inne definicje (<makevar>COPTFLAGS</makevar>, 
+	<makevar>NOPORTDOCS</makevar> 
+	itd.) i zdecydujmy czy s± dla nas odpowiednie.</para>
+    </sect2>
+
+    <sect2>
+      <title>Zaktualizujmy pliki z <filename>/etc</filename></title>
+
+      <para>Folder <filename>/etc</filename> zawiera wiêksz± czê¶æ
+	informacji dotycz±cych konfiguracji naszego systemu, jak równie¿
+	skrypty uruchamiane podczas rozruchu.  Wiêkszo¶æ tych skryptów jest
+	ró¿na w ró¿nych wersjach FreeBSD.</para>
+
+      <para>Niektóre z plików konfiguracyjnych s± tak¿e u¿ywane
+	podczas codziennego u¿ytkowania systemu.  W szczególno¶ci
+	<filename>/etc/group</filename>.</para>
+
+      <para>Zdarza³y siê sytuacje, kiedy instalacyjna czê¶æ
+        <command>make installworld</command> oczekiwa³a istnienia okre¶lonych
+	nazw u¿ytkowników czy grup.  Podczas wykonywania aktualizacji prawdopodobne jest,
+	¿e te grupy czy u¿ytkownicy nie istnia³y. Powodowa³o to problemy podczas aktualizacji.
+	W niektórych przypadkach <command>make buildworld</command> bêdzie sprawdzaæ czy istniej±
+	odpowiedni u¿ytkownicy b±d¼ grupy.</para>
+
+      <para>Przyk³adem tego jest sytuacja, w której zosta³ dodany
+	u¿ytkownik <username>smmsp</username>.  Proces instalacji zawodzi³
+	kiedy &man.mtree.8; stara³a siê utworzyæ
+	<filename>/var/spool/clientmqueue</filename>.</para>
+
+      <para>Rozwi±zaniem jest uruchomienie &man.mergemaster.8; w
+	trybie przed przebudowaniem (ang. pre-buildworld mode) korzystaj±c z opcji<option>-p</option>.
+	Porówna to tylko te pliki, które s± kluczowe dla powodzenia
+	siê <maketarget>buildworld</maketarget> czy
+	<maketarget>installworld</maketarget>.  Je¿eli nasza stara wersja
+	<command>mergemaster</command>'a nie obs³uguje opcji <option>-p</option>,
+	skorzystajmy z nowej wersji znajduj±cej siê w drzewie ¼ród³owym. Podczas			
+	pierwszego uruchomienia wpiszmy:</para>
+
+      <screen>&prompt.root; <userinput>cd /usr/src/usr.sbin/mergemaster</userinput>
+&prompt.root; <userinput>./mergemaster.sh -p</userinput></screen>
+
+      <tip>
+	<para>Je¿eli jeste¶my szczególnie przeczuleni, mo¿emy sprawdziæ
+	  w systemie, do jakiej grupy nale¿± poszczególne zmieniane lub usuwane 
+	  przez nas pliki:</para>
+
+	<screen>&prompt.root; <userinput>find / -group <replaceable>GID</replaceable> -print</userinput></screen>
+
+	<para>poka¿e nam wszystkie pliki, których w³a¶cicielem s± cz³onkowie grupy
+	  <replaceable>GID</replaceable> (mo¿e to byæ nazwa grupy lub jej numeryczny
+	  identyfikator - ID).</para>
+      </tip>
+    </sect2>
+
+    <sect2 id="makeworld-singleuser">
+      <title>Wchodzenie w tryb awaryjny</title>
+      <indexterm><primary>single-user mode</primary></indexterm>
+
+      <para>Mo¿emy chcieæ skompilowaæ swój system w trybie awaryjnym.  Niezale¿nie
+	od oczywistej korzy¶ci delikatnego przyspieszenia procesu,
+	reinstalacja systemu dotknie wielu istotnych plików systemowych;
+	wszystkie standardowe binaria, biblioteki, pliki do³±czone
+	i tak dalej.  Ich modyfikacja na pracuj±cym systemie (zwlaszcza, je¶li
+	w tym czasie znajduj± siê w systemie aktywni u¿ytkownicy) jest proszeniem siê
+	o k³opoty.</para>
+
+      <indexterm><primary>multi-user mode</primary></indexterm>
+      <para>Kolejn± metod± jest kompilacja systemu w trybie wielu-u¿ytkowników, i
+        wej¶cie w tryb awaryjny dla potrzeb instalacji.  Je¿eli chcemy
+        zrobiæ to w ten sposób, po prostu trzymajmy siê poni¿szych kroków a¿ do zakoñczenia 
+	budowy.  Mo¿emy odwlec moment wej¶cia w tryb awaryjny
+	do czasu, kiedy bêdziemy musieli wykonaæ <maketarget>installkernel</maketarget> lub
+	<maketarget>installworld</maketarget>.</para>
+
+      <para>Jako superu¿ytkownik, mo¿emy uruchomiæ:</para>
+
+      <screen>&prompt.root; <userinput>shutdown now</userinput></screen>
+
+      <para>z poziomu uruchomionego systemu, co wprowadzi nas w tryb 
+	awaryjny.</para>
+
+      <para>Alternatywnie, mo¿emy uruchomiæ system ponownie i na zachêcie startowej wybraæ
+        opcjê <quote>single user</quote>.  System uruchomi wtedy tryb
+	awaryjny.  Nastêpnie na zachêcie systemowej wpiszmy:</para>
+
+      <screen>&prompt.root; <userinput>fsck -p</userinput>
+&prompt.root; <userinput>mount -u /</userinput>
+&prompt.root; <userinput>mount -a -t ufs</userinput>
+&prompt.root; <userinput>swapon -a</userinput></screen>
+
+      <para>Sprawdzi to systemy plików, ponownie zamontuje <filename>/</filename>
+	w trybie odczytu/zapisu, zamontuje wszystkie inne systemy plików UFS
+	wpisane w <filename>/etc/fstab</filename> a nastêpnie w³±czy tryb wymiany.</para>
+
+
+        <note>
+          <para>Je¿eli nasz zegar CMOS nie jest ustawiony na czas GMT, a na czas lokalny
+	    (jest tak je¿eli wynik komendy &man.date.1;
+	    nie pokazuje poprawnego czasu ani strefy czasowej),
+            mo¿emy potrzebowaæ uruchomiæ poni¿sz± komendê:</para>
+<screen>&prompt.root; <userinput>adjkerntz -i</userinput></screen>
+
+          <para>Zagwarantuje to poprawne ustawienie opcji naszej lokalnej strefy czasowej
+            &mdash; bez tego, mo¿emy pó¼niej napotkaæ pewne
+            k³opoty.
+          </para>
+        </note>
+
+    </sect2>
+
+    <sect2>
+      <title>Usuñmy <filename>/usr/obj</filename></title>
+
+      <para>Podczas procesu przebudowy czê¶ci systemu, umieszczane s±
+	one w folderach, które z kolei (standardowo) umieszczane s± w
+	<filename>/usr/obj</filename>.  Foldery stamt±d "przes³aniaj±" te z			
+	<filename>/usr/src</filename>.</para>
+
+      <para>Mo¿emy przyspieszyæ proces <command>make buildworld</command>, jak 
+	równie¿ prawdopodobnie oszczêdziæ sobie wielu problemów z zale¿no¶ciami
+	usuwaj±c ten katalog.</para>
+
+      <para>Niektóre pliki spod <filename>/usr/obj</filename> mog± mieæ ustawion±
+	flagê niezmienno¶ci (ang. immutable) (po wiêcej informacji zobacz &man.chflags.1;),
+	która musi byæ najpierw usuniêta.</para>
+
+      <screen>&prompt.root; <userinput>cd /usr/obj</userinput>
+&prompt.root; <userinput>chflags -R noschg *</userinput>
+&prompt.root; <userinput>rm -rf *</userinput></screen>
+    </sect2>
+
+    <sect2 id="cutting-edge-compilebase">
+      <title>Rekompilacja Systemu Bazowego</title>
+
+      <sect3>
+	<title>Zapisywanie wyników</title>
+
+	<para>Dobrym pomys³em jest zapisywanie wyników uruchomienia
+	  &man.make.1; do innego pliku.  Je¿eli co¶ pójdzie nie tak, bêdziemy
+	  mieæ kopiê wiadomo¶ci o b³êdzie.  Nawet je¿eli nie pomo¿e nam to w
+	  zdiagnozowaniu co posz³o nie tak, zawsze mo¿e pomóc innym je¿eli
+	  wy¶lemy opis naszego problemu do jednej z list malingowych &os;.</para>
+
+	<para>Najprostsz± metod± aby to zrobiæ jest u¿ycie komendy &man.script.1;
+	  z parametrem okre¶laj±cym nazwê pliku, do którego chcemy zapisaæ wynik komendy.
+	  Zróbmy to tu¿ przed przebydowywaniem ¶wiata,
+	  a nastêpnie wpiszmy <userinput>exit</userinput>
+	  kiedy proces skoñczy pracê.</para>
+
+	<screen>&prompt.root; <userinput>script /var/tmp/mw.out</userinput>
+Script started, output file is /var/tmp/mw.out	 
+&prompt.root; <userinput>make TARGET</userinput>
+<emphasis>&hellip; compile, compile, compile &hellip;</emphasis>	  
+&prompt.root; <userinput>exit</userinput>
+Script done, &hellip;</screen>
+
+	<para>Je¿eli to robimy, <emphasis>nie</emphasis> zapisujmy wyniku
+	  w <filename>/tmp</filename>.  Ten folder mo¿e byæ opró¿niony
+	  podczas nastêpnego ponownego uruchomienia.  Lepszym miejscem na przechowanie
+	  jest <filename>/var/tmp</filename> (jak w poprzednim przyk³adzie) lub
+	  katalog domowy <username>root</username>'a.</para>
+      </sect3>
+
+      <sect3 id="make-buildworld">
+	<title>Kompilacja systemu bazowego</title>
+
+	<para>Z poziomu folderu <filename>/usr/src</filename>
+	  wpiszmy:</para>
+
+	<screen>&prompt.root; <userinput>cd /usr/src</userinput></screen>
+
+	<para>(chyba, ¿e nasz kod ¼ród³owy znajduje siê gdzie¶ indziej, wtedy
+	  musimy zmieniæ katalog na w³a¶ciwy).</para>
+	<indexterm><primary><command>make</command></primary></indexterm>
+
+	<para>Aby przebudowaæ ¶wiat u¿yjmy komendy &man.make.1;.  Komenda 
+          ta czyta instrukcje zawarte w <filename>Makefile</filename>,
+          które opisuj± sposób, w jaki programy sk³adaj±ce siê na &os; powinny
+          byæ przebudowane, porz±dek budowania i tak dalej.</para>
+
+	<para>Ogólny format komendy do wpisania wygl±da
+	  nastêpuj±co:</para>
+
+	<screen>&prompt.root; <userinput>make -<replaceable>x</replaceable> -D<replaceable>VARIABLE</replaceable> <replaceable>obiekt docelowy</replaceable></userinput></screen>
+
+	<para>W tym przyk³adzie, <option>-<replaceable>x</replaceable></option>
+	  jest opcj±, któr± chcieliby¶my podaæ &man.make.1;.  Zobaczmy stronê manuala
+	  &man.make.1; po wiêcej przyk³adów opcji które mo¿emy podaæ.</para>
+
+	<para><option>-D<replaceable>VARIABLE</replaceable></option>
+	  przekazuje zmienn± do pliku <filename>Makefile</filename>.  Zachowanie
+	  <filename>Makefile</filename> jest kontrolowane w³a¶nie poprzez
+	  te zmienne.  S± to te same zmienne umieszczone w
+	  <filename>/etc/make.conf</filename> a to jest po prostu inny sposób
+	  na ich ustawienie.</para>
+
+	<screen>&prompt.root; <userinput>make -DNO_PROFILE <replaceable>obiekt docelowy</replaceable></userinput></screen>
+
+	<para>jest kolejnym sposobem okre¶lenia, ¿e profilowane biblioteki
+	  nie powinny byæ zbudowane, i odpowiada linijce</para>
+
+	<programlisting>NO_PROFILE=    true 	#    Avoid compiling profiled libraries</programlisting>
+
+	<para>umieszczonej w <filename>/etc/make.conf</filename>.</para>
+
+	<para><replaceable>obiekt docelowy</replaceable> mówi &man.make.1; co
+	  chcemy zrobiæ.  Ka¿de <filename>Makefile</filename> oke¶la liczbê
+	  ró¿nych <quote>obiektów docelowych</quote> i od tego, które wybierzemy
+	  zalezy co siê stanie.</para>
+
+	<para>Niektóre obiekty znajduj± siê w pliku
+	  <filename>Makefile</filename> ale nie s± przeznaczone do u¿ywania ich
+	  przez nas. Zamiast tego, s± one u¿ywane przez proces budowy do podzielenia
+	  kroków niezbêdnych do przebudowy systemu na mniejsze.</para>
+
+	<para>W wiêkszo¶ci przypadków, nie bêdziemy musieli podawaæ ¿adnych
+	    parametrów &man.make.1;, wiêc nasza komenda bêdzie wygl±da³a
+	    nastêpuj±co:</para>
+
+	<screen>&prompt.root; <userinput>make <replaceable>obiekt docelowy</replaceable></userinput></screen>
+
+	<para>Gdzie <replaceable>obiekt docelowy</replaceable> bêdzie jednym z
+	  wielu opcji budowy.  Pierwszym obiektem docelowym powinien zawsze byæ
+	  <makevar>buildworld</makevar>.</para>
+
+	<para>Jak sugeruj± nazwy, <maketarget>buildworld</maketarget>
+	  buduje ca³kiem nowe drzewo w <filename>/usr/obj</filename>,
+	  a <maketarget>installworld</maketarget>, kolejny obiekt docelowy, instaluje owe drzewo
+	  na danym komputrze.</para>
+
+	<para>Rozdzielenie opcji jest bardzo przydatne z dwóch powodów.  Po pierwsze
+	  pozwala na bezpieczn± budowê, daj±c pewno¶æ, ¿e nie wp³ynie to na 
+	  ¿adn± czê¶æ naszego pracuj±cego systemu.  Budowa jest wiêc
+	  <quote>niezale¿na</quote>.  Z tego powodu, mo¿emy bezpiecznie
+	  uruchomiæ <maketarget>buildworld</maketarget> na dzia³aj±cej w trybie
+	  wielu-u¿ytkowników maszynie, nie martwi±c siê o ujemne skutki.  Nadal jednak
+	  zalecane jest aby¶my uruchomili <maketarget>installworld</maketarget> 
+	  w trybie awaryjnym.</para>
+
+	<para>Po drugie, pozwala to na u¿ycie zamontowanych systemów NFS aby 
+	  naraz zaktualizowaæ kilka komputerów z twojej sieci.  Je¿eli posiadamy 3 maszyny:
+	  <hostid>A</hostid>, <hostid>B</hostid>, <hostid>C</hostid> i chcemy je zaktualizowaæ musimy uruchomiæ <command>make
+	  buildworld</command> i <command>make installworld</command> na
+	  <hostid>A</hostid>.  <hostid>B</hostid> i <hostid>C</hostid> powinny wtedy zamontowaæ NFS <filename>/usr/src</filename>
+	  i <filename>/usr/obj</filename> z <hostid>A</hostid>, a my uruchomiæ
+	  <command>make installworld</command> aby zainstalowaæ wyniki budowy 
+	  na <hostid>B</hostid> i <hostid>C</hostid>.</para>
+
+	<para>Mimo tego, ¿e obiekt <maketarget>world</maketarget> nadal istnieje,
+	  gor±co zaleca siê jego nieu¿ywanie.</para>
+
+	<para>Uruchom</para>
+
+	<screen>&prompt.root; <userinput>make buildworld</userinput></screen>
+ 
+        <para>Mo¿liwe jest okre¶lenie opcji <option>-j</option> dla 
+          <command>make</command>, która spowoduje jej rozmno¿enie siê na wiele
+          równoczesnych identycznych procesów.  Jest to przede wszystkim przydatne na komputerach
+          wieloprocesorowych. Jednak¿e, podczas gdy wiêkszo¶æ procesu kompilacji
+          ograniczona jest raczej wej¶ciem-wyj¶ciem ni¿ procesorem, 
+	  mo¿e to byæ równie¿ przydatne na jednoprocesorowych stacjach.</para>
+
+	<para>Na przeciêtnym komputerze jednoprocesorowych powinni¶my wpisaæ:</para>
+	  
+	  <screen>&prompt.root; <userinput>make -j4 buildworld</userinput></screen>
+
+	<para>&man.make.1; uruchomi wtedy do 4 jednoczesnych procesów.
+	  Empiryczne dowody wysy³ane na listy mailingowe wskazuj±, ¿e daje
+	  to generalnie najlepsze korzy¶ci wydajno¶ciowe.</para>
+
+	<para>Je¿eli posiadamy wieloprocesorow± maszynê i u¿ywamy j±dra skonfigurowanego z
+	  obs³ug± SMP, spróbójmy warto¶ci od 6 do 10, i obserwujmy jak przyspiesz±
+	  proces.</para>
+      </sect3>
+      
+      <sect3>
+	<title>Czas budowy</title>
+	<indexterm>
+	  <primary>rebuilding <quote>world</quote></primary>
+	  <secondary>timings</secondary>
+	</indexterm>
+
+        <para>Wiele czynników wp³ywa na czas budowy, ale do¶æ nowe komputery
+	  radz± sobie z budow± drzewa &os.stable; w czasie godziny lub dwóch,
+          bez stosowana ¿adnych trików lub skrótów podczas procesu.
+	  Budowa drzewa &os.current; zajmie nieco d³u¿ej.</para>
+      </sect3>
+    </sect2>
+    
+    <sect2>
+      <title>Skompilujmy i zainstalujmy nowe j±dro</title>
+      <indexterm>
+        <primary>kernel</primary>
+	<secondary>compiling</secondary>
+      </indexterm>
+
+      <para>Aby w pe³ni wykorzystaæ mo¿liwo¶ci naszego nowego systemu, powinni¶my
+	zrekompilowaæ j±dro.  Jest to praktycznie konieczno¶æ, ze wzglêdu na
+	to, ¿e okre¶lone struktury pamiêci mog³y ulec zmianie i programy takie jak &man.ps.1; czy &man.top.1;
+	nie bêd± dzia³aæ dopóki wersje kodu ¼ród³owego i j±dra nie bêd±
+	takie same.</para>
+
+      <para>Naj³atwiejszym i najbezpieczniejszym sposobem zrobienia tego jest
+	zbudowanie i zainstalowanie j±dra bazuj±cego na pliku <filename>GENERIC</filename>.  Podczas, gdy
+	<filename>GENERIC</filename> mo¿e nie posiadaæ wszystkich niezbêdnych urz±dzeñ
+	dla naszego systemu, powinien zawieraæ wszystko co jest niezbêdne w celu uruchomienia
+	naszego systemu w trybie awaryjnym.  Co stanowi dobry test na sprawdzenie
+	czy nowy system dzia³a jak nale¿y.  Po uruchomieniu z
+	<filename>GENERIC</filename> i sprawdzeniu tego, ¿e nasz system dzia³a, mo¿emy
+	zbudowaæ nowe j±dro w oparciu o plik konfiguracyjny naszego normalnego
+	j±dra.</para>
+
+      <para>We &os; wa¿ne jest aby wykonaæ <link
+        linkend="make-buildworld">build world</link> przed budow±
+        nowego j±dra.</para>
+
+      <note><para>Je¿eli chcemy zbudowaæ w³asne j±dro, i mamy ju¿ plik konfiguracyjny
+	u¿yjmy po prostu <literal>KERNCONF=<replaceable>MYKERNEL</replaceable></literal>
+	w taki sposób:</para>
+
+      <screen>&prompt.root; <userinput>cd /usr/src</userinput>
+&prompt.root; <userinput>make buildkernel KERNCONF=<replaceable>MYKERNEL</replaceable></userinput>
+&prompt.root; <userinput>make installkernel KERNCONF=<replaceable>MYKERNEL</replaceable></userinput></screen>
+      </note>
+
+      <para>Zauwa¿my, ¿e je¿eli podnie¶li¶my <literal>kern.securelevel</literal>
+	powy¿ej 1 <emphasis>i</emphasis> ustawili¶my, b±d¼ to
+	<literal>noschg</literal>, b±d¼ inn± podobn± flagê dla binarki j±dra
+	niezbêdne mo¿e siê okazaæ wej¶cie w tryb awaryjny w celu u¿ycia
+	<maketarget>installkernel</maketarget>.  W przeciwnym razie bêdziemy mógli
+	u¿yæ obydwu tych komend z poziomu trybu wielo-u¿ytkownikowego bez ¿adnych
+	problemów.  Zobaczmy &man.init.8; po szczegó³y dotycz±ce
+	<literal>kern.securelevel</literal> i &man.chflags.1; po szczegó³y dotycz±ce
+	ró¿nych flag plików.</para>
+    </sect2>
+
+    <sect2>
+      <title>Wejd¼my w tryb awaryjny</title>
+      <indexterm><primary>single-user mode</primary></indexterm>
+
+      <para>powinni¶my wej¶æ w tryb jednego awaryjny dla sprawdzenia, czy
+	nowe j±dro dzia³a.  Aby to zrobiæ, pod±¿ajmy za wskazówkami z
+	<xref linkend="makeworld-singleuser">.</para>
+    </sect2>
+
+    <sect2 id="make-installworld">
+      <title>Zainstalujmy binaria nowego systemu</title>
+
+      <para>Je¿eli budujemy wystarczaj±co now± wersjê &os; aby korzystaæ z
+	<command>make buildworld</command> powinni¶my teraz u¿yæ
+	<maketarget>installworld</maketarget> aby zainstalowaæ binaria
+	nowego systemu.</para>
+
+      <para>Wpiszmy</para>
+
+      <screen>&prompt.root; <userinput>cd /usr/src</userinput>
+&prompt.root; <userinput>make installworld</userinput></screen>
+
+      <note>
+	<para>Je¿eli okre¶lili¶my zmienne przy komendzie <command>make
+	    buildworld</command>, musimy okre¶liæ te same zmienne
+	  przy <command>make installworld</command>.
+	  Nie jest to do koñca prawd± je¶li chodzi o inne opcje;
+	  dla przyk³adu, <option>-j</option> nigdy nie mo¿e zostaæ u¿yta z 
+	  <maketarget>installworld</maketarget>.</para>
+	
+	<para>Przyk³adowo, je¶li wpiszemy:</para>
+
+	<screen>&prompt.root; <userinput>make -DNO_PROFILE buildworld</userinput></screen>
+
+	<para>musimy zainstalowaæ wynik z:</para>
+
+	<screen>&prompt.root; <userinput>make -DNO_PROFILE installworld</userinput></screen>
+
+	<para>inaczej ostatnia komenda spróbuje zainstalowaæ profilowane
+	  biblioteki, które nie zosta³y zbudowane podczas fazy <command>make buildworld</command>.</para>
+      </note>
+    </sect2>
+
+    <sect2>
+      <title>Zaktualizujmy pliki niezaktualizowane przez <command>make installworld</command></title>
+      
+      <para>Proces powtórnego tworzenia ¶wiata nie zaktualizuje niektórych folderów (w
+	szczególno¶ci, <filename>/etc</filename>, <filename>/var</filename> i
+	<filename>/usr</filename>) ani nie zmieni plików konfiguracyjnych, które one zawieraj±.</para>
+
+      <para>Najprostszym sposobem na zaktualizowanie tych plików jest u¿ycie
+        &man.mergemaster.8;, niemniej mo¿na to równie¿ zrobiæ rêcznie, je¶li
+        tak uznamy.  Niezale¿nie od sposobu, który wybierzemy, nie zapomnijmy
+	zrobiæ kopii bezpieczeñstwa <filename>/etc</filename>, na
+	wypadek, gdyby co¶ posz³o nie tak.</para>
+
+    <sect3 id="mergemaster">
+      <sect3info>
+	<authorgroup>
+	  <author>
+	    <firstname>Tom</firstname>
+	    <surname>Rhodes</surname>
+	    <contrib>Napisa³ </contrib>
+	  </author>
+	</authorgroup>
+      </sect3info>
+      <title><command>mergemaster</command></title>
+        <indexterm><primary><command>mergemaster</command></primary></indexterm>
+
+      <para>&man.mergemaster.8; jest skryptem pow³oki Bourne'a, który pomo¿e
+        nam w okre¶leniu ró¿nic pomiêdzy naszymi plikami konfiguracyjnymi z
+        <filename>/etc</filename>, a plikami konfiguracyjnymi w drzewie
+        ¼ród³owym <filename>/usr/src/etc</filename>. Jest to zalecane
+        rozwi±zanie dla utrzymywania twoich plików konfiguracyjnych na bie¿±co
+        z tymi umieszczonymi w drzewie ¼ród³owym.</para>
+
+      <para>Aby rozpocz±æ proces, wpiszmy po prostu <command>mergemaster</command> przy znaku 
+	zachêty pow³oki i obserwujmy proces.  Najpierw <command>mergemaster</command> zbuduje
+        tymczasowe ¶rodowisko root'a, od <filename>/</filename> w dó³ i wype³ni
+        je ró¿nymi plikami konfiguracyjnymi systemu.  Nastêpnie, pliki te bêd± porównane
+        z tymi, które s± obecnie zainstalowane w systemie.  W tym miejscu, pliki, które
+        bêd± siê ró¿niæ zostan± pokazane w formacie &man.diff.1;, ze znakiem <option>+</option>
+        oznaczaj±cym dodane lub zmienione linie, ze znakiem <option>-</option> oznaczaj±cym
+        linie, które albo bed± ca³kiem usuniête, albo zas±pione nowymi liniami.
+        Po wiêcej informacji odno¶nie sk³adni i sposobu wy¶wietlania ró¿nic przez &man.diff.1;, 
+	zobaczmy &man.diff.1;.</para>
+
+      <para>&man.mergemaster.8; poka¿e nam ka¿dy ró¿ni±cy siê plik
+        i w tym punkcie, bêdziemy mieæ do wyboru: opcjê usuniêcia nowego pliku (oznaczonego		
+        jako plik tymczasowy), instalacji tymczasowego pliku w jego niezmienionym stanie,
+        scalenie tymczasowego pliku z tym obecnie zainstalowanym albo ponownego
+        zobaczenia wyników &man.diff.1;.</para>
+
+      <para>Wybór usuniêcia tymczasowego pliku powie &man.mergemaster.8;'owi, ¿e
+        chcemy zatrzymaæ obecny plik niezmieniony i usun±c jego now± wersjê.
+        Opcja ta nie jest rekomendowana, chyba, ¿e nie dostrzegamy potrzeby
+        zmiany obecnego pliku.  W ka¿dej chwili mo¿emy uzyskaæ pomoc wpisuj±c
+        <keycap>?</keycap> na zachêcie &man.mergemaster.8;'a.  Je¿eli u¿ytkownik
+        wybierze, aby omin±c plik, bêdzie on ponownie pokazany po uporaniu siê
+        ze wszystkimi pozosta³ymi.</para>
+
+      <para>Wybór opcji instalacji niezmienionego pliku tymczasowego spowoduje
+        zamianê obecnego pliku na nowy.  Dla wiêkszo¶ci niezmienionych plików jest
+        to najlepszym rozwi±zaniem.</para>
+
+      <para>Opcja scalenia pliku wprowadzi nas do edytora tekstu
+        z zawarto¶ci± obydwu plików.  Bêdziemy mógli je wtedy scaliæ,
+        przegl±daj±c obydwa pliki umieszczone obok siebie na ekranie, wybieraj±c z obydwu
+        czê¶ci do stworzenia ostatecznej wersji.  Podczas porównywania znajduj±cych
+        siê obok siebie plików klawisz <keycap>l</keycap> bêdzie wybiera³ zawarto¶æ pliku z lewej strony
+        a klawisz <keycap>r</keycap> zawarto¶æ pliku z prawej strony.
+        Wynikiem koñcowym bêdzie plik zawieraj±cy obie czê¶ci, który mo¿na ju¿ bêdzie zainstalowaæ.
+	Opcja ta jest zazwyczaj u¿ywana dla plików, których ustawienia zosta³y wcze¶niej
+        zmodyfikowane przez u¿ytkownika.</para>
+
+      <para>Wybieraj±c opcjê ponownego zobaczenia wyników &man.diff.1; poka¿e nam ró¿nicê miedzy plikami
+        dok³adnie tak jak wcze¶niej, kiedy &man.mergemaster.8; prosi³ nas o wybranie opcji.</para>
+
+      <para>Po tym, jak &man.mergemaster.8; skoñczy interakcjê z plikami systemowymi
+        mo¿emy zostaæ zapytani o inne opcje.  &man.mergemaster.8; mo¿e spytaæ, czy chcemy przebudowaæ
+        plik zawieraj±cy has³a i zakoñczy na pytaniu o usuniêcie pozostawionych
+        plików tymczasowych.</para>
+      </sect3>
+
+      <sect3>
+	<title>Rêczna aktualizacja</title>
+
+      <para>Je¿eli chcemy dokonaæ aktualizacji rêcznie, nie
+        mo¿emy po prostu skopiowaæ plików z 
+	<filename>/usr/src/etc</filename> do <filename>/etc</filename> i
+	sprawiæ by dzia³a³y.  Niektóre z tych plików musz± najpierw zostaæ <quote>zainstalowane</quote>.
+	Jest tak, poniewa¿ folder <filename>/usr/src/etc</filename>
+	<emphasis>nie jest</emphasis> kopi± odpowiadaj±c± poprawnemu wygl±dowi folderu
+	<filename>/etc</filename>.  W dodatku,
+	s± pliki, które powinny znale¼æ siê w <filename>/etc</filename>, a których
+	nie ma w <filename>/usr/src/etc</filename>.</para>
+
+      <para>Je¿eli u¿ywamy &man.mergemaster.8;'a (co jest zalecane),
+        mo¿emy odrazu przej¶æ do <link linkend="cutting-edge-rebooting">nastêpnej
+	sekcji</link>.</para>
+
+      <para>Najprostsz± metod± na rêczne wykonanie tego jest zainstalowanie
+	plików do nowego folderu a nastêpnie ich przetworzenie szukaj±c
+	ró¿nic.</para>
+    
+      <warning>
+	<title>Zróbmy kopiê bezpieczeñstwa naszego obecnego <filename>/etc</filename></title>
+
+	<para>Mimo, ¿e teoretycznie nic nie narusza tego folderu automatycznie,
+	  zawsze lepiej siê zabezpieczyæ.  Skopiujmy wiêc nasz
+	  obecny folder <filename>/etc</filename> w bezpieczne miejsce.
+	  Przyk³adowo:</para>
+
+	<screen>&prompt.root; <userinput>cp -Rp /etc /etc.old</userinput></screen>
+
+	<para><option>-R</option> tworzy rekurencyjn± kopiê, <option>-p</option>
+	  zachowuje czasy, flagi w³asno¶ci plków itp.</para>
+      </warning>
+      
+      <para>Musimy zbudowaæ sztuczny zestaw folderów do zainstalowania w nich
+	nowego <filename>/etc</filename> i innych plików.
+	<filename>/var/tmp/root</filename> jest rozs±dnym wyborem, zawiera
+	on równie¿ potrzebn± liczbê podfolderów.</para>
+
+      <screen>&prompt.root; <userinput>mkdir /var/tmp/root</userinput>
+&prompt.root; <userinput>cd /usr/src/etc</userinput>
+&prompt.root; <userinput>make DESTDIR=/var/tmp/root distrib-dirs distribution</userinput></screen>
+
+      <para>Polecenia te zbuduj± konieczn± strukturê folderów i zainstaluj±
+	pliki.  Wiele z podfolderów, które zosta³y utworzone w
+	<filename>/var/tmp/root</filename> jest pustych i powinny byæ usuniête.
+	Naj³atwiej mo¿na tego dokonaæ wpisuj±c:</para>
+      
+      <screen>&prompt.root; <userinput>cd /var/tmp/root</userinput>
+&prompt.root; <userinput>find -d . -type d | xargs rmdir 2&gt;/dev/null</userinput></screen>
+      
+      <para>Usunie to wszystkie puste foldery.  (Standardowy b³±d jest
+        odsy³any do <filename>/dev/null</filename> aby zapobiec wypisywaniu
+        ostrze¿eñ o folderach, które nie s± puste.)</para>
+
+      <para><filename>/var/tmp/root</filename> zawiera teraz wszystkie pliki, które
+	powinny zostaæ umieszczone w odpowiednich miejscach pod
+	<filename>/</filename>.  Musimy teraz przejrzeæ wszystkie te pliki,
+	okre¶laj±c jak ró¿ni± siê one od tych obecnie przez nas posiadanych.</para>
+    
+      <para>Zauwa¿my, ¿e niektóre zainstalowane w
+	<filename>/var/tmp/root</filename> pliki, poprzedzone s± <quote>.</quote>.  W czasie
+	pisania jedynymi takimi plikami s± pliki startowe pow³oki w
+	<filename>/var/tmp/root/</filename> i
+	<filename>/var/tmp/root/root/</filename>, chodzia¿ mog± byæ rownie¿ inne
+	(zale¿nie od tego, kiedy to czytamy).  Upewnijmy siê, ¿e u¿yli¶my
+	<command>ls -a</command> aby je wy³apaæ.</para>
+    
+      <para>Najprostsz± metod± aby porównaæ dwa pliki jest u¿ycie
+	&man.diff.1;:</para>
+    
+      <screen>&prompt.root; <userinput>diff /etc/shells /var/tmp/root/etc/shells</userinput></screen>
+      
+      <para>Poka¿e nam ró¿nice pomiêdzy naszym plikiem
+	<filename>/etc/shells</filename> a nowym
+	<filename>/var/tmp/root/etc/shells</filename>.  U¿yjmy tego do rozstrzygniêcia
+	czy chcemy scaliæ pliki zachowuj±c zamiany jakich dokonali¶my, czy zast±piæ stary plik
+	nowym.</para>
+    
+      <tip>
+	<title>U¿yjmy znacznika czasu w nazwie folderu domowego root'a
+	  (<filename>/var/tmp/root</filename>), aby¶my mogli ³atwo
+	  porównaæ ró¿nice pomiêdzy wersjami</title>
+
+	<para>Czêste przebudowywanie ¶wiata oznacza tak¿e czêste aktualizowanie
+	<filename>/etc</filename>, co mo¿e byæ trochê mêcz±cym
+	  obowi±zkiem.</para>
+
+	<para>Mo¿emy przyspieszyæ ten proces przechowuj±c kopiê ostatniego zestawu
+	  zmienionych plików, które scalili¶my do <filename>/etc</filename>.
+	  Poni¿sza procedura pokazuje zasadê dzia³ania takiego pomys³u.</para>
+
+	<procedure>
+	  <step>
+	    <para>Standardowo dokonajmy budowy ¶wiata (ang. make world).  Podczas aktualizacji
+	      <filename>/etc</filename> i innych folderów, nadajmy docelowemu folderowi
+	      nazwê zawieraj±c± obecn± datê.  Je¿eli robimy to
+	      14 Lutego 1998 roku, mo¿emy wpisaæ jak
+	      poni¿ej:</para>
+	  
+	    <screen>&prompt.root; <userinput>mkdir /var/tmp/root-19980214</userinput>
+&prompt.root; <userinput>cd /usr/src/etc</userinput>
+&prompt.root; <userinput>make DESTDIR=/var/tmp/root-19980214 \
+    distrib-dirs distribution</userinput></screen>
+	  </step>
+	  
+	  <step>
+	    <para>Scalmy zmiany z tego folderu, jak zarysowano
+	      powy¿ej.</para>
+	    
+	    <para><emphasis>Nie</emphasis> usuwajmy folderu
+	      <filename>/var/tmp/root-19980214</filename> po zakoñczeniu
+	      pracy.</para>
+	  </step>
+	  
+	  <step>
+	    <para>Je¶li pobrali¶my ju¿ ostatni± wersjê ¼róde³ i przetworzyli¶my
+	      j±, pod±¿ajmy za krokiem 1.  Uzyskamy nowy folder,
+	      który mo¿e zostaæ nazwany
+	      <filename>/var/tmp/root-19980221</filename> (je¿eli czekali¶my
+	      tydzien aby dokonaæ nowej aktualizacji).</para>
+	  </step>
+	  
+	  <step>
+	    <para>Mo¿emy teraz zobaczyæ ró¿nice powsta³e w ci±gu tego tygodnia
+	      u¿ywaj±c &man.diff.1; do stworzenia rekurencyjnego diff'a
+	      pomiêdzy tymi dwoma folderami:</para>
+	      
+	    <screen>&prompt.root; <userinput>cd /var/tmp</userinput>
+&prompt.root; <userinput>diff -r root-19980214 root-19980221</userinput></screen>
+	  
+	    <para>Zazwyczaj, bêdzie to znacznie mniejszy zestaw zmian
+	      ni¿ ten powsta³y z pomiêdzy 
+	      <filename>/var/tmp/root-19980221/etc</filename> i
+	      <filename>/etc</filename>.  A poniewa¿ zestaw zmian jest mniejszy,
+	      pro¶ciej jest nanie¶æ te zmiany do plików w folderze
+	      <filename>/etc</filename>.</para>
+	  </step>
+	  
+	  <step>
+	    <para>Mo¿emy teraz usun±æ starszy z folderów
+	      <filename>/var/tmp/root-*</filename>:</para>
+	      
+	    <screen>&prompt.root; <userinput>rm -rf /var/tmp/root-19980214</userinput></screen>
+	  </step>
+	  
+	  <step>
+	    <para>Powtarzajmy ten proces za ka¿dym razem, kiedy musimy wprowadziæ zmiany
+	      do <filename>/etc</filename>.</para>
+	  </step>
+	</procedure>
+
+	<para>Mo¿emy wykorzystaæ &man.date.1; do zautomatyzowania generowania
+	  nazw folderów:</para>
+	  
+	<screen>&prompt.root; <userinput>mkdir /var/tmp/root-`date "+%Y%m%d"`</userinput></screen>
+      </tip>
+      </sect3>
+    </sect2>
+    
+    <sect2 id="cutting-edge-rebooting">
+      <title>Ponowne uruchamianie</title>
+      
+      <para>Skoñczyli¶my.  Po zweryfikowaniu, ¿e wszystko jest
+	na swoim miejscu mo¿emy ponownie uruchomiæ system.  Zwyk³y
+	&man.shutdown.8; wystarczy:</para>
+
+      <screen>&prompt.root; <userinput>shutdown -r now</userinput></screen>
+    </sect2>
+
+    <sect2>
+      <title>Koniec</title>
+      
+      <para>Powinni¶my teraz mieæ z powodzeniem zaktualizowany system &os;.
+	Gratulacjê.</para>
+      
+      <para>Je¿eli co¶ posz³o nie do koñca dobrze, ³atwo jest przebudowaæ konkretn±
+        czê¶æ systemu.  Przyk³adowo, je¿eli przypadkowo usuneli¶my
+        <filename>/etc/magic</filename> jako czê¶æ aktualizacji lub scalania
+        <filename>/etc</filename>, komenda &man.file.1; przestanie dzia³aæ.
+        W tym przypadku, naprawa bêdzie wymaga³a wpisania:</para>
+
+	<screen>&prompt.root; <userinput>cd /usr/src/usr.bin/file</userinput>
+&prompt.root; <userinput>make all install</userinput></screen>
+    </sect2>    
+    
+    <sect2>
+      <title>Pytania</title>
+
+      <qandaset>
+	<qandaentry>
+	  <question>
+	    <para>Czy dla ka¿dej zmiany trzeba ponownie budowaæ ¶wiat?</para>
+	  </question>
+
+	  <answer>
+            <para>Na to pytanie nie ma jednej prostej odpowiedzi, poniewa¿ zale¿y to od
+	      natury danej zmiany.  Przyk³adowo, je¶li uruchomili¶my <application>CVSup</application>, który
+	      pokaza³, ¿e poni¿sze pliki zosta³y zaktualizowane:</para>
+      
+	    <screen><filename>src/games/cribbage/instr.c</filename>
+<filename>src/games/sail/pl_main.c</filename>
+<filename>src/release/sysinstall/config.c</filename>
+<filename>src/release/sysinstall/media.c</filename>
+<filename>src/share/mk/bsd.port.mk</filename></screen>
+
+	    <para>prawdopodobnie nie warto jest przebudowywaæ ¶wiat.
+	      Wystarczy, je¶li wejdziemy do odpowiednich podfolderów i wykonamy
+	      <command>make all install</command>.  Ale
+	      je¿eli zmiana dotyczy czego¶ istotnego, na przyk³ad
+	      <filename>src/lib/libc/stdlib</filename>, wtedy powinni¶my albo
+	      zbudowaæ ca³y ¶wiat od nowa, albo przynajmniej te jego czê¶ci, które s±
+	      statycznie po³±czone (ang. statically linked) (jak i wszystko inne co mogli¶my dodaæ i co
+	      jest statycznie po³±czone).</para>
+      
+	    <para>Ostatecznie, zale¿y to tylko od nas.  Mo¿emy byæ zadowoleni
+	      przebudowuj±c ¶wiat co ka¿de dwa tygodnie, przez które
+	      bêd± siê zbieraæ zmiany.  Albo, mo¿emy chcieæ przebudowywaæ
+	      tylko te czê¶ci, które siê zmieni³y i byæ pewnymi, ¿e 
+	      mo¿emy wy³apaæ wszystkie zale¿no¶ci.</para>								
+      
+	    <para>I oczywi¶cie, wszystko to zale¿y od tego jak czêsto chcemy
+	      dokonywaæ aktualizacji i czy zamierzamy pod±¿aæ za &os.stable; czy
+	      &os.current;.</para>
+	  </answer>
+	</qandaentry>
+
+	<qandaentry>
+	  <question>
+	    <para>Kompilacja nie powiod³a wypisuj±c wiele b³êdów typu "sygna³ 11" (lub inny 
+	      numer sygna³u).  Co siê sta³o?</para>
+	  </question>
+    <indexterm><primary>signal 11</primary></indexterm>
+
+	  <answer>
+
+	    <para>Oznacza to przewa¿nie problemy sprzêtowe.
+	      (Prze)budowa ¶wiata jest skutecznym sposobem na sprawdzenie zachowania 
+	      siê naszego sprzêtu w tzw. stresie, czyli pod obci±¿eniem i 
+	      czêsto skutkowaæ bêdzie problemami z pamiêci±.  Zwykle objawiaj± siê
+	      one tym, ¿e nagle proces kompilacji tajemniczo koñczy siê, wypisuj±c
+	      jednocze¶nie wiele dziwnych sygna³ów.</para>
+      
+	    <para>Pewn± oznak± tego jest, je¿eli ponownie uruchamiamy "make"
+	      i koñczy siê ona w innym miejscu procesu.</para>
+      
+	    <para>W tym przypadku, niewiele mo¿emy zrobiæ poza
+	      zamian± komponentów w twoim komputerze w celu ustalenia
+	      który z nich zawodzi.</para>
+	  </answer>
+	</qandaentry>
+
+	<qandaentry>
+	  <question>
+	    <para>Czy mo¿na usun±æ <filename>/usr/obj</filename> po
+	      skoñczeniu?</para>
+	  </question>
+	  
+	  <answer>
+	    <para>Krótka odpowied¼ brzmi tak.</para>
+      
+	    <para><filename>/usr/obj</filename> zawiera wszystkie pliki wynikowe
+	      powsta³e podczas fazy kompilacji.  Zwykle, jednym z pierwszych
+	      kroków w procesie <command>make buildworld</command> jest usuniêcie
+	      tego folderu i rozpoczêcie od nowa.  W tym przypadku, trzymanie
+	      <filename>/usr/obj</filename> po skoñczeniu pracy
+	      nie ma wielkiego sensu i bêdzie tylko zajmowaæ spory kawa³ek miejsca na
+	      twardym dysku (obecnie ok 340&nbsp;MB).</para>
+      
+	    <para>Jednak¿e, je¿eli wiemy co robimy, mo¿emy sprawiæ by
+	      <command>make buildworld</command> omin±³ ten krok.  Uczyni to pó¼niejsze
+	      procesy budowy szybszymi, od kiedy wiêkszo¶æ ¼róde³ nie bêdzie musia³a
+	      byæ rekompilowana.  Z drugiej strony, mog± siê pojawiæ pewne
+	      niewielkie problemy z zale¿no¶ciami powoduj±c dziwne b³êdy przy procesie budowy.
+	      Czêsto powoduje to szum na listach mailingowych &os;,
+	      kiedy kto¶ narzeka, ¿e jego proces budowy zawiód³, nie
+	      zdaj±c sobie sprawy z tego, ¿e sta³o siê tak poniewa¿ próbowa³
+	      i¶æ na skróty.</para>
+	  </answer>
+	</qandaentry>
+
+	<qandaentry>
+	  <question>
+	    <para>Czy przerwany proces budowy mo¿e zostaæ wznowiony?</para>
+	  </question>
+
+	  <answer>
+	    <para>To zale¿y od tego jak daleko zaszli¶my w owym procesie, zanim
+	      napotkali¶my ten b³±d.</para>
+
+	    <para><emphasis>Generalnie</emphasis> (i nie jest to ¿adna ¿elazna
+	      regu³a) proces <command>make buildworld</command> buduje nowe kopie
+	      niezbêdnych narzêdzi (jak np. &man.gcc.1;, czy
+	      &man.make.1;) i biblioteki systemowe.  Zarówno te narzêdzia, jak i
+	      biblioteki s± nastêpnie instalowane.  Nowe narzêdzia i biblioteki s±
+	      w dalszej kolejno¶ci u¿ywane do przebudowania siê i ponownie instalowane.
+	      Ca³y system (teraz ju¿ w³±czaj±c w to regularne programy u¿ytkownika, takie jak
+		&man.ls.1; czy &man.grep.1;) jest wtedy przebudowywany przy u¿yciu
+	      nowych plików systemowych.</para>
+
+	    <para>Je¿eli jeste¶my na ostatnim etapie i wiemy o tym (poniewa¿
+	      przejrzeli¶my wyniki procesu, które przechowujemy w pliku) wtedy
+	      mo¿emy (wzglêdnie bezpiecznie) wykonaæ:</para>
+
+	    <screen><emphasis>&hellip; fix the problem &hellip;</emphasis>
+&prompt.root; <userinput>cd /usr/src</userinput>
+&prompt.root; <userinput>make -DNO_CLEAN all</userinput></screen>
+
+	    <para>Co nie zmarnuje pracy poprzedniego
+	      <command>make buildworld</command>.</para>
+
+	    <para>Je¿eli zobaczymy wiadomo¶æ:</para>
+
+	      <screen>--------------------------------------------------------------
+Building everything..
+--------------------------------------------------------------</screen>
+
+	    <para>w wyniku <command>make buildworld</command>, wtedy prawodpodobnie 
+	      mo¿na to wzglêdnie bezpiecznie przeprowadziæ.</para>
+	    
+	    <para>Je¿eli nie zobaczymy tej wiadomo¶ci lub nie mamy pewno¶ci, zawsze
+	      lepiej jest siê zabezpieczyæ i zacz±æ od pocz±tku restartuj±c
+	      proces budowy.</para>
+	  </answer>
+	</qandaentry>
+
+	<qandaentry>
+	  <question>
+	    <para>Jak mo¿na przyspieszyæ proces tworzenia ¶wiata?</para>
+          </question>
+
+          <answer>
+	    <itemizedlist>
+	      <listitem>
+		<para>Uruchamiaj±c go w trybie awaryjnym.</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>Umie¶æmy foldery <filename>/usr/src</filename> i
+		  <filename>/usr/obj</filename> w oddzielnych systemach plików,
+		  na oddzielnych dyskach.  Je¿eli to mo¿liwe, umie¶æmy te dyski
+		  na oddzielnych kontrolerach dysków.</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>Jeszcze lepiej, je¿eli umie¶cimy te systemy plików na
+		  wielu dyskach, u¿ywaj±c &man.ccd.4; (sterownik ³±czonego
+		  dysku).</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>wy³±czmy profile (ustaw <quote>NO_PROFILE=true</quote> w
+		  <filename>/etc/make.conf</filename>).  Prawie napewno
+		  nie bêdziemy tego potrzebowaæ.</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>Równie¿ w <filename>/etc/make.conf</filename> ustawmy
+		  <makevar>CFLAGS</makevar> do <option>-O
+		  -pipe</option>.  Optymalizacja <option>-O2</option> jest du¿o
+		  wolniejsza a ró¿nica optymalizacyjna pomiêdzy
+		  <option>-O</option> i <option>-O2</option> jest zwykle
+		  nieistotna.  <option>-pipe</option> pozwala kompilatorowi na u¿ycie
+		  potoków zamiast tymczasowych plików w celach komunikacji, co
+		  oszczêdza czas dostêpu do dysku (kosztem pamiêci).</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>Przeka¿my &man.make.1; opcjê <option>-j<replaceable>n</replaceable></option> aby
+		  uruchomiæ wiele paralelnych procesów.  Zwykle pomaga to niezale¿nie
+		  od tego czy mamy jedno-, czy wielo- procesorow±
+		  maszynê.</para>
+	      </listitem>
+	      
+	      <listitem><para>System plików zawieraj±cy
+		  <filename>/usr/src</filename> mo¿e zostaæ zamontowany (lub przemontowany)
+		  z opcj± <option>noatime</option>.  Zapobiegnie to przed
+		  zapisywaniem przez system plików czasu dostêpu do plików.  Prawdopodobnie
+		  i tak nie bêdziemy potrzebowaæ tej informacji.</para>
+		  
+		  <screen>&prompt.root; <userinput>mount -u -o noatime /usr/src</userinput></screen>
+		  
+		  <warning>
+		    <para>Przyk³ad zak³ada, ¿e <filename>/usr/src</filename> znajduje
+		      siê w swoim w³asnym systemie plików.  Je¿eli tak nie jest (je¿eli jest np. czê¶ci±
+		      <filename>/usr</filename>) musimy wtedy u¿yæ
+		      punktu montowania dla tego systemu plików, nie
+		      <filename>/usr/src</filename>.</para>
+		  </warning>
+	      </listitem>
+	      
+	      <listitem>
+		<para>System plików zawieraj±cy <filename>/usr/obj</filename> mo¿e
+		  zostaæ zamontowany (lub przemontowany) z opcj± <option>async</option>.
+	          Sprawi to, ¿e zapisy dysku bêd± asynchroniczne.
+		  Innymi s³owy, zapis bêdzie natychmiastowy a dane
+		  zostan± zapisane na dysku jedynie kilka sekund pó¼niej.  Pozwoli
+		  to, ¿eby zapisy by³y grupowane razem, co mo¿e
+		  drastycznie wp³yn±c na wzrost wydajno¶ci.</para>
+
+		<warning>
+		  <para>Pamiêtajmy jednak o tym, ¿e opcja ta czyni nasz system
+		    bardziej kruchym.  Opcja ta zwielokrotnia szansê na to, ¿e
+		    nasz system bêdzie w stanie nie do odzyskania po ponownym uruchomieniu,			
+		    je¿eli zasilanie wysi±dzie.</para>
+	   
+		  <para>Je¿eli <filename>/usr/obj</filename> jest jedyn± rzecz± w
+		    tym systemie plików, wtedy nie stanowi to problemu.  Je¿eli posiadamy
+		    inne, cenne dane w tym samym systemie plików, upewnijmy siê, ¿e
+		    nasze kopie bezpieczeñstwa s± jak naj¶wie¿sze, zanim w³±czymy t±
+		    opcjê.</para>
+		</warning>
+		
+		<screen>&prompt.root; <userinput>mount -u -o async /usr/obj</userinput></screen>
+		
+		<warning>
+		  <para>Jak powy¿ej, je¿eli <filename>/usr/obj</filename> nie znajduje
+		    siê we w³asnym systemie plikówi, zamieñmy punkt montowania z
+		    przyk³adu na odpowiedni.</para>
+		</warning>
+	      </listitem>
+	    </itemizedlist>
+	  </answer>
+	</qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>Co zrobiæ, je¿eli co¶ pójdzie nie tak?</para>
+          </question>
+
+          <answer>
+            <para>Upewnijmy siê, ¿e w naszym ¶rodowisku nie ma
+              ¿adnych nieistotnych pozosta³o¶ci po wcze¶niejszych procesach budowy.  Jest to do¶æ
+              proste.</para>
+
+            <screen>&prompt.root; <userinput>chflags -R noschg /usr/obj/usr</userinput>
+&prompt.root; <userinput>rm -rf /usr/obj/usr</userinput>
+&prompt.root; <userinput>cd /usr/src</userinput>
+&prompt.root; <userinput>make cleandir</userinput>
+&prompt.root; <userinput>make cleandir</userinput></screen>
+
+            <para>Tak, <command>make cleandir</command> naprawdê powinna
+              zostaæ u¿yta dwukrotnie.</para>
+
+            <para>Nastêpnie, musimy ponownie uruchomiæ ca³y proces, zaczynaj±c od
+              <command>make buildworld</command>.</para>
+
+            <para>Je¿eli nadal pojawiaj± siê problemy, wy¶lijmy b³±d i
+              wynik <command>uname -a</command> do &a.questions;.
+              B±d¼my przygotowani do odpowiadania na pytania dotycz±ce
+              naszych ustawieñ!</para>
+          </answer>
+        </qandaentry>
+      </qandaset>
+    </sect2>
+  </sect1>
+
+  <sect1 id="small-lan">
+    <sect1info>
+      <authorgroup>
+	<author>
+	  <firstname>Mike</firstname>
+	  <surname>Meyer</surname>
+	  <contrib>Napisa³ </contrib>
+	</author>
+      </authorgroup>
+    </sect1info>
+    <title>¦ledzenie zmian dla wielu komputerów</title>
+    <indexterm>
+      <primary>NFS</primary>
+      <secondary>installing multiple machines</secondary>
+    </indexterm>
+    
+    <para>Je¿eli posiadamy wiele komputerów, którymi chcemy ¶ledziæ
+      to samo drzewo ¼ród³owe, wtedy pobieranie ¼róde³ i przebudowa wszystkiego
+      na ka¿dym z nich zdaje siê marnotrawstwem cennych zasobów: miejsca na dysku,
+      przepustowo¶ci ³±cza i cykli procesora.  W istocie tak w³a¶nie jest. Rozwi±zaniem
+      jest wykonanie ca³ej pracy na jednej maszynie, podczas gdy reszta
+      zamontuje wyniki tej pracy przez NFS.  Sekcja ta opisuje w
+      jaki sposób mo¿na to wykonaæ.</para>
+
+    <sect2 id="small-lan-preliminaries">
+      <title>Czynno¶ci wstêpne</title>
+
+      <para>Najpierw, okre¶lmy zbiór maszyn, na których zamierzamy
+	uruchomiæ tê sam± grupê binariów, nazwiemy je
+	<emphasis>grup± budowy</emphasis>.  Ka¿da maszyna mo¿e posiadaæ
+	w³asne j±dro, ale wszystkie bêd± korzystaæ z tego samego zestawu
+	binariów userlandu.  Z tej grupy
+	wybierzmy maszynê, która ma byæ <emphasis>maszyn± buduj±c±</emphasis>.  Bêdzie
+	to ten komputer, na którym zostanie zbudowane j±dro i ¶wiat. Najlepiej
+	by³oby, gdyby by³ wystarczaj±co szybki do 
+	<command>make buildworld</command> i
+	<command>make buildkernel</command>.  Zechcemy napewno
+	równie¿ wybraæ komputer do roli <emphasis>maszyny
+	testowej</emphasis>, gdzie bêdziemy mogli testowaæ aktualizacje oprogramowania
+	zanim trafi± one do regularnego serwera.  <emphasis>Musi</emphasis> to byæ
+	komputer, któremu bêdziemy mogli zezwoliæ na d³u¿sze przerwy w dzia³aniu.
+	Mo¿e to byæ maszyna buduj±ca, ale nie musi.</para>
+
+      <para>Wszystkie komputery z danej grupy budowy musz± zamontowaæ
+	<filename>/usr/obj</filename> i
+	<filename>/usr/src</filename> z tej samej maszyny i 
+	w tym samym punkcie montowania.  Najlepiej, je¿eli znajd± siê one na
+	dwóch ró¿nych dyskach maszyny buduj±cej, równie dobrze jednak mog± byæ na niej zamontowane 
+	z wykorzystaniem NFS.  Je¿eli posiadamy wiele grup budowy,
+	<filename>/usr/src</filename> powinno siê znajdowaæ na jednej maszynie buduj±cej i
+	byæ zamontowane poprzez NFS na reszcie.</para>
+	  
+      <para>Na koniec, upewnijmy siê, ¿e
+	<filename>/etc/make.conf</filename> na wszystkich komputerach z
+	grupy budowy zgadza siê z tym na maszynie buduj±cej.  Oznacza to, ¿e
+	komputer buduj±cy musi zbudowaæ wszystkie czê¶ci systemu bazowego,
+	które zamierzamy zainstalowaæ na dowolnym z pozosta³ych komputerów
+	grupy budowy.  Dodatkowo, ka¿dy komputer buduj±cy musi mieæ
+	ustawion± nazwê j±dra przy pomocy <makevar>KERNCONF</makevar> w
+	<filename>/etc/make.conf</filename>, powinien tak¿e wymieniaæ
+	wszystkie nazwy j±der w <makevar>KERNCONF</makevar>, poczynaj±c
+	od w³asnego.  Ponadto, musi tak¿e zawieraæ wszystkie
+	pliki konfiguracji j±dra dla ka¿dego komputera w
+	<filename>/usr/src/sys/<replaceable>arch</replaceable>/conf</filename>
+	je¿eli ma zbudowaæ ich j±dra.</para>
+    </sect2>
+
+    <sect2>
+      <title>System bazowy</title>
+
+      <para>Gdy wszystko jest ju¿ gotowe, mo¿emy przej¶æ do budowania.
+	Zbudujmy ¶wiat i j±dro na maszynie buduj±cej, tak jak opisano w <xref
+	linkend="make-buildworld">,
+	ale niczego nie instalujmy.  Po skoñczeniu budowy, przejd¼my do 
+	komputera testowego i zainstalujmy nowo zbudowane j±dro.
+	Je¿eli komputer ten ma zamontowane <filename>/usr/src</filename>
+	i <filename>/usr/obj</filename> poprzez NFS, bêdziemy musieli aktywowaæ
+	sieæ i zamontowaæ je podczas wchodzenia do trybu awaryjnego
+	przy ponownym uruchamianiu.  Napro¶ciej mo¿na to zrobiæ uruchamiaj±c
+	tryb wielu-u¿ytkowników i wpisuj±c <command>shutdown now</command> aby przej¶æ
+	do trybu awaryjnego.  Kiedy ju¿ w nim bêdziemy, mo¿emy zainstalowaæ ¶wiat, j±dro i
+	u¿yæ <command>mergemaster</command>'a, tak, jak normalnie.  Kiedy skoñczymy,
+	mo¿emy uruchomiæ komputer powracaj±c do normalnego trybu wielu-u¿ytkowników.</para>
+
+      <para>Po upewnieniu siê, ¿e na maszynie testowej wszystko dzia³a
+	jak nale¿y, u¿yjmy tej samej procedury co powy¿ej
+	do zainstalowania nowego oprogramowania na ka¿dym komputerze
+	z grupy budowy.</para>
+    </sect2>
+
+    <sect2>
+      <title>Porty</title>
+
+      <para>Te same rozwi±zania mo¿na zastosowaæ w stosunku do drzewa portów.  Pierwszym,
+	wa¿nym krokiem jest zamontowanie <filename>/usr/ports</filename> z jednej
+	maszyny na wszystkich z grupy budowy.  Nastêpnie, mo¿emy
+	odpowiednio ustawiæ <filename>/etc/make.conf</filename>, aby udostêpnia³
+	pliki dystrybucyjne (ang. distfiles).  Powinni¶my ustawiæ zmienn± <makevar>DISTDIR</makevar> do
+	powszechnego folderu wymiany, do którego prawa zapisu ma ka¿dy u¿ytkownik						
+	<username>root</username> z obrêbu twojej sieci, je¿eli zamontowa³ ten folder poprzez NFS.  Ponadto,
+	ka¿dy komputer powinien mieæ w <makevar>WRKDIRPREFIX</makevar> ustawiony
+	lokalny folder budowy.  Na koniec, je¿eli zamierzamy
+	budowaæ i rozpowszechniaæ paczki, powinni¶my ustawiæ w 
+	<makevar>PACKAGES</makevar> podobny folder do tego z
+	<makevar>DISTDIR</makevar>.</para> 
+    </sect2>
+  </sect1>
+</chapter>
+<!-- 
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "part" "chapter")
+     End:
+-->
+
+

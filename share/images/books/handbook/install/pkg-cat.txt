@@ -1,0 +1,25 @@
+ .---------------------------- Package Selection ----------------------------.
+ | To mark a package, move to it and press SPACE.  If the package is         |
+ | already marked, it will be unmarked or deleted (if installed).            |
+ | Items marked with a `D' are dependencies which will be auto-loaded.       |
+ | To search for a package by name, press ESC.  To select a category,        |
+ | press RETURN.  NOTE:  The All category selection creates a very large     |
+ | submenu!  If you select it, please be patient while it comes up.          |
+ | .-----------------------------------------------------------------------. |
+ | | All           All available packages in all categories.               | |
+ | | afterstep     Ports to support the AfterStep window manager.          | |
+ | | archivers     Utilities for archiving and unarchiving data.           | |
+ | | astro         Applications related to astronomy.                      | |
+ | | audio         Audio utilities - most require a supported sound card.  | |
+ | | benchmarks    Utilities for measuring system performance.             | |
+ | | biology       Software related to biology.                            | |
+ | | cad           Computer Aided Design utilities.                        | |
+ | | chinese       Ported software for the Chinese market.                 | |
+ | | comms         Communications utilities.                               | |
+ | | converters    Format conversion utilities.                            | |
+ | | databases     Database software.                                      | |
+ | `-(+)------------------------------------------------------------------' |
+ +---------------------------------------------------------------------------+
+ |                          [OK]    Install                                  |
+ `---------------------------------------------------------------------------'
+

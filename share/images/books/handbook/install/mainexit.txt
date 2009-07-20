@@ -1,0 +1,25 @@
+
+   .--------------------- /stand/sysinstall Main Menu ---------------------.
+   | Welcome to the FreeBSD installation and configuration tool.  Please   |
+   | select one of the options below by using the arrow keys or typing the |
+   | first character of the option name you're interested in.  Invoke an   |
+   | option with [SPACE] or [ENTER].  To exit, use [TAB] to move to Exit.  |
+   | .-------------------------------------------------------------------. |
+   | |   Usage       Quick start - How to use this menu system           | |
+   | |  Standard     Begin a standard installation (recommended)         | |
+   | |  Express      Begin a quick installation (for the impatient)      | |
+   | |   Custom      Begin a custom installation (for experts)           | |
+   | |  Configure    Do post-install configuration of FreeBSD            | |
+   | |  Doc          Installation instructions, README, etc.             | |
+   | |  Keymap       Select keyboard type                                | |
+   | |  Options      View/Set various installation options               | |
+   | |  Fixit        Enter repair mode with CDROM/floppy or start shell  | |
+   | |  Upgrade      Upgrade an existing system                          | |
+   | |  Load Config  Load default install configuration                  | |
+   | |  Index        Glossary of functions                               | |
+   | `-------------------------------------------------------------------' |
+   +-----------------------------------------------------------------------+
+   |                         Select    [X Exit Install]                    |
+   `------------------[ Press F1 for Installation Guide ]------------------'
+
+

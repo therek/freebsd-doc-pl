@@ -1,0 +1,2406 @@
+<!--
+    The FreeBSD Polish Documentation Project
+
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/mail/chapter.sgml,v 1.2 2007/05/19 14:18:48 therek Exp $
+     Original revision: 1.136
+-->
+
+<chapter id="mail">
+  <chapterinfo>
+    <authorgroup>
+      <author>
+	<firstname>Bill</firstname>
+	<surname>Lloyd</surname>
+	<contrib>Rozdzia³ napisa³ </contrib>
+      </author>
+    </authorgroup>
+    <authorgroup>
+      <author>
+	<firstname>Jim</firstname>
+	<surname>Mock</surname>
+	<contrib>Przepisa³ </contrib>
+	<!-- 2 Dec 1999 -->
+      </author>
+    </authorgroup>
+    <authorgroup>
+      <author>
+	<firstname>Konrad</firstname>
+	<surname>Mo¿d¿eñ</surname>
+	<contrib>T³umaczenie </contrib>
+     </author>
+    </authorgroup>
+  </chapterinfo>
+
+  <title>Poczta elektroniczna</title>
+
+  <sect1 id="mail-synopsis">
+    <title>Streszczenie</title>
+    <indexterm><primary>email</primary></indexterm>
+
+    <para><quote>Poczta elektroniczna</quote>, popularnie zwana
+      email-em, jest dzisiaj jedn± z najczê¶ciej stosowanych metod
+      komunikacji.  Rozdzia³ niniejszy prezentuje podstawy konieczne
+      do uruchomienia systemu poczty na &os; a tak¿e opisuje metody
+      wysy³ania i odbierania poczty z wykorzystaniem &os;.  Nale¿y
+      pamiêtaæ, ¿e nie jest to wyczerpuj±ce ¼ród³o wiedzy w tym temacie
+      oraz ¿e wiele wa¿nych zagadnieñ zosta³o pominiêtych.  Bardziej
+      szczegó³owe wyja¶nienie tematu mo¿na znale¼æ w wielu innych,
+      dobrych ksi±¿kach (<xref linkend="bibliography">).</para>
+
+    <para>Po przeczytaniu niniejszego rozdzia³u bêdziemy wiedzieli:</para>
+
+    <itemizedlist>
+      <listitem>
+	<para>Jakie sk³adniki oprogramowania bior± udzia³ w wysy³aniu
+	  i odbieraniu poczty elektronicznej.</para>
+      </listitem>
+
+      <listitem>
+	<para>Gdzie w systemie FreeBSD znajduj± siê podstawowe pliki
+	  konfiguracyjne <application>sendmail</application>a.</para>
+      </listitem>
+
+      <listitem>
+        <para>Jaka jest ró¿nica miêdzy zdalnymi a lokalnymi skrzynkami
+	  pocztowymi.</para>
+      </listitem>
+
+      <listitem>
+	<para>Jak uniemo¿liwiæ wykorzystanie naszego serwera poczty
+	  elektronicznej jako przeka¼nika spamu.</para>
+      </listitem>
+
+      <listitem>
+	<para>Jak zainstalowaæ i skonfigurowaæ alternatywny Mail Transfer
+		Agent zamiast <application>sendmail</application>a.</para>
+      </listitem>
+
+      <listitem>
+	<para>Jak zdiagnozowaæ i usun±æ najczê¶ciej spotykane problemy
+	  z serwerami poczty elektronicznej.</para>
+      </listitem>
+
+      <listitem>
+	<para>Jak u¿ywaæ SMTP w po³±czeniu z UUCP.</para>
+      </listitem>
+
+      <listitem>
+	<para>Jak skonfigurowaæ system tylko do wysy³ania poczty.</para>
+      </listitem>
+
+      <listitem>
+	<para>Jak u¿ywaæ poczty z po³±czeniami dialup.</para>
+      </listitem>
+
+      <listitem>
+        <para>Jak skonfigurowaæ uwierzytelnianie SMTP dla uzyskania
+	  wiêkszego bezpieczeñstwa.</para>
+      </listitem>
+
+      <listitem>
+        <para>Jak zainstalowaæ i u¿ywaæ klienta poczty (takiego jak
+	  np. <application>mutt</application>) do wysy³ania i odbierania
+	  poczty.</para>
+      </listitem>
+
+      <listitem>
+
+        <para>Jak ¶ci±gn±æ nasz± pocztê ze zdalnych serwerów
+	  <acronym>POP</acronym> lub <acronym>IMAP</acronym>.</para>
+      </listitem>
+
+      <listitem>
+        <para>Jak automatycznie stosowaæ filtrowanie i regu³y odbierania
+	  poczty przychodz±cej.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Przed przeczytaniem tego rozdzia³u powinni¶my:</para>
+
+    <itemizedlist>
+      <listitem>
+	<para>Poprawnie ustawiæ po³±czenie sieciowe
+	  (<xref linkend="advanced-networking">).</para>
+      </listitem>
+
+      <listitem>
+	<para>Poprawnie skonfigurowaæ us³ugi nazw dla naszego serwera
+	  poczty (<xref linkend="network-servers">).</para>
+      </listitem>
+
+      <listitem>
+	<para>Wiedzieæ jak instalowaæ dodatkowe oprogramowanie
+	  (<xref linkend="ports">).</para></listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1 id="mail-using">
+    <title>Korzystanie z poczty elektronicznej</title>
+    <indexterm><primary>POP</primary></indexterm>
+    <indexterm><primary>IMAP</primary></indexterm>
+    <indexterm><primary>DNS</primary></indexterm>
+
+    <para>W wymianie poczty elektronicznej bierze udzia³ piêæ podstawowych
+      elementów, s± to: <link linkend="mail-mua">klient poczty</link>
+      (oprogramowanie u¿ytkownika), <link linkend="mail-mta">oprogramowanie
+        serwera poczty</link> (ang. server daemon), us³ugi nazewnicze
+      <link linkend="mail-dns">DNS</link>, <link linkend="mail-receive">zdalna
+	lub lokalna skrzynka pocztowa</link> i oczywi¶cie sam
+      <link linkend="mail-host">serwer poczty</link> (ang. mailhost).</para>
+
+    <sect2 id="mail-mua">
+      <title>Oprogramowanie u¿ytkownika</title>
+
+      <para>Oprogramowanie u¿ytkownika to klienty poczty dzia³aj±ce jako
+	programy linii poleceñ (takie jak np.
+	<application>mutt</application>,
+	<application>pine</application>, <application>elm</application>,
+	<command>mail</command>), programy z graficznym
+	interfejsem u¿ytkownika (<acronym>GUI</acronym>) takie jak
+	<application>balsa</application>,
+	<application>xfmail</application> itp., ewentualnie co¶ bardziej
+	<quote>wyrafinowanego</quote> jak przegl±darka WWW.  Programy
+	te maj± za zadanie przekazaæ przesy³ki z serwera poczty do lokalnego
+	komputera przez wywo³anie jednego z dostêpnych
+	<link linkend="mail-mta">demonów serwera</link> albo dostarczaj±c
+	je przez <acronym>TCP</acronym>.</para>
+	</sect2>
+
+    <sect2 id="mail-mta">
+      <title>Demon serwera poczty</title>
+      <indexterm>
+        <primary>demony serwera poczty</primary>
+        <secondary><application>sendmail</application></secondary>
+      </indexterm>
+      <indexterm>
+        <primary>demony serwera poczty</primary>
+        <secondary><application>postfix</application></secondary>
+      </indexterm>
+      <indexterm>
+        <primary>demony serwera poczty</primary>
+        <secondary><application>qmail</application></secondary>
+      </indexterm>
+      <indexterm>
+        <primary>demony serwera poczty</primary>
+        <secondary><application>exim</application></secondary>
+      </indexterm>
+
+      <para>&os; standardowo zawiera <application>sendmail</application>-a
+	ale obs³uguje tak¿e wiele innych demonów serwera poczty.  S± to
+	miêdzy innymi:</para>
+
+      <itemizedlist>
+	<listitem>
+	  <para><application>exim</application>;</para>
+	</listitem>
+
+	<listitem>
+	  <para><application>postfix</application>;</para>
+	</listitem>
+
+	<listitem>
+	  <para><application>qmail</application>.</para>
+	</listitem>
+      </itemizedlist>
+
+      <para>Demon serwera poczty zazwyczaj ma dwa zadania: jest
+	odpowiedzialny za odbieranie przychodz±cej poczty oraz dostarczanie
+	poczty wychodz±cej.  <emphasis>Nie zajmuje</emphasis> siê natomiast
+	pozosta³ymi kwestiami zwi±zanymi z poczt± takimi jak <acronym>POP</acronym>
+	lub <acronym>IMAP</acronym> s³u¿±ce do odczytywania naszej poczty,
+	a tak¿e nie umo¿liwia po³±czenia z lokalnymi skrzynkami pocztowymi.
+	Do tego bêdziemy potrzebowali osobnych
+	<link linkend="mail-receive">demonów</link>.</para>
+
+      <warning>
+	<para> Starsze wersje <application>sendmail</application>a
+	  zawieraj± powa¿ne luki bezpieczeñstwa umo¿liwiaj±ce atakuj±cemu
+	  dostêp lokalny i/lub zdalny do naszych komputerów.  Nale¿y zawsze
+	  upewniæ siê ¿e u¿ywamy aktualnych wersji oprogramowania w celu
+	  unikniêcia podobnych problemów. Innym wyj¶ciem jest instalacja
+	  alternatywnych <acronym>MTA</acronym> z <link linkend="ports">Kolekcji
+	  portów &os;</link>.</para>
+      </warning>
+    </sect2>
+
+    <sect2 id="mail-dns">
+      <title>Poczta elektroniczna i DNS</title>
+
+      <para>System nazw domen (ang. Domain Name System - DNS) i demon
+	<command>named</command> odgrywaj± bardzo wa¿n± rolê w procesie
+	dorêczania poczty elektronicznej.  Aby dostarczyæ pocztê nadan±
+	przez nas do odbiorcy, demon serwera poczty musi odszukaæ w systemie
+	DNS adres hosta odpowiedzialnego za odbieranie poczty przeznaczonej
+	dla domeny adresata przesy³ki.  Ten sam proces zachodzi gdy poczta
+	jest wysy³ana z odleg³ego serwera do naszej skrzynki.</para>
+
+      <indexterm>
+	<primary>rekord MX</primary>
+      </indexterm>
+
+      <para><acronym>DNS</acronym> DNS odpowiedzilany jest za odwzworowanie
+	nazw hostów na adres IP, jak równie¿ za przechowywanie informacji
+	specyficznych dla systemu dostarczania poczty nazywanych rekordami
+	MX.  Rekord MX (ang. Mail eXchanger) precyzuje który host (lub grupa
+	hostów) odbiera pocztê dla poszczególnych domen.  Je¿eli nasza domena
+	nie zawiera rekordu MX w systemie DNS przesy³ki bêd± dostarczane
+	bezpo¶rednio do naszego hosta, pod warunkiem ¿e nasz host posiada
+	w systemie DNS rekord A odzwierciedlaj±cy nazwê naszego hosta na
+	odpowiadaj±cy jej numer IP.</para>
+
+      <para>Mo¿emy sprawdziæ rekord MX dla dowolnej domeny u¿ywaj±c
+	polecenie &man.host.1; tak jak to pokazano na poni¿szym
+	przyk³adzie:</para>
+
+      <screen>&prompt.user; <userinput>host -t mx FreeBSD.org</userinput>
+FreeBSD.org mail is handled (pri=10) by mx1.FreeBSD.org</screen>
+    </sect2>
+
+    <sect2 id="mail-receive">
+      <title>Odbieranie poczty</title>
+      <indexterm>
+        <primary>email</primary>
+        <secondary>odbieranie</secondary>
+      </indexterm>
+
+      <para>Odbieraniem poczty dla naszej domeny zajmuje siê serwer
+	poczty.  Serwer ten gromadzi ca³± pocztê wys³an± do naszej
+	domeny i przechowuje j± w skrzynkach pocztowych
+	<filename>mbox</filename> (domy¶lny format przechowywania
+	poczty) lub w formacie Maildir w zale¿no¶ci od konfiguracji
+	serwera.  Kiedy poczta zostanie zapisana, mo¿e byæ odczytana
+	lokalnie za pomoc± takich programów jak &man.mail.1;,
+	<application>mutt</application> itp. lub odebrana zdalnie
+	z wykorzystaniem protoko³ów <acronym>POP</acronym> lub
+	<acronym>IMAP</acronym>.  Oznacza to zatem, ¿e je¿eli chcemy
+	odczytywaæ pocztê tylko lokalnie to nie musimy instalowaæ
+	serwerów <acronym>POP</acronym> ani <acronym>IMAP</acronym>.</para>
+
+      <sect3 id="pop-and-imap">
+        <title>Dostêp zdalny do skrzynek pocztowych z wykorzystaniem <acronym>POP</acronym> i <acronym>IMAP</acronym></title>
+
+        <indexterm><primary>POP</primary></indexterm>
+        <indexterm><primary>IMAP</primary></indexterm>
+	<para>W celu uzyskania dostêpu do skrzynek pocztowych zdalnie,
+	  musimy mieæ dostêp do serwera <acronym>POP</acronym>
+	  lub <acronym>IMAP</acronym>.  Protoko³y te umo¿liwiaj±
+	  u¿ytkownikom swobodne ³±czenie do ich skrzynek z odleg³ych
+	  miejsc.  Chocia¿ obydwa protoko³y - <acronym>POP</acronym>
+	  oraz <acronym>IMAP</acronym> - udostêpniaj± zdalny dostêp
+	  do skrzynek pocztowych, <acronym>IMAP</acronym> oferuje
+	  wiele dodatkowych korzy¶ci a s± to m.in.:</para>
+
+        <itemizedlist>
+          <listitem>
+	    <para>mo¿liwo¶æ zarówno pobierania jak i przechowywania
+	      wiadomo¶ci na serwerze.</para>
+          </listitem>
+
+          <listitem>
+	    <para>obs³ugê wspó³bie¿nych aktualizacji.</para>
+          </listitem>
+
+          <listitem>
+	    <para><acronym>IMAP</acronym> jest bardzo efektywny
+	      gdy wykorzystywane s± wolne po³±czenia, poniewa¿ pozwala
+	      u¿ytkownikom pobraæ strukturê wiadomo¶ci bez pobierania
+	      ich w ca³o¶ci.  <acronym>IMAP</acronym> mo¿e równie¿
+	      wykonaæ takie zadania jak wyszukiwanie na serwerze
+	      w celu zminimalizowania ilo¶ci przesy³anych danych miêdzy
+	      klientem i serwerem.</para>
+          </listitem>
+
+        </itemizedlist>
+
+	<para>Instalacja serwera <acronym>POP</acronym> lub <acronym>IMAP</acronym>
+	  wymaga realizaji nastêpuj±cych kroków:</para>
+
+        <procedure>
+	  <step>
+	    <para>Nale¿y wybraæ taki serwer <acronym>IMAP</acronym>
+	     lub <acronym>POP</acronym>, który najlepiej spe³nia
+	     nasze wymogi.  Poni¿sze serwery <acronym>POP</acronym>
+	     i <acronym>IMAP</acronym> s± najbardziej popularne
+	     oraz posiadaj± dobr± dokumentacjê wraz z przyk³adami:</para>
+
+	      <itemizedlist>
+	        <listitem>
+		  <para><application>qpopper</application>;</para>
+	        </listitem>
+
+	        <listitem>
+		  <para><application>teapop</application>;</para>
+	        </listitem>
+
+	        <listitem>
+		  <para><application>imap-uw</application>;</para>
+	        </listitem>
+
+	        <listitem>
+		  <para><application>courier-imap</application>;</para>
+	        </listitem>
+	      </itemizedlist>
+
+	  </step>
+
+          <step>
+	    <para>Instalujemy wybrany serwer
+	      <acronym>POP</acronym>/<acronym>IMAP</acronym> korzystaj±c
+	      z kolekcji portów.</para>
+	  </step>
+
+	  <step>
+	    <para>Je¿eli to konieczne modyfikujemy plik konfiguracyjny
+	      demona inetd - <filename>/etc/inetd.conf</filename> aby
+	      umo¿liwiæ mu uruchomienie zainstalowanego serwera
+	      <acronym>POP</acronym>/<acronym>IMAP</acronym>.</para>
+	  </step>
+        </procedure>
+
+	<warning>
+	  <para> Nale¿y mieæ na wzglêdzie ¿e zarówno <acronym>POP</acronym>
+	   jak i <acronym>IMAP</acronym> przesy³aj± informacje zawieraj±ce
+	   nazwê u¿ytkownika oraz has³o (dane uwierzytelniaj±ce) otwartym
+	   tekstem.  Oznacza to, ¿e je¿eli chcemy zabezpieczyæ transmisjê
+	   informacji z wykorzystaniem tych protoko³ów powinni¶my rozwa¿yæ
+	   tunelowanie sesji z wykorzystaniem &man.ssh.1;.  Tunelowanie sesji
+	   opisuje <xref linkend="security-ssh-tunneling">.</para>
+        </warning>
+      </sect3>
+
+      <sect3 id="local">
+        <title>Dostêp lokalny do skrzynek pocztowych</title>
+
+	<para>Lokalny dostêp do skrzynek pocztowych jest mo¿liwy
+	  dziêki bezpo¶redniemu wykorzystaniu programów klienckich
+	  (<acronym>MUA</acronym>) poczty na serwerze na którym
+	  znajduje siê skrzynka pocztowa. Przyk³adowymi programami tego
+	  typu s± <application>mutt</application> oraz &man.mail.1;.
+	</para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="mail-host">
+      <title>Serwer poczty (ang. Mail Host)</title>
+      <indexterm><primary>serwer poczty</primary></indexterm>
+
+      <para>Serwer poczty to komputer odpowiedzialny za wysy³anie
+	i odbieranie poczty dla naszego hosta oraz (zazwyczaj)
+	naszej sieci.</para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="sendmail">
+    <sect1info>
+      <authorgroup>
+        <author>
+          <firstname>Christopher</firstname>
+          <surname>Shumway</surname>
+	  <contrib>Napisa³ </contrib>
+        </author>
+      </authorgroup>
+    </sect1info>
+    <title>Konfiguracja demona <application>sendmail</application></title>
+
+    <indexterm>
+      <primary><application>sendmail</application></primary>
+    </indexterm>
+
+    <para>&man.sendmail.8; jest domy¶lnym agentem przekazywania
+     poczty (ang. Mail Transfer Agent - MTA) w systemie FreeBSD.
+     Zadaniem <application>sendmail</application>a jest odebranie
+     przesy³ki od programu klienta poczty (ang. Mail User Agent
+     - <acronym>MUA</acronym>) i dostarczenie jej do odpowiedniego
+     programu dorêczaj±cego zgodnie z kofiguracj±.
+     <application>sendmail</application> mo¿e równie¿
+     przyjmowaæ po³±czenia sieciowe i dostarczaæ pocztê do lokalnych
+     skrzynek pocztowych lub przes³aæ j± do innego programu.</para>
+
+    <para><application>sendmail</application> wykorzystuje nastêpuj±ce
+     pliki konfiguracyjne:</para>
+
+    <indexterm>
+      <primary><filename>/etc/mail/access</filename></primary>
+    </indexterm>
+    <indexterm>
+      <primary><filename>/etc/mail/aliases</filename></primary>
+    </indexterm>
+    <indexterm>
+      <primary><filename>/etc/mail/local-host-names</filename></primary>
+    </indexterm>
+    <indexterm>
+      <primary><filename>/etc/mail/mailer.conf</filename></primary>
+    </indexterm>
+    <indexterm>
+      <primary><filename>/etc/mail/mailertable</filename></primary>
+    </indexterm>
+    <indexterm>
+      <primary><filename>/etc/mail/sendmail.cf</filename></primary>
+    </indexterm>
+    <indexterm>
+      <primary><filename>/etc/mail/virtusertable</filename></primary>
+    </indexterm>
+    <informaltable frame="none" pgwide="1">
+      <tgroup cols="2">
+	<thead>
+	  <row>
+	    <entry>Nazwa pliku</entry>
+	    <entry>Funkcja</entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/access</filename>
+	    </entry>
+	    <entry>baza danych kontroli dostêpu</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/aliases</filename>
+	    </entry>
+	    <entry>baza aliasów</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/local-host-names</filename>
+	    </entry>
+	    <entry>lista nazw hostów/domen dla których
+	    <application>sendmail</application> akceptuje przesy³ki</entry>
+    </row>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/mailer.conf</filename>
+	    </entry>
+	    <entry>plik konfiguracyjny programu Mailer</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/mailertable</filename>
+	    </entry>
+	    <entry>tablica dostarczania programu Mailer</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/sendmail.cf</filename>
+	    </entry>
+	    <entry>g³ówny plik konfiguracyjny
+	    <application>sendmail</application>a</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <filename>/etc/mail/virtusertable</filename>
+	    </entry>
+	    <entry>tablica wirtualnych u¿ytkowników i domen</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+  <sect2>
+    <title>Plik <filename>/etc/mail/access</filename></title>
+
+    <para>Baza danych kontroli dostêpu okre¶la jakie hosty lub adresy
+      IP maj± dostêp do lokalnego serwera poczty, oraz okre¶la rodzaj
+      tego dostêpu.  Adresy hostów zdalnych mog± mieæ parametry
+      <option>OK</option>, <option>REJECT</option>, <option>RELAY</option>
+      lub mog± zostaæ przekazane do procedury obs³ugi b³êdów
+      <application>sendmail</application>a wraz z kodem b³êdu.  Hosty
+      z domy¶lnym parametrem <option>OK</option> maj± prawo do przesy³ania
+      poczty do lokalnego hosta pod warunkiem, ¿e adresem docelowym
+      przesy³ki jest ten lokalny host.  Wszystkie po³±czenia do serwera
+      poczty pochodz±ce od adresów hostów z parametrem <option>REJECT</option>
+      s± odrzucane.  Hosty posiadaj±ce parametr <option>RELAY</option>
+      maj± prawo przesy³aæ pocztê do dowolnego odbiorcy przez lokalny
+      serwer poczty.</para>
+
+      <example>
+	<title>Konfiguracja bazy danych kontroli dostêpu
+	  <application>sendmail</application>a</title>
+
+    <programlisting>cyberspammer.com                550 Nie przyjmujemy poczty od spamerow
+FREE.STEALTH.MAILER@            550 Nie przyjmujemy poczty od spamerow
+another.source.of.spam          REJECT
+okay.cyberspammer.com           OK
+128.32                          RELAY</programlisting>
+      </example>
+
+   <para>Przyk³ad zawiera piêæ wpisów.  Nadawcy poczty pasuj±cy
+     do lewej strony tablicy s± traktowani wg regu³ okre¶lonych
+     z prawej strony tablicy.  Dwa pierwsze przyk³ady przekazuj±
+     kod b³êdu do procedury obs³ugi b³êdów <application>sendmail</application>a.
+     Komunikat jest wy¶wietlany hostom, których adres pasuje do adresu
+     z lewej strony tablicy.  Nastêpny wpis odrzuca pocztê od hosta
+     z adresem Internetowym <hostid>another.source.of.spam</hostid>.
+     Kolejny wiersz akceptuje po³±czenia do serwera poczty z adresu
+     <hostid role="fqdn">okay.cyberspammer.com</hostid>, który jest
+     bardziej precyzyjnie okre¶lony ni¿ adres <hostid role="domainname">cyberspammer.com</hostid>
+     w linii pierwszej.  Bardziej precyzyjne okre¶lenia adresów
+     przes³aniaj± adresy mniej precyzyjne.  Ostatni wpis pozwala
+     na przekazywanie poczty ze wszystkich adresów IP zaczynaj±cych
+     siê od <hostid>128.32</hostid>.  Wszystkie hosty z takim
+     pocz±tkiem numeru IP maj± mo¿liwo¶æ przesy³ania poczty za pomoc±
+     tego serwera poczty, adresowanej do innych serwerów.</para>
+
+   <para>Po aktualizacji tego pliku nale¿y wywo³aæ komendê
+     <command>make</command> w katalogu <filename>/etc/mail/</filename>
+     w celu aktualizacji bazy danych.</para>
+
+   </sect2>
+   <sect2>
+    <title>Plik <filename>/etc/mail/aliases</filename></title>
+
+    <para>Baza danych aliasów zawiara listê nazw wirtualnych skrzynek
+      pocztowych przekazywanych do innych u¿ytkowników, do plików,
+      do programów lub do innych aliasów.  Poni¿ej kilka przyk³adów,
+      jakie mog± zostaæ u¿yte w pliku
+      <filename>/etc/mail/aliases</filename>:</para>
+
+      <example>
+	<title>Baza danych aliasów</title>
+    <programlisting>root: localuser
+ftp-bugs: joe,eric,paul
+bit.bucket:  /dev/null
+procmail: "|/usr/local/bin/procmail"</programlisting>
+      </example>
+
+      <para>Format pliku jest prosty - z lewej strony nazwa aliasu,
+	a nastêpnie po dwukropku adres docelowy. Pierwszy przyk³ad
+	zwyczajnie przekazuje pocztê konta <username>root</username>
+	do skrzynki u¿ytkownika <username>localuser</username>,
+	która to nazwa jest nastêpnie równie¿ przeszukiwana w bazie
+	aliasów.  Je¿eli nie zostanie znalezione ¿adne dopasowanie
+	poczta jest przekazywana do lokalnego u¿ytkownika
+	<username>localuser</username>.  Drugi wiersz zawiera
+	przyk³ad listy odbiorców.  Poczta adresowana do odbiorcy
+	<username>ftp-bugs</username> jest przekazywana do trzech
+	skrzynek lokalnych u¿ytkowników: <username>joe</username>,
+	<username>eric</username> oraz <username>paul</username>.
+	Nale¿y pamiêtaæ ¿e skrzynki zdalne powinny byæ okre¶lone
+	pe³n± nazw± np <email>user@example.com</email>.  Kolejny
+	przyk³ad pokazuje przekazanie poczty do pliku, w tym
+	przypadku <filename>/dev/null</filename>.  Ostatni przyk³ad
+	prezentuje przekazanie poczty do programu, tutaj wiadomo¶æ
+	jest zapisana na standardowe wej¶cie programu
+	<filename>/usr/local/bin/procmail</filename> poprzez potok
+	systemu &unix;.</para>
+
+   <para>Kiedy plik zostanie zaktualizowany nale¿y uruchomiæ polecenie
+   <command>make</command> w katalogu <filename>/etc/mail/</filename>
+   w celu zaktualizowania bazy danych.</para>
+  </sect2>
+  <sect2>
+    <title>Plik <filename>/etc/mail/local-host-names</filename></title>
+
+    <para>Plik <filename>/etc/mail/local-host-names</filename> zawiera
+      listê nazw które &man.sendmail.8; traktuje jako nazwy hosta
+      lokalnego.  Mo¿emy umie¶ciæ tu dowoln± nazwê hosta lub domeny
+      dla której <application>sendmail</application> ma odbieraæ
+      pocztê.  Na przyk³ad je¿eli nasz serwer poczty ma odbieraæ pocztê
+      przeznaczon± dla domeny <hostid role="domainname">example.com</hostid>
+      oraz hosta <hostid role="fqdn">mail.example.com</hostid>, plik
+      <filename>local-host-names</filename> powinien wygl±daæ
+      nastêpuj±co:</para>
+
+    <programlisting>example.com
+mail.example.com</programlisting>
+
+    <para>Po aktualizacji tego pliku wymagany jest restart &man.sendmail.8;
+    w celu odczytania przez niego wprowadzonych zmian.</para>
+
+  </sect2>
+
+  <sect2>
+    <title>Plik <filename>/etc/mail/sendmail.cf</filename></title>
+
+    <para>G³ówny plik konfiguracyjny <application>sendmail</application>a
+      &mdash; <filename>sendmail.cf</filename> okre¶la wszystkie aspekty
+      pracy <application>sendmail</application>a pocz±wszy od przepisywania
+      adresów e-mail po wy¶wietlane komunikaty dla zdalnych serwerów
+      poczty.  Oczywi¶cie, przy tak rozleg³ej roli jak± spe³nia ten plik,
+      jest on bardzo skomplikowany i szczegó³y jego konfiguracji wychodz±
+      poza zakres tego podrozdzia³u.  Na szczê¶cie dla standardowej
+      konfiguracji serwera poczty rzadko wymagana jest modyfikacja
+      tego pliku.</para>
+
+    <para>G³ówny plik konfiguracyjny <application>sendmail</application>a
+      mo¿e byæ zbudowany za pomoc± zestawu makr &man.m4.1; które definiuj±
+      cechy i zachowanie <application>sendmail</application>a.  Szczegó³y
+      opisane s± w pliku
+      <filename>/usr/src/contrib/sendmail/cf/README</filename>.</para>
+
+    <para>Aby zmiany poczynione w tym pliku przynios³y skutek nale¿y
+      zrestartowaæ <application>sendmail</application>a.</para>
+
+  </sect2>
+  <sect2>
+    <title>Plik <filename>/etc/mail/virtusertable</filename></title>
+
+    <para>Mapa u¿ytkowników wirtualnych <filename>virtusertable</filename>
+      odwzorowuje adresy poczty domen wirtualnych na rzeczywiste skrzynki
+      pocztowe.  Skrzynki te mog± byæ lokalne, zdalne, aliasy zdefiniowane
+      w pliku <filename>/etc/mail/aliases</filename> lub pliki.</para>
+
+    <example>
+	<title>Przyk³adowe odwzorowanie adresów domen wirtualnych</title>
+
+    <programlisting>root@example.com                root
+postmaster@example.com          postmaster@noc.example.net
+@example.com                    joe</programlisting>
+      </example>
+
+    <para>W powy¿szym przyk³adzie mamy odwzorowanie domeny
+      <hostid role="domainname">example.com</hostid>.  Plik map wirtualnych
+      jest przetwarzany do napotkania pierwszego dopasowania, w kierunku
+      od góry do do³u.  Pierwszy wiersz odwzorowuje adres
+      <email>root@example.com</email> do lokalnej skrzynki u¿ytkownika
+      <username>root</username>.  Kolejny wiersz odwzorowuje adres
+      <email>postmaster@example.com</email> do skrzynki u¿ytkownika
+      <username>postmaster</username> na ho¶cie
+      <hostid role="fqdn">noc.example.net</hostid>.  W koñcu je¿eli
+      ¿adne dotychczasowe odwzorowanie nie zosta³o dopasowane,
+      zostanie u¿yte ostatnie dopasowanie które przekazuje wszelk±
+      pocztê adresowan± do kogokolwiek w domenie
+      <hostid role="domainname">example.com</hostid> do lokalnej
+      skrzynki pocztowej u¿ytkownika <username>joe</username>.</para>
+
+  </sect2>
+  </sect1>
+
+  <sect1 id="mail-changingmta">
+    <sect1info>
+      <authorgroup>
+        <author>
+          <firstname>Andrew</firstname>
+          <surname>Boothman</surname>
+	  <contrib>Autor </contrib>
+        </author>
+      </authorgroup>
+      <authorgroup>
+        <author>
+          <firstname>Gregory</firstname>
+          <surname>Neil Shapiro</surname>
+	  <contrib>Autor informacji pobranych z e-maili </contrib>
+        </author>
+      </authorgroup>
+    </sect1info>
+    <title>Zmiana agenta przekazywania poczty MTA</title>
+    <indexterm>
+      <primary>email</primary>
+      <secondary>zmiana mta</secondary>
+    </indexterm>
+
+    <para>Jak ju¿ wspomniano wcze¶niej, &os; posiada
+      zainstalowanego <application>sendmail</application>a jako MTA
+      (Mail Transfer Agent).  Jest on zatem domy¶lnie odpowiedzialny
+      za nasz± pocztê wychodz±c± i przychodz±c±.</para>
+
+    <para>Niektórzy administratorzy z ró¿nych powodów wol± zmieniæ
+      agenta przekazywania poczty.  Powody te s± bardzo ró¿ne,
+      od chêci wypróbowania innego MTA po wymóg zastosowania
+      specjalnej w³a¶ciwo¶ci dostêpnej w innym oprogramowaniu.
+      Na szczê¶cie, jakikolwiek by³by to powód, &os; w ³atwy sposób
+      umo¿liwia przeprowadzenie zmiany MTA.</para>
+
+    <sect2>
+      <title>Instalacja nowego MTA</title>
+
+      <para>Dostêpnych jest bardzo wiele ró¿nych agentów
+	przekazywania poczty.  Dobrym miejscem do rozpoczêcia
+	poszukiwañ jest <link linkend="ports">Kolekcja portów
+	systemu FreeBSD</link>, w której dostêpnych jest wiele
+	z nich.  Oczywi¶cie mo¿emy u¿ywaæ MTA z dowolnego
+	¼ród³a, pod warunkiem ¿e bêdziemy go w stanie uruchomiæ
+	w systemie FreeBSD.</para>
+
+      <para>Pierwszym krokiem jest instalacja oprogramowania
+	MTA.  Po instalacji bêdziemy w mogli przekonaæ siê czy
+	wybrany agent spe³nia nasze potrzeby.  Po instalacji
+	konfigurujemy oprogramowanie zanim przejmie ono rolê
+	<application>sendmail</application>a.  Podczas instalacji
+	nale¿y upewniæ siê aby nie nadpisaæ oryginalnych plików
+	systemu takich jak <filename>/usr/bin/sendmail</filename>,
+	w przeciwnym bowiem razie nowe oprogramowanie zostanie
+	wykorzystane do pracy przez system zanim zostanie
+	poprawnie skonfigurowane.</para>
+
+      <para>Informacje o konfiguracji wybranego MTA dostêpne
+	s± w jego dokumentacji.</para>
+    </sect2>
+
+    <sect2 id="mail-disable-sendmail">
+      <title>Wy³±czenie <application>sendmail</application>a</title>
+
+      <para>Procedura uruchamiania <application>sendmail</application>a
+	znacznie ró¿ni siê miêdzy wersj± 4.5-RELEASE, 4.6-RELEASE
+	a wersjami pó¼niejszymi, dlatego te¿ sposób wy³±czenia
+	<application>sendmail</application>a jest nieco inny.</para>
+
+	<warning>
+	  <para> Nale¿y pamiêtaæ, aby po wy³±czeniu us³ug poczty
+	    wychodz±cej <application>sendmail</application>a zamieniæ
+	    je innym systemem dostarczania poczty.  Pominiêcie
+	    tego kroku spowoduje ¿e us³ugi systemowe takie jak
+	    &man.periodic.8; nie bêd± w stanie dostarczaæ wyników
+	    swojej pracy za po¶rednictwem poczty elektronicznej
+	    jak to zazwyczaj robi±.  Wiele modu³ów systemu wymaga
+	    do poprawnej pracy procesu o funkcjonalno¶ci
+	    <application>sendmail</application>a.  Je¿eli aplikacje
+	    w dalszym ci±gu bêd± u¿ywaæ <application>sendmail</application>a
+	    w celu wys³ania poczty, mimo ¿e go wy³±czyli¶my,
+	    przesy³ki zostan± wstawione do nieaktywnych kolejek
+	    poczty i nigdy nie zostan± dostarczone
+	    do adresata.</para>
+	</warning>
+
+      <sect3>
+	<title>FreeBSD 4.5-STABLE przed 04-04-2002 i wcze¶niejsze
+	  (równie¿ 4.5-RELEASE i wcze¶niejsze)</title>
+
+	<para>wpisanie wiersza:</para>
+
+	  <programlisting>sendmail_enable="NO"</programlisting>
+
+	  <para>do pliku <filename>/etc/rc.conf</filename> wy³±czy
+	  <application>sendmail</application>a jako serwer poczty
+	  przychodz±cej, ale w dalszym ci±gu umo¿liwi wysy³anie
+	  poczty (je¿eli plik <filename>/etc/mail/mailer.conf</filename>
+	  nie zostanie zmodyfikowany, szczegó³y poni¿ej).</para>
+      </sect3>
+
+      <sect3>
+	<title>FreeBSD 4.5-STABLE after 2002/4/4
+	  (Including 4.6-RELEASE and Later)</title>
+
+	<para>Ca³kowite wy³±czenie <application>sendmail</application>a,
+	  w³±cznie z mo¿liwo¶ci± wysy³ania poczty, umo¿liwia
+	  wpisanie wiersza:</para>
+
+	  <programlisting>sendmail_enable="NONE"</programlisting>
+
+	  <para>do pliku <filename>/etc/rc.conf.</filename>.</para>
+
+	<para>Je¿eli naszym celem jest tylko wy³±czenie serwera
+	  poczty przychodz±cej nale¿y wpisaæ wiersz:</para>
+
+	  <programlisting>sendmail_enable="NO"</programlisting>
+
+	<para>do pliku <filename>/etc/rc.conf</filename>.  Je¿eli
+	  poczta przychodz±ca jest wy³±czona w dalszym ci±gu
+	  funkcjonuje lokalne dostarczanie wiadomo¶ci.  Wiêcej
+	  informacji nt. opcji startowych
+	  <application>sendmail</application>a jest dostêpnych
+	  na stronie man &man.rc.sendmail.8;.</para>
+      </sect3>
+
+      <sect3>
+	<title>FreeBSD 5.0-STABLE i pó¼niejsze</title>
+
+	<para>Ca³kowite wy³±czenie <application>sendmail</application>a,
+	  w³±cznie z mo¿liwo¶ci± wysy³ania poczty, umo¿liwia
+	  wpisanie wierszy:</para>
+
+	  <programlisting>sendmail_enable="NO"
+sendmail_submit_enable="NO"
+sendmail_outbound_enable="NO"
+sendmail_msp_queue_enable="NO"</programlisting>
+
+	  <para>do pliku <filename>/etc/rc.conf</filename>.</para>
+
+	<para>Je¿eli naszym celem jest tylko wy³±czenie serwera
+	  poczty przychodz±cej nale¿y wpisaæ wiersz:</para>
+
+	  <programlisting>sendmail_enable="NO"</programlisting>
+
+	<para>do pliku <filename>/etc/rc.conf</filename>.  Wiêcej
+	  informacji nt. opcji startowych <application>sendmail</application>a
+	  jest dostêpnych na stronie man &man.rc.sendmail.8;.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Uruchamianie nowego MTA przy starcie systemu</title>
+
+      <para>Mamy mo¿liwo¶æ wyboru dwóch sposobów uruchamianie nowego
+	MTA przy starcie systemu w zale¿no¶ci od wersji systemu
+	FreeBSD.</para>
+
+      <sect3>
+	<title>FreeBSD 4.5-STABLE przed 11-04-2002
+	(równie¿ 4.5-RELEASE i wcze¶niejsze)</title>
+
+	<para>W katalogu <filename>/usr/local/etc/rc.d/</filename> musimy
+	  utworzyæ skrypt z rozszerzeniem <filename>.sh</filename> i prawami
+	  uruchamiania dla u¿ytkownika <username>root</username>.  Skrypt
+	  powinien akceptowaæ parametry <literal>start</literal>
+	  i <literal>stop</literal> oraz odpowiednio na nie reagowaæ. Podczas
+	  uruchamiania systemu skrypty systemowe wykonaj± nastêpuj±ce
+	  polecenie:</para>
+
+	<programlisting>/usr/local/etc/rc.d/supermailer.sh start</programlisting>
+
+	<para>Polecenie to mo¿e byæ u¿yte do rêcznego uruchomienia
+	  serwera.  W momencie wy³±czania systemu skrypty systemowe wykonaj±
+	  polecenie:</para>
+
+	<programlisting>/usr/local/etc/rc.d/supermailer.sh stop</programlisting>
+
+	<para>które równie¿ mo¿na wykorzystaæ do rêcznego zatrzymania
+	  naszego serwera poczty podczas pracy systemu.</para>
+
+      </sect3>
+
+      <sect3>
+	<title>FreeBSD 4.5-STABLE po 11-04-2002
+	  (równie¿ 4.6-RELEASE i pó¼niejsze)</title>
+
+	<para>W pó¼niejszych wersjach FreeBSD mo¿emy u¿yæ powy¿szej metody
+	  lub wpisaæ wiersz:</para>
+
+	<programlisting>mta_start_script="filename"</programlisting>
+
+	<para>do pliku <filename>/etc/rc.conf</filename>, gdzie
+	  <replaceable>filename</replaceable> to pe³na ¶cie¿ka
+	  do skryptu uruchamiaj±cego nasz nowy MTA przy starcie
+	  systemu.</para>
+      </sect3>
+
+    </sect2>
+
+    <sect2>
+      <title>Zamiana <application>sendmail</application>a jako domy¶lnego
+	programu obs³ugi poczty w systemie</title>
+
+      <para>Program <application>sendmail</application> sta³ siê na tyle
+	wszechobecny w ¶wiecie systemów &unix;, ¿e czê¶æ oprogramowania
+	zak³ada z góry ¿e jest on zainstalowany i poprawnie skonfigurowany
+	w systemie.  Z tego wzglêdu wiele alternatywnych MTA zawiera
+	w³asn± implementacjê interfejsu linii poleceñ sendmaila.  Takie
+	podej¶cie u³atwia ³agodne przej¶cie
+	z <application>sendmail</application>a na nowy MTA.</para>
+
+      <para>Je¿eli zatem chcemy uruchomiæ nasz nowy program pocztowy,
+	musimy siê upewniæ ¿e oprogramowanie u¿ywaj±ce standardowej
+	wersji <application>sendmail</application>a (programu
+	<filename>/usr/bin/sendmail</filename>) bêdzie zamiast niego
+	u¿ywa³o naszego oprogramowania poczty.  Na szczê¶cie &os; zawiera
+	system zwany &man.mailwrapper.8; który wykona ca³± pracê
+	za nas.</para>
+
+      <para>Przy standardowej instalacji systemu plik
+	<filename>/etc/mail/mailer.conf</filename> zawiera wpisy podobne
+	do poni¿szych:</para>
+
+<programlisting>sendmail	 /usr/libexec/sendmail/sendmail
+send-mail	/usr/libexec/sendmail/sendmail
+mailq		/usr/libexec/sendmail/sendmail
+newaliases	/usr/libexec/sendmail/sendmail
+hoststat	/usr/libexec/sendmail/sendmail
+purgestat	/usr/libexec/sendmail/sendmail</programlisting>
+
+      <para>Wpisy te oznaczaj±, ¿e je¿eli które¶ z powy¿szych poleceñ
+	(na przyk³ad sam <filename>sendmail</filename>) zostanie
+	uruchomione, system wywo³uje kopiê mailwrappera o nazwie
+	<filename>sendmail</filename> który sprawdza zawarto¶æ
+	pliku <filename>mailer.conf</filename> i uruchamia program
+	<filename>/usr/libexec/sendmail/sendmail</filename>.  Takie
+	rozwi±zanie w ³atwy sposób umo¿liwia zmianê programu
+	binarnego, który bêdzie uruchomiony w momencie wywo³ania
+	domy¶lnych funkcji <filename>sendmail</filename>a.</para>
+
+      <para>Dlatego je¿eli chcemy aby program
+	<filename>/usr/local/supermailer/bin/sendmail-compat</filename>
+	by³ uruchamiany zamiast oryginalnego <application>sendmail</application>a,
+	musimy zmieniæ wpisy w pliku <filename>/etc/mail/mailer.conf</filename>
+	na poni¿sze:</para>
+
+<programlisting>sendmail	 /usr/local/supermailer/bin/sendmail-compat
+send-mail	/usr/local/supermailer/bin/sendmail-compat
+mailq		/usr/local/supermailer/bin/mailq-compat
+newaliases	/usr/local/supermailer/bin/newaliases-compat
+hoststat	/usr/local/supermailer/bin/hoststat-compat
+purgestat	/usr/local/supermailer/bin/purgestat-compat</programlisting>
+
+	</sect2>
+
+	<sect2>
+	  <title>Zakoñczenie</title>
+
+	<para>Kiedy wszystko mamy ju¿ skonfigurowane w taki sposób
+	  jak chcemy, mo¿emy albo zatrzymaæ oryginalny proces
+	  <application>sendmail</application>a (którego nie bêdziemy
+	  wiêcej potrzebowali) i uruchomiæ proces naszego nowego
+	  oprogramowania, albo po prostu zrestartowaæ komputer.  Restart
+	  dodatkowo umo¿liwi sprawdzenie czy nowe oprogramowanie MTA
+	  zosta³o prawid³owo skonfigurowane do automatycznego uruchomienia
+	  przy starcie komputera.</para>
+
+      </sect2>
+    </sect1>
+
+  <sect1 id="mail-trouble">
+    <title>Rozwi±zywanie problemów</title>
+    <indexterm>
+      <primary>email</primary>
+      <secondary>rozwi±zywanie problemów</secondary>
+    </indexterm>
+
+    <qandaset>
+      <qandaentry>
+        <question>
+	<para>Dlaczego powinienem u¿ywaæ nazw FQDN w hostach mojej sieci?</para>
+	</question>
+
+	<answer>
+	<para>Prawdopodobnie zdarzy siê, ¿e host znajduje siê
+	  w innej domenie.  Na przyk³ad je¿eli znajdujemy siê
+	  w domenie o nazwie <hostid role="fqdn">foo.bar.edu</hostid>
+	  i chcieliby¶my pod³±czyæ siê do komputera o nazwie
+	  <hostid>mumble</hostid> w domenie <hostid
+	  role="domainname">bar.edu</hostid>, bêdziemy musieli
+	  siê odwo³aæ do w pe³ni kwalifikowalnej nazwy
+	  domenowej (fully-qualified domain name, FQDN)
+	  <hostid role="fqdn">mumble.bar.edu</hostid> zamiast
+	  do nazwy <hostid>mumble</hostid>.</para>
+
+	<indexterm><primary>BIND</primary></indexterm>
+	<para>Dawniej resolver BSD BIND umo¿liwia³ odwo³ania
+	  do nazw skróconych.  Jednak¿e aktualna wersja
+	  <application>BIND</application>-a instalowana
+	  z systemem &os; nie pozwala ju¿ na domy¶lne skracanie
+	  nazw dla nie w pe³ni kwalifikowalnych nazw domen
+	  innych ni¿ tych w których siê znajdujemy.  Zatem
+	  nie w pe³ni kwalifikowalna nazwa hosta zostanie
+	  dopasowana jako <hostid
+	  role="fqdn">mumble.foo.bar.edu</hostid>
+	  albo bêdzie wyszukiwana w domenie root.</para>
+
+        <para>Takie zachowanie resolvera ró¿ni siê od zachowania
+	  wcze¶niejszego gdzie wyszukiwanie by³o kontynuowane
+	  dla domen <hostid role="domainname">mumble.bar.edu</hostid>
+	  i <hostid role="domainname">mumble.edu</hostid>.  RFC 1535
+	  wyja¶nia dlaczego uwa¿a siê to za b³êdne podej¶cie lub nawet
+	  za lukê w bezpieczeñstwie.</para>
+
+        <para>Mo¿na obje¶æ takie zachowanie siê resolvera przez umieszczenie linii:
+
+          <programlisting>search foo.bar.edu bar.edu</programlisting>
+
+          zamiast wcze¶niejszej:
+
+          <programlisting>domain foo.bar.edu</programlisting>
+
+	  do pliku <filename>/etc/resolv.conf</filename>.  Jednak powinni¶my
+	  siê upewniæ, ¿e kolejno¶æ wyszukiwania nie wykroczy poza
+	  <quote>granicê pomiêdzy lokaln± a publiczn± administracj±</quote>
+	  jak nazywa to dokument RFC 1535.</para>
+	</answer>
+      </qandaentry>
+
+      <indexterm>
+	<primary>rekord MX</primary>
+      </indexterm>
+
+      <qandaentry>
+	<question>
+	<para><application>sendmail</application> wy¶wietla komunikat <errorname>mail
+	  loops back to myself</errorname></para>
+	</question>
+
+	<answer>
+	<para>Jest to wyja¶nione w dokumencie FAQ
+	 <application>sendmail</application>a w nastêpuj±cy sposób:</para>
+
+        <programlisting>Otrzymujê poni¿sze komunikaty b³êdów:
+
+Jak mogê rozwi±zaæ ten problem?
+
+Usi³owa³e¶ wys³aæ pocztê do domeny (np. domain.net) dla której
+rekord MX wskazuje na konkretny host (w tym przypadku relay.domain.net)
+ale host relay.domain.net nie rozpoznaje siebie jako odbiorcy
+poczty dla domeny domain.net. Nale¿y dodaæ wiersz domain.net
+do pliku /etc/mail/local-host-names (w wersjach wcze¶niejszych
+ni¿ 8.10 sendmaila do pliku /etc/sendmail.cw) je¿eli u¿ywasz
+FEATURE(use_cw_file) lub dodaæ wpis <quote>Cw domain.net</quote> do pliku
+/etc/mail/sendmail.cf.</programlisting>
+
+        <para>Dokument FAQ mo¿na znale¼æ pod adresem
+	  <ulink url="http://www.sendmail.org/faq/"></ulink> i zaleca
+	  siê przeczytanie go je¿eli zamierzamy dostrajaæ ustawienia
+	  serwera poczty.</para>
+	</answer>
+      </qandaentry>
+
+      <indexterm><primary>PPP</primary></indexterm>
+      <qandaentry>
+        <question>
+	<para>Jak mogê uruchomiæ serwer pocztowy na ho¶cie z po³±czeniem
+	  dial-up PPP?</para>
+	</question>
+
+	<answer>
+	<para> Mo¿emy pod³±czyæ komputer z FreeBSD w sieci LAN
+	  do Internetu.  Komputer ten bêdzie stanowi³ bramê pocztow±
+	  dla sieci LAN.  Po³±cznie PPP nie jest ³±czem sta³ym.</para>
+
+	<indexterm><primary>UUCP</primary></indexterm>
+	<indexterm>
+	  <primary>rekord MX</primary>
+	</indexterm>
+
+	<para>S± co najmniej dwa sposoby aby to osi±gn±æ.  Jednym z nich
+	  jest u¿ycie UUCP.</para>
+
+	<para>Innym sposobem jest ustawienie serwera ze sta³ym dostêpem
+	  do Internetu jako secondary MX dla naszej domeny.  Na przyk³ad
+	  domena naszej firmy to <hostid role="domainname">example.com</hostid>
+	  a nasz dostawca Internetu ustawia
+	  <hostid role="domainname">example.net</hostid> jako domenê
+	  zapewniaj±c± us³ugi dodatkowego serwera poczty (secondary MX)
+	  dla naszej domeny:</para>
+
+	<programlisting>example.com.          MX        10      example.com.
+                      MX        20      example.net.</programlisting>
+
+	<para>Tylko jeden host powinien zostaæ okre¶lony jako ostateczny
+	  odbiorca (nale¿y dodaæ wpis <literal>Cw example.com</literal>
+	  do pliku <filename>/etc/mail/sendmail.cf</filename> na serwerze
+	  odpowiedzialnym za domenê
+	  <hostid role="domainname">example.com</hostid>).</para>
+
+	<para>Kiedy wysy³aj±cy pocztê bêdzie próbowa³ dostarczyæ
+	  przesy³kê do naszej domeny najpierw spróbuje pod³±czyæ
+	  siê do naszego hosta (<hostid role="domainname">example.com</hostid>)
+	  za po¶rednictwem po³±czenia modemowego.  Najprawdopodobniej
+	  siê to nie uda poniewa¿ nasz serwer nie jest pod³±czony
+	  sta³ym ³±czem do sieci Internet.  <application>sendmail</application>
+	  automatycznie dostarczy przesy³kê do domeny ustawionej
+	  jako secondary MX (w tym przypadku domena <hostid
+	    role="domainname">example.net</hostid> naszego dostawcy
+	  Internetu).  Host ustawiony jako secondary MX bêdzie
+	  próbowa³ okresowo po³±czyæ siê i dostarczyæ pocztê
+	  do naszego serwera ustawionego jako primary MX
+	  domeny <hostid role="domainname">example.com</hostid>).</para>
+
+	<para>Mo¿na u¿yæ poni¿szego skryptu jako skryptu
+	  uruchamianego podczas logowania siê do systemu:</para>
+
+	<programlisting>#!/bin/sh
+# Put me in /usr/local/bin/pppmyisp
+( sleep 60 ; /usr/sbin/sendmail -q ) &amp;
+/usr/sbin/ppp -direct pppmyisp</programlisting>
+
+	<para>Je¿eli zamierzamy utworzyæ osobny skrypt uruchamiany
+	  podczas logowania u¿ytkownika, powinni¶my u¿yæ polecenia
+	  <command>sendmail -qRexample.com</command> zamiast
+	  powy¿szego.  Spowoduje to natychmiastowe przetworzenie
+	  wszystkich wiadomo¶ci znajduj±cych siê w kolejce poczty
+	  i przeznaczonych dla domeny
+	  <hostid role="domainname">example.com</hostid>.</para>
+
+	<para>Dalsze szczegó³y dotycz±ce takiej konfiguracji
+	  s± nastêpuj±ce:</para>
+
+	<para>Wiadomo¶æ <quote>ukradziona</quote> z  &a.pl.isp.d;.</para>
+
+	<programlisting>&gt; zapewniamy serwer secondary MX dla jednego z naszych klientów.
+&gt; Klient ³±czy siê z naszym serwerem kilka razy dziennie automatycznie
+&gt; aby pobraæ pocztê do swojego serwera ustawionego jako primary MX
+&gt; (nie ³±czymy siê z jego serwerem w momencie gdy dostarczana jest
+&gt; do nas poczta przeznaczona dla jego domeny). Nasz sendmail przetwarza
+&gt; kolejkê pocztow± co 30 minut. W tej sytuacji klient musi pozostaæ
+&gt; po³±czony przez ca³e 30 minut aby byæ pewnym ¿e wszystkie wiadomo¶ci
+&gt; dotar³y do jego serwera primary MX
+&gt;
+&gt; Czy jest jakie¶ polecenie które umo¿liwi zainicjowanie sendmaila do
+&gt; wys³ania poczty natychmiast po po³±czeniu klienta ? U¿ytkownik nie
+&gt; ma oczywi¶cie uprawnieñ root-a na naszym serwerze.
+
+W sekcji <quote>privacy flags</quote> pliku konfiguracyjnego sendmaila - sendmail.cf
+znajduje siê opcja Opgoaway,restrictqrun
+
+Nale¿y usun±æ restrictqrun w celu umo¿liwienia u¿ytkownikom bez
+praw administratora uruchomienia przetwarzania kolejki.
+Mo¿na równie¿ przekonfigurowaæ priorytety MX serwerów poczty.
+Serwer dostawcy stanie siê wtedy primary MX dla klientów.
+Dodatkowo dostawca powinien zdefiniowaæ w pliku konfiguracyjnym
+sendmaila opcjê:
+
+# If we are the best MX for a host, try directly instead of generating
+# local config error.
+OwTrue
+
+W ten sposób komputery wysy³aj±ce pocztê bêd± siê ³±czyæ
+bezpo¶rednio z serwerem pocztowym dostawcy Internetu,
+bez próby ³±czenia siê z serwerami klientów. Serwer dostawcy
+wysy³a nastêpnie pocztê do serwerów klientów. Takie rozwi±zanie
+dzia³a tylko dla konkretnych nazw hostów wiêc koniecznym bêdzie
+wymuszenie na klientach zmiany nazw ich serwerów poczty
+np. z <quote>customer.com</quote> na <quote>hostname.customer.com</quote> w serwerach DNS.
+Wystarczy dodaæ rekord A w konfiguracji DNS dla domeny <quote>customer.com</quote>.</programlisting>
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question>
+	  <para>Dlaczego wci±¿ otrzymujê komunikaty b³êdów <errorname>Relaying
+	    Denied</errorname> kiedy próbujê wys³aæ pocztê z innych
+            hostów?</para>
+	</question>
+
+	<answer>
+	  <para>W domy¶lnej konfiguracji po zainstalowaniu
+	    FreeBSD, <application>sendmail</application> jest skonfigurowany
+	    tylko do wysy³ania wiadomo¶ci z komputera, na którym
+	    jest uruchomiony.  Na przyk³ad je¿eli dostêpna jest us³uga
+	    <acronym>POP</acronym> u¿ytkownicy bêd± mogli sprawdzaæ pocztê
+	    ze szko³y, pracy lub innych miejsc ale nie bêd± mogli wysy³aæ
+	    poczty ze zdalnych lokacji.  Zazwyczaj kilka chwil po próbie
+	    wys³ania takiej przesy³ki zostanie odes³ana wiadomo¶æ od u¿ytkownika
+	    <application>MAILER-DAEMON</application> z komunikatem b³êdu
+	    <errorname>5.7 Relaying Denied</errorname>.</para>
+
+	  <para>Jest kilka sposobów na rozwi±zanie tego problemu.
+	    Najprostszym jest umieszczenie adresu, z którego wysy³amy
+	    pocztê (np. adresu naszego dostawcy Internetu) do pliku
+	    <filename>/etc/mail/relay-domains</filename>.  Najszybciej
+	    mo¿na to zrobiæ wywo³uj±c polecenie:</para>
+
+	  <screen>&prompt.root; <userinput>echo "domena.naszego.dostawcy.com" &gt; /etc/mail/relay-domains</userinput></screen>
+
+	  <para>Po utworzeniu lub dodaniu wpisu do tego pliku nale¿y
+	    zrestartowaæ <application>sendmail</application>a.  To rozwi±zanie
+	    dzia³a bardzo dobrze je¿eli jeste¶my administratorami serwera
+	    i nie zamierzamy wysy³aæ poczty lokalnie lub zamierzamy wykorzystaæ
+	    system kliencki <quote>wska¿ i kliknij</quote> na innym komputerze
+	    lub u innego dostawcy Internetu.  Jest równie¿ bardzo u¿yteczne
+	    gdy mamy tylko jedno lub dwa konta pocztowe do ustawienia.
+	    Je¿eli mamy du¿± liczbê adresów do dodania mo¿emy otworzyæ
+	    ten plik w ulubionym edytorze tekstu i dodaæ wymagane domeny po jednej
+	    w ka¿dej linii np.:</para>
+
+	  <programlisting>domena.naszego.dostawcy.com
+domena.innego.dostawcy.net
+domena.kolejnego.dostawcy.org
+www.przyklad.org</programlisting>
+
+	  <para>Po dopisaniu domen do pliku ka¿dy host klienta nale¿±cy
+	    do jednej z wpisanych domen mo¿e wys³aæ pocztê przez nasz
+	    serwer (pod warunkiem ¿e ma konto w naszym systemie).
+	    Jest to bardzo wygodny sposób na umo¿liwienie u¿ytkownikom
+	    wysy³ania poczty ze zdalnych lokacji przy jednoczesnym zablokowaniu
+	    mo¿liwo¶ci wysy³ania SPAM-u za po¶rednictwem
+	    naszego systemu.</para>
+
+	</answer>
+      </qandaentry>
+    </qandaset>
+  </sect1>
+
+  <sect1 id="mail-advanced">
+    <title>Zagadnienia zaawansowane</title>
+
+    <para>Poni¿sze akapity opisuj± bardziej skomplikowane zagadnienia,
+	takie jak konfiguracja serwera poczty dla ca³ej domeny.</para>
+
+    <sect2 id="mail-config">
+      <title>Konfiguracja podstawowa</title>
+      <indexterm>
+        <primary>email</primary>
+        <secondary>konfiguracja</secondary>
+      </indexterm>
+
+      <para>W konfiguracji domy¶lnej &os; powinni¶my mieæ
+	mo¿liwo¶æ  wysy³ania poczty do hostów zewnêtrznych
+	pod warunkiem, ¿e mamy poprawnie skonfigurowany plik
+	<filename>/etc/resolv.conf</filename> lub mamy uruchomiony
+	w³asny serwer nazw DNS.  Je¿eli chcemy mieæ mo¿liwo¶æ
+	odbierania poczty wysy³anej do MTA
+	(np. <application>sendmail</application>a) uruchomionego
+	na naszym komputerze z &os; mo¿emy to osi±gn±æ
+	dwoma sposobami:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Powinni¶my uruchomiæ w³asny serwer nazw i posiadaæ
+	    w³asn± domenê (np. <hostid
+	    role="domainname">FreeBSD.org</hostid>)</para>
+        </listitem>
+
+        <listitem>
+          <para>Odbieraæ pocztê wys³an± bezpo¶rednio do naszego hosta.
+	    Mo¿na to osi±gn±æ przez dostarczanie poczty bezpo¶rednio
+	    do aktualnej nazwy DNS naszego komputera (np. <hostid
+	    role="fqdn">example.FreeBSD.org</hostid>).</para>
+        </listitem>
+      </itemizedlist>
+
+      <indexterm><primary>SMTP</primary></indexterm>
+      <para>Bez wzglêdu na to który z powy¿szych sposobów wybierzemy,
+	aby odbieraæ pocztê bezpo¶rednio wysy³an± do naszego hosta
+	musimy mieæ przypisany do niego sta³y adres IP (nie mo¿e to byæ
+	adres dynamiczny jaki otrzymujemy zazwyczaj przy po³±czeniach
+	PPP).  Je¿eli nasz host znajduje siê za firewallem - firewall
+	musi przekazywaæ ruch SMTP do naszego hosta.  Je¿eli chcemy
+	odbieraæ pocztê bezpo¶rednio na naszym ho¶cie musimy siê
+	upewniæ ¿e spe³niony jest jeden z warunków:</para>
+
+      <itemizedlist>
+        <indexterm><primary>rekord MX</primary></indexterm>
+        <listitem>
+          <para>rekord MX z najwy¿szym priorytetem (najni¿szym
+	    numerem) w DNS wskazuje numer IP naszego hosta</para>
+        </listitem>
+
+        <listitem>
+          <para>nie ma ¿adnego wpisu MX w DNS dla naszego hosta</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Spe³nienie jednego w powy¿szych warunków umo¿liwi odbieranie
+	poczty bezpo¶rednio na naszym serwerze.</para>
+
+      <para>Je¿eli polecenia wywo³ane poni¿ej dadz± wyniki podobne
+	do przyk³adowych:</para>
+
+      <screen>&prompt.root; <userinput>hostname</userinput>
+example.FreeBSD.org
+&prompt.root; <userinput>host example.FreeBSD.org</userinput>
+example.FreeBSD.org has address 204.216.27.XX</screen>
+
+      <para>wys³anie poczty bezpo¶rednio na adres
+	<email role="nolink">yourlogin@example.FreeBSD.org</email>
+	powinno zadzia³aæ bez problemu (zak³adaj±c,
+	¿e <application>sendmail</application> jest poprawnie
+	skonfigurowany i uruchomiony na
+	<hostid role="fqdn">example.FreeBSD.org</hostid>).</para>
+
+      <para>Je¿eli zamiast powy¿szych otrzymamy zbli¿one
+	do nastêpuj±cych wyniki:</para>
+
+      <screen>&prompt.root; <userinput>host example.FreeBSD.org</userinput>
+example.FreeBSD.org has address 204.216.27.XX
+example.FreeBSD.org mail is handled (pri=10) by hub.FreeBSD.org</screen>
+
+      <para>Ca³a poczta wys³ana do naszego hosta (<hostid
+        role="fqdn">example.FreeBSD.org</hostid>) zostanie dostarczona
+	do serwera <hostid>hub</hostid> i u¿ytkownika o tej samej
+	nazwie (yourlogin) na tej maszynie, zamiast dotrzeæ bezpo¶rednio
+	do naszego hosta.</para>
+
+      <para>Powy¿sza informacja jest przechowywana przez serwer
+	DNS.  Rekord DNS, który zawiera informacje o trasowaniu
+	poczty nazywa siê rekordem MX (<emphasis>M</emphasis>ail
+	e<emphasis>X</emphasis>).  Je¿eli dla danego hosta nie istnieje
+	przynajmniej jeden rekord MX w systemie DNS, poczta bêdzie
+	dostarczna bezpo¶rednio do tego hosta na podstawie informacji
+	o jego numerze IP.</para>
+
+      <para>Wpisy MX dla hosta <hostid
+        role="fqdn">freefall.FreeBSD.org</hostid> wygl±da³y
+	nastêpuj±co:</para>
+
+      <programlisting>freefall		MX	30	mail.crl.net
+freefall		MX	40	agora.rdrop.com
+freefall		MX	10	freefall.FreeBSD.org
+freefall		MX	20	who.cdrom.com</programlisting>
+
+      <para>Jak widaæ <hostid>freefall</hostid> mia³ wiele
+	rekordów MX.  Host z najni¿szym numerem MX jest komputerem
+	który, je¿eli jest dostêpny, otrzymuje pocztê
+	bezpo¶rednio.  Je¿eli z jakiego¶ wzglêdu nie jest on dostêpny,
+	pozosta³e hosty (czasem zwane <quote>zapasowymi serwerami
+	poczty</quote>) tymczasowo odbieraj± pocztê i je¿eli host
+	z ni¿szym numerem stanie siê dostêpny to poczta jest do niego
+	przekazywana.  W koñcu poczta dociera do hosta z najni¿szym
+	numerem MX.</para>
+
+      <para>Zapasowe serwery pocztowe powinny mieæ osobne po³±czenia
+	z sieci± Internet, aby zapewniæ maksymaln± niezawodno¶æ.
+	Nie powinni¶my mieæ problemów z zapewnieniem sobie takiej
+	us³ugi np. u naszego dostawcy Internetu.</para>
+    </sect2>
+
+    <sect2 id="mail-domain">
+      <title>Poczta dla naszej domeny</title>
+
+      <para>Przygotowanie serwera poczty (ang. <quote>mailhost</quote>)
+	wymaga przekierowania do niego wszelkiej poczty wys³anej
+	do stacji roboczych znajduj±cych siê w naszej
+	domenie.  W zasadzie chcemy <quote>zarz±daæ</quote> wszelkiej
+	poczty przeznaczonej dla dowolnego komputera w naszej
+	domenie (w tym przyk³adzie <hostid
+	role="fqdn">*.FreeBSD.org</hostid>) i przes³aæ j± do
+	naszego serwera poczty.  W ten sposób u¿ytkownicy mog±
+	odbieraæ korespondencjê z jednego komputera zarz±dzaj±cego
+	poczt±.</para>
+
+      <indexterm><primary>DNS</primary></indexterm>
+      <para>Aby u³atwiæ sobie ¿ycie nale¿y stworzyæ konta u¿ytkowników
+	o takich samych nazwach na obywu maszynach (serwerze poczty
+	i kliencie).  Mo¿emy do tego celu wykorzystaæ
+	polecenie &man.adduser.8;.</para>
+
+      <para>Serwer poczty którego chcemy u¿yæ, musi byæ wyznaczony
+	jako wymiennik poczty dla ka¿dego komputera w sieci.  Mo¿na
+	to osi±gn±æ konfiguruj±c DNS w sposób podobny do poni¿szego:</para>
+
+      <programlisting>example.FreeBSD.org	A	204.216.27.XX		; Stacja robocza
+			MX	10 hub.FreeBSD.org	; Serwer poczty</programlisting>
+
+      <para>Taka konfiguracja spowoduje ¿e ca³a poczta przeznaczona
+	dla stacji roboczej zostanie przekierowana do serwera poczty,
+	niezale¿nie od adresu na który wskazuje rekord A.  Poczta jest
+	wysy³ana do hosta na który wskazuje rekord MX.</para>
+
+      <para>Nie mo¿emy skonfigurowaæ tego samodzielnie, chyba ¿e sami
+	obs³ugujemy w³asny DNS.  Je¿eli tak nie jest lub nie mo¿emy
+	uruchomiæ w³asnego serwera DNS powinni¶my skontatkowaæ siê
+	z naszym ISP lub kimkolwiek kto zapewnia nam obs³ugê DNS.</para>
+
+      <para>Je¿eli obs³ugujemy wirtualne domeny pocztowe poni¿sza
+	informacja mo¿e okazaæ siê przydatna.  W tym przyk³adzie
+	za³ó¿my, ¿e mamy klienta z w³asn± domen± np.
+	<hostid role="domainname">customer1.org</hostid> i chcemy,
+	by poczta wys³ana do domeny <hostid
+	role="domainname">customer1.org</hostid> dociera³a do naszego
+	serwera poczty <hostid role="fqdn">mail.myhost.com</hostid>.
+	Wpis w naszym serwerze DNS powinien wygl±daæ nastêpuj±co:</para>
+
+      <programlisting>customer1.org		MX	10	mail.myhost.com</programlisting>
+
+      <para><emphasis>Nie</emphasis> potrzebujemy rekordu A dla
+	<hostid role="domainname">customer1.org</hostid> je¿eli chcemy
+	jedynie obs³ugiwaæ pocztê przeznaczon± dla tej domeny.</para>
+
+      <note>
+	<para>Nale¿y byæ ¶wiadomym ¿e <quote>ping-owanie</quote>
+	  <hostid role="domainname">customer1.org</hostid> nie bêdzie
+	  skuteczne dopóki nie bêdzie istnia³ rekord A dla tej
+	  domeny.</para>
+      </note>
+
+      <para>Ostatni± rzecz± do zrobienia jest <quote>poinformowanie</quote>
+	<application>sendmail</application>a na naszym serwerze poczty
+	dla jakich domen i/lub nazw hostów powinien akceptowaæ
+	pocztê.  Jest kilka sposobów aby to osi±gn±æ.  Ka¿dy z poni¿szych
+	zadzia³a poprawnie:</para>
+
+      <itemizedlist>
+        <listitem>
+	  <para>Nale¿y dodaæ nazwê hosta lub domeny do pliku
+	  <filename>/etc/mail/local-host-names</filename> je¿eli u¿ywamy
+	  w³a¶ciwo¶ci <literal>FEATURE(use_cw_file)</literal>.  Dla starszych
+	  wersji <application>sendmail</application>a (wcze¶niejszych
+	  ni¿ 8.10) jest to plik <filename>/etc/sendmail.cw</filename>.</para>
+	</listitem>
+
+	<listitem>
+	  <para>Nale¿y dodaæ parametr <literal>Cwnasz.host.com</literal>
+	  do pliku <filename>/etc/sendmail.cf</filename> lub pliku
+	  <filename>/etc/mail/sendmail.cf</filename> je¿eli u¿ywamy
+	  <application>sendmail</application>a w wersji 8.10 lub wy¿szej.</para>
+	</listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+
+  <sect1 id="SMTP-UUCP">
+  <title>SMTP przez UUCP</title>
+
+    <para>Konfiguracja <application>sendmail</application>a dostarczanego
+      z FreeBSD jest przygotowana dla serwerów bezpo¶rednio po³±czonych
+      z Internetem.  Serwery, które bêd± wymieniaæ pocztê za po¶rednictwem
+      protoko³u UUCP musz± mieæ zainstalowan± inn± wersjê pliku
+      konfiguracyjnego.</para>
+
+    <para><quote>Rêczna</quote> modyfikacja pliku
+      <filename>/etc/mail/sendmail.cf</filename> to sprawa bardzo
+      skomplikowana.  Od wersji 8 <application>sendmail</application>
+      umo¿liwia generowanie plików konfiguracyjnych przez przetwarzanie
+      &man.m4.1; gdzie w³a¶ciwa konfiguracja odbywa siê na wy¿szym
+      poziomie abstrakcji.  Pliki konfiguracyjne  mo¿na
+      znale¼æ w katalogu <filename>/usr/src/usr.sbin/sendmail/cf</filename>.
+      Plik <filename>README</filename> w tym katalogu zawiera podstawowe
+      wprowadzenie do konfiguracji &man.m4.1;.</para>
+
+    <para>Najlepszym sposobem na dostarczanie poczty za pomoc± UUCP
+      jest wykorzystanie w³a¶ciwo¶ci <literal>mailertable</literal>.
+      Powoduje ona utworzenie bazy danych, któr± <application>sendmail</application>
+      wykorzystuje do podejmowania decyzji o trasie dostarczania.</para>
+
+    <para>W pierwszej kolejno¶ci musimy utworzyæ plik
+      <filename>.mc</filename>.  Katalog
+      <filename>/usr/src/usr.sbin/sendmail/cf/cf</filename> zawiera
+      kilka przyk³adów.  Zak³adaj±c, ¿e nazwali¶my nasz plik
+      <filename>foo.mc</filename>, wszystko co musimy zrobiæ aby
+      przekonwertowaæ go na poprawny plik konfiguracyjny
+      <filename>sendmail.cf</filename> to wywo³aæ polecenia:</para>
+
+    <screen>&prompt.root; <userinput>cd /usr/src/usr.sbin/sendmail/cf/cf</userinput>
+&prompt.root; <userinput>make foo.cf</userinput>
+&prompt.root; <userinput>cp foo.cf /etc/mail/sendmail.cf</userinput></screen>
+
+    <para>Typowy plik <filename>.mc</filename> mo¿e przyk³adowo zawieraæ
+      nastêpuj±ce wpisy:</para>
+
+    <programlisting>VERSIONID(`<replaceable>Your version number</replaceable>') OSTYPE(bsd4.4)
+
+FEATURE(accept_unresolvable_domains)
+FEATURE(nocanonify)
+FEATURE(mailertable, `hash -o /etc/mail/mailertable')
+
+define(`UUCP_RELAY', <replaceable>your.uucp.relay</replaceable>)
+define(`UUCP_MAX_SIZE', 200000)
+define(`confDONT_PROBE_INTERFACES')
+
+MAILER(local)
+MAILER(smtp)
+MAILER(uucp)
+
+Cw    <replaceable>your.alias.host.name</replaceable>
+Cw    <replaceable>youruucpnodename.UUCP</replaceable></programlisting>
+
+    <para>Wiersze zawierajce w³a¶ciwo¶ci
+      <literal>accept_unresolvable_domains</literal>,
+      <literal>nocanonify</literal>
+      i <literal>confDONT_PROBE_INTERFACES</literal> blokuj±
+      korzystanie z DNS podczas dorêcznia poczty.  Warunek
+      <literal>UUCP_RELAY</literal> jest wymagany do dostarczania
+      za pomoc± UUCP.  Wystarczy umie¶ciæ internetow± nazwê
+      hosta który obs³uguje adresacjê pseudo-domen .UUCP.  Najczê¶ciej
+      nale¿y umie¶ciæ tam przeka¼nik poczty naszego ISP.</para>
+
+    <para>Po utworzeniu pliku konfiguracyjnego potrzebny jest nam
+      jeszcze plik <filename>/etc/mail/mailertable</filename>.  Je¿eli mamy
+      tylko jedno po³±czenie na zewn±trz u¿ywane dla wszystkich przesy³ek
+      pocztowych wystarczy wykonaæ polecenie:</para>
+
+    <programlisting>#
+# makemap hash /etc/mail/mailertable.db &lt; /etc/mail/mailertable
+.                             uucp-dom:<replaceable>your.uucp.relay</replaceable></programlisting>
+
+    <para>Bardziej z³o¿ony przyk³ad móg³by wygl±daæ nastêpuj±co:</para>
+
+    <programlisting>#
+# makemap hash /etc/mail/mailertable.db &lt; /etc/mail/mailertable
+#
+horus.interface-business.de   uucp-dom:horus
+.interface-business.de        uucp-dom:if-bus
+interface-business.de         uucp-dom:if-bus
+.heep.sax.de                  smtp8:%1
+horus.UUCP                    uucp-dom:horus
+if-bus.UUCP                   uucp-dom:if-bus
+.                             uucp-dom:</programlisting>
+
+
+    <para>Pierwsze trzy wiersze zawieraj± specjalne przypadki,
+      gdzie poczta adresowana do domeny nie powinna byæ wysy³ana
+      domy¶ln± tras± ale do pewnego hosta-s±siada UUCP w celu
+      <quote>skrócenia</quote> drogi dostawy.  Nastêpna linia
+      obs³uguje pocztê do domeny w sieci lokalnej, która
+      mo¿e byæ dostarczone za po¶rednictwem protoko³u
+      SMTP.  W koñcu s±siedzi-UUCP s± wymienieni w notacji
+      pseudo-domenowej .UUCP aby umo¿liwiæ <literal><replaceable>s±siadowi-UUCP
+      </replaceable>!<replaceable>odbiorcy</replaceable></literal>
+      przes³onienie domy¶lnych regu³.  Ostatnia linia zawsze zawiera
+      pojedyncz± kropkê, jako regu³ê pasuj±c± do wszystkich innych
+      hostów z dostarczaniem UUCP do s±siada-UUCP, który s³u¿y nam
+      jako uniwersalna brama pocztowa na ¶wiat.  Wszystkie nazwy wêz³ów
+      po s³owie kluczowym <literal>uucp-dom:</literal> musz± byæ poprawnymi
+      s±siadami-UUCP, co mo¿na sprawdziæ za wykorzystuj±c
+      polecenie <literal>uuname</literal>.</para>
+
+    <para>Nale¿y pamiêtaæ o konwersji tego pliku do formatu bazy danych
+      DBM.  Polecenie, które to zrealizuje najlepiej umie¶ciæ
+      w komentarzu na pocz±tku pliku
+      <filename>mailertable</filename>.  Po ka¿dej zmianie zawarto¶ci
+      pliku nale¿y uruchomiæ to polecenie aby zmiany przynios³y
+      skutek.</para>
+
+    <para>Ostatnia wskazówka: je¿eli nie jeste¶my pewni czy jaka¶
+      szczególna trasa pocztowa zadzia³a nale¿y pamiêtaæ o opcji
+      <option>-bt</option> <application>sendmail</application>a.
+      Uruchamia ona program <application>sendmail</application>
+      w <emphasis>trybie testowania adresów</emphasis>.  Wystarczy
+      wprowadziæ <literal>3,0</literal>, a nastêpnie adres którego
+      trasê chcemy sprawdziæ.  Ostatnia linia poinformuje nas o u¿ytym
+      wewnêtrznym agencie poczty, ho¶cie przeznaczenia z którym zostanie
+      wywo³any ten agent oraz (prawdopodobnie przet³umaczony)
+      adres.  Tryb ten mo¿emy opu¶ciæ za pomoc kombinacji klawiszy <keycombo
+      action="simul"><keycap>Ctrl</keycap><keycap>D</keycap></keycombo>.</para>
+
+    <screen>&prompt.user; <userinput>sendmail -bt</userinput>
+ADDRESS TEST MODE (ruleset 3 NOT automatically invoked)
+Enter &lt;ruleset&gt; &lt;address&gt;
+<prompt>&gt;</prompt> <userinput>3,0 foo@example.com</userinput>
+canonify           input: foo @ example . com
+...
+parse            returns: $# uucp-dom $@ <replaceable>your.uucp.relay</replaceable> $: foo &lt; @ example . com . &gt;
+<prompt>&gt;</prompt> <userinput>^D</userinput></screen>
+  </sect1>
+
+  <sect1 id="outgoing-only">
+    <sect1info>
+      <authorgroup>
+        <author>
+          <firstname>Bill</firstname>
+          <surname>Moran</surname>
+          <contrib>Napisa³ </contrib>
+        </author>
+      </authorgroup>
+    </sect1info>
+
+    <title>Konfiguracja tylko do wysy³ania</title>
+
+    <para>Jest wiele sytuacji gdzie chcemy tylko wysy³aæ pocztê
+      za pomoc± przeka¼nika, np:</para>
+
+    <itemizedlist>
+      <listitem>
+	<para>Nasz komputer to stacja robocza ale chcemy u¿ywaæ
+	  programów takich jak &man.send-pr.1;.  Aby to uzyskaæ
+	  musimy wykorzystaæ przeka¼nik pocztowy naszego ISP.</para>
+      </listitem>
+
+      <listitem>
+	<para>Komputer jest serwerem który nie przechowuje poczty
+	  lokalnie, ale musi przekazaæ ca³± pocztê do przeka¼nika
+	  w celu przetworzenia.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>W³a¶ciwie ka¿dy <acronym>MTA</acronym> jest w stanie
+      pe³niæ tê szczególn± rolê.  Niestety bardzo trudno jest
+      poprawnie skonfigurowaæ w pe³ni funcjonalny <acronym>MTA</acronym>
+      jedynie do wysy³ania poczty.  Programy takie jak
+      <application>sendmail</application> czy <application>postfix</application>
+      s± bardzo efektywne w tym zastosowaniu.</para>
+
+    <para>Dodatkowym problemem, w przypadku korzystania z typowego
+      po³±czenia internetowego, mo¿e byæ umowa korzystania z tego¿,
+      gdy¿ mo¿e ona zabraniaæ uruchamiania serwera poczty.</para>
+
+    <para>Najprostrzym sposobem osi±gniêcia naszego celu jest instalacja
+      portu <filename role="package">mail/ssmtp</filename>.  Uzyskamy to
+      wykonuj±c poni¿sze polecenia jako <username>root</username>:</para>
+
+    <screen>&prompt.root; <userinput>cd /usr/ports/mail/ssmtp</userinput>
+&prompt.root; <userinput>make install replace clean</userinput></screen>
+
+    <para>Po zainstalowaniu program powinien byæ skonfigurowany
+      przy pomocy czterolinijkowego pliku konfiguracyjnego
+      <filename>/usr/local/etc/ssmtp/ssmtp.conf</filename>:</para>
+
+    <programlisting>root=yourrealemail@example.com
+mailhub=mail.example.com
+rewriteDomain=example.com
+hostname=_HOSTNAME_</programlisting>
+
+    <para>Dla parametru <username>root</username> nale¿y u¿yæ poprawnego
+      adresu email.  W miejscu <hostid role="fqdn">mail.example.com</hostid>
+      nale¿y wpisaæ adres przeka¼nika poczty naszego ISP (niektórzy
+      dostawcy nazywaj± go <quote>serwer poczty wychodz±cej</quote>
+      lub  <quote>serwer SMTP</quote>).</para>
+
+    <para>Powinni¶my równie¿ pamiêtaæ o ca³kowitym wy³±czeniu
+      <application>sendmail</application>a (dotyczy to równie¿
+      us³ugi poczty wychodz±cej - szczegó³y zawiera
+      <xref linkend="mail-disable-sendmail">).</para>
+
+    <para>Program <filename role="package">mail/ssmtp</filename> ma dostêpne
+      tak¿e inne funkcje.  Warto zapoznaæ siê z przyk³adowym plikiem
+      konfiguracyjnym w katalogu <filename>/usr/local/etc/ssmtp</filename>
+      oraz ze stronami podrêcznika man programu <application>ssmtp</application>,
+      który zawiera dodatkowe informacje oraz kilka przyk³adów.</para>
+
+    <para>Ustawienie w ten sposób programu <application>ssmtp</application>
+      umo¿liwi poprawne funkcjonowanie dowolnemu oprogramowaniu, które wymaga
+      wysy³ania poczty, nie naruszaj±c przy tym regu³ korzystania z Internetu
+      naszego ISP a tak¿e zabezpiecza nasz komputer przed wykorzystaniem
+      go jako ¼ród³a spamu.</para>
+  </sect1>
+
+  <sect1 id="SMTP-dialup">
+    <title>Korzystanie z poczty z po³±czeniami Dialup</title>
+
+    <para>Je¿eli mamy statyczny adres IP raczej nie bêdzie potrzebnym,
+      aby zmieniaæ ustawienia konfiguracji domy¶lnej.  Wystarczy ustawiæ
+      poprawn± nazwê hosta i <application>sendmail</application> poradzi
+      sobie z ca³± reszt±.</para>
+
+    <para>W przypadku gdy mamy dynamicznie przypisywany adres IP
+      i korzystamy z po³±czenia PPP prawdopodobnie bêdziemy mieli
+      skrzynkê pocztow± na serwerze naszego
+      <acronym>ISP</acronym>.  Za³ó¿my, ¿e domena naszego ISP
+      to <hostid role="domainname">example.net</hostid>,
+      nazwa naszego u¿ytkownika to <username>user</username>, nasz komputer
+      nosi nazwê <hostid role="fqdn">bsd.home</hostid> a nasz dostawca
+      Internetu udostêpni³ nam przeka¼nik poczty pod adresem <hostid
+      role="fqdn">relay.example.net</hostid>.</para>
+
+    <para>W celu pobrania poczty z naszej skrzynki musimy zainstalowaæ
+      agenta pobierania.  Dobrym wyborem jest program
+      <application>fetchmail</application> poniewa¿ obs³uguje on wiele
+      ró¿nych protoko³ów.  Jest on dostêpny jako paczka lub port
+      (<filename role="package">mail/fetchmail</filename>).  Zazwyczaj
+      dostawcy Internegu umo¿liwiaj± korzystanie
+      z <acronym>POP</acronym>.  Je¿eli korzystamy z u¿ytkownika
+      <acronym>PPP</acronym> do po³±czenia z siêci± Internet mo¿emy
+      automatycznie pobraæ pocztê w momencie nawi±zania po³±czenia
+      dziêki poni¿szemu wpisowi w pliku
+      <filename>/etc/ppp/ppp.linkup</filename>:</para>
+
+    <programlisting>MYADDR:
+!bg su user -c fetchmail</programlisting>
+
+    <para>Je¿eli, w celu dostarczenia poczty dla odbiorców innych
+      ni¿ lokalni, u¿ywamy <application>sendmail</application>a
+      (jak w poni¿szym przyk³adzie), prawdopodobnie chcieliby¶my
+      przetworzyæ kolejkê wysy³ania natychmiast po pod³±czeniu
+      do Internetu.  Aby to osi±gn±æ nale¿y dodaæ poni¿szy wiersz
+      do pliku <filename>/etc/ppp/ppp.linkup</filename>:</para>
+
+    <programlisting>  !bg su user -c "sendmail -q"</programlisting>
+
+    <para>Za³ó¿my ¿e mamy konto dla u¿ytkownika
+      <username>user</username> na komputerze <hostid
+      role="fqdn">bsd.home</hostid>.  W katalogu domowym
+      u¿ytkownika utwórzmy plik <filename>.fetchmailrc</filename>:</para>
+
+    <programlisting>poll example.net protocol pop3 fetchall pass MySecret</programlisting>
+
+    <para>Plik ten powinien posiadaæ prawa do odczytu tylko
+      dla w³a¶ciciela poniewa¿ zawiera on has³o
+      <literal>MySecret</literal> zapisane otwartym tekstem.</para>
+
+    <para>Aby wysy³ana poczta mia³a poprawny adres ¼ród³owy
+      nadawcy w nag³ówku, nale¿y zmusiæ <application>sendmail</application>a
+      do u¿ycia nazwy u¿ytkownika <email>user@example.net</email>
+      a nie <email role="nolink">user@bsd.home</email>.  Nale¿y równie¿
+      skonfigurowaæ <application>sendmail</application>a tak,
+      aby wszelk± pocztê wysy³a³ przez <hostid
+      role="fqdn">relay.example.net</hostid> umo¿liwiaj±c
+      w ten sposób szybsz± transmisjê poczty.</para>
+
+    <para>Poni¿szy plik <filename>.mc</filename> powienien byæ wystarczaj±cy
+      do osi±gniêcia naszego celu:</para>
+
+    <programlisting>VERSIONID(`bsd.home.mc version 1.0')
+OSTYPE(bsd4.4)dnl
+FEATURE(nouucp)dnl
+MAILER(local)dnl
+MAILER(smtp)dnl
+Cwlocalhost
+Cwbsd.home
+MASQUERADE_AS(`example.net')dnl
+FEATURE(allmasquerade)dnl
+FEATURE(masquerade_envelope)dnl
+FEATURE(nocanonify)dnl
+FEATURE(nodns)dnl
+define(`SMART_HOST', `relay.example.net')
+Dmbsd.home
+define(`confDOMAIN_NAME',`bsd.home')dnl
+define(`confDELIVERY_MODE',`deferred')dnl</programlisting>
+
+    <para>Szczegó³y dotycz±ce konwersji pliku
+      <filename>.mc</filename> do <filename>sendmail.cf</filename>
+      dostêpne s± w poprzedniej sekcji.  Nale¿y równie¿ pamiêtaæ
+      o restarcie <application>sendmail</application>a po aktualizacji
+      pliku <filename>sendmail.cf</filename>.</para>
+  </sect1>
+
+  <sect1 id="SMTP-Auth">
+    <sect1info>
+    <authorgroup>
+      <author>
+        <firstname>James</firstname>
+        <surname>Gorham</surname>
+        <contrib>Autor </contrib>
+      </author>
+    </authorgroup>
+    </sect1info>
+
+    <title>Uwierzytelnianie SMTP</title>
+
+    <para>Uruchomienie uwierzytelniania <acronym>SMTP</acronym> na serwerze
+      pocztowym przynosi wiele korzy¶ci.  Uwierzytelnianie <acronym>SMTP</acronym>
+      stanowi dodatkow± warstwê bezpieczeñstwa <application>sendmail</application>a
+      oraz umo¿liwia korzystanie z serwera poczty u¿ytkownikom mobilnym czêsto
+      zmieniaj±cym adres ¼ród³owy bez konieczno¶ci rekonfiguracji za ka¿dym
+      razem ich klientów pocztowych.</para>
+
+    <procedure>
+      <step>
+	<para>Nale¿y zainstalowaæ port
+	  <filename role="package">security/cyrus-sasl</filename>.  Program ten
+	  ma wiele opcji kompilacji, nale¿y siê upewniæ, ¿e zaznaczyli¶my
+	  opcjê <option>pwcheck</option>.</para>
+      </step>
+
+
+      <step>
+	<para>Po zainstalowaniu <filename role="package">security/cyrus-sasl</filename>
+	  nale¿y zmodyfikowaæ plik <filename>/usr/local/lib/sasl/Sendmail.conf</filename>
+	  (lub stworzyæ nowy je¿eli taki nie istnieje) i dodaæ poni¿szy
+	  wiersz:</para>
+
+	<programlisting>pwcheck_method: passwd</programlisting>
+
+	<para>W ten sposób umo¿liwimy programowi <application>sendmail</application>
+	  uwierzytelnianie u¿ytkowników na podstawie bazy <filename>passwd</filename>
+	  systemu FreeBSD.  Oszczêdza to problemów z towrzeniem i ustawianiem nowych
+	  u¿ytkowników i hase³ za ka¿dym razem gdy chcemy udostêpniæ uwierzytelnianie
+	  <acronym>SMTP</acronym> oraz pozwala na wykorzystanie jednej i tej samej nazwy
+	  u¿ytkownika oraz has³a.</para>
+      </step>
+
+      <step>
+	<para>Kolejnym krokiem jest edycja pliku <filename>/etc/make.conf</filename>
+	  i dodanie poni¿szego:</para>
+
+	<programlisting>SENDMAIL_CFLAGS=-I/usr/local/include/sasl1 -DSASL
+SENDMAIL_LDFLAGS=-L/usr/local/lib
+SENDMAIL_LDADD=-lsasl</programlisting>
+
+	<para>Dodane wiersze stanowi± opcje kompilacji
+	  <application>sendmail</application>a powoduj±ce zlinkowanie bibliotek
+	  <filename role="package">cyrus-sasl</filename> w czasie
+	  kompilacji.  Nale¿y siê upewniæ ¿e program
+	  <filename role="package">cyrus-sasl</filename> zosta³ zainstalowany
+	  przed rekompilacj± <application>sendmail</application>a.</para>
+      </step>
+
+      <step>
+	<para>Nastêpnie rekompilujemy <application>sendmail</application>a
+	  za pomoc± poni¿szych poleceñ:</para>
+
+	<screen>&prompt.root; <userinput>cd /usr/src/usr.sbin/sendmail</userinput>
+&prompt.root; <userinput>make cleandir</userinput>
+&prompt.root; <userinput>make obj</userinput>
+&prompt.root; <userinput>make</userinput>
+&prompt.root; <userinput>make install</userinput></screen>
+
+	<para>Kompilacja <application>sendmail</application>a powinna odbyæ
+	  siê bez problemów je¿eli zawarto¶c katalogu <filename>/usr/src</filename>
+	  nie by³a zbytnio modyfikowana oraz s± dostêpne wymagane biblioteki
+	  wspó³dzielone.</para>
+      </step>
+
+      <step>
+	<para>Po kompilacji i reinstalacji <application>sendmail</application>a
+	  musimy zmieniæ nasz plik <filename>/etc/mail/freebsd.mc</filename>
+	  (lub ten który u¿ywamy jako nasz plik kofiguracyjny
+	  <filename>.mc</filename>.  Wielu administratorów jako nazwê pliku
+	  <filename>.mc</filename> ustawia wynik polecenia &man.hostname.1;
+	  w celu uzyskania unikalnej nazwy).  Dodajemy do niego poni¿sze
+	  wiersze:</para>
+
+	<programlisting>dnl ustawienie opcji SASL
+TRUST_AUTH_MECH(`GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN')dnl
+define(`confAUTH_MECHANISMS', `GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN')dnl
+define(`confDEF_AUTH_INFO', `/etc/mail/auth-info')dnl</programlisting>
+
+	<para>Opcje te konfiguruj± ró¿ne metody dostêpne dla
+	  <application>sendmail</application>a potrzebne do uwierzytelnienia
+	  u¿ytkowników.  Je¿eli chcemy u¿yæ innej metody ni¿ <application>pwcheck</application>
+	  powinni¶my zapoznaæ siê z za³±czon± dokumentacj±.</para>
+      </step>
+
+      <step>
+	<para>Ostatnim krokiem jest uruchomienie programu &man.make.1;
+	  w katalogu <filename>/etc/mail</filename>.  Spowoduje to utworzenie
+	  pliku <filename>freebsd.cf</filename> (lub innego pliku
+	  <filename>.cf</filename> w zale¿no¶ci od nazwy u¿ytej dla pliku
+	  <filename>.mc</filename>).  Nastêpnie wywo³ujemy polecenie
+	  <command>make install restart</command>, które skopiuje nasz
+	  plik <filename>.cf</filename> do pliku <filename>sendmail.cf</filename>
+	  i poprawnie zrestartuje program <application>sendmail</application>.
+	  Wiêcej informacji o tym etapie mo¿na uzyskaæ zapoznaj±c siê
+	  z plikiem <filename>/etc/mail/Makefile</filename>.</para>
+      </step>
+    </procedure>
+
+    <para>Je¿eli wszystko posz³o sprawnie powinni¶my mieæ mo¿liwo¶æ podania
+      naszej nazwy u¿ytkownika oraz has³a do klienta poczty i wys³ania
+      wiadomo¶ci testowej.  W przypadku napotkania problemów nale¿y ustawiæ
+      poziom logowania (<option>LogLevel</option>) <application>sendmail</application>a
+      na warto¶æ 13 i sprawdziæ zawarto¶æ pliku <filename>/var/log/maillog</filename>.</para>
+
+    <para>Warto równie¿ dodaæ poni¿szy wiersz do pliku <filename>/etc/rc.conf</filename>
+      aby udostêpniæ us³ugê uwierzytelniania po ka¿dym starcie systemu:</para>
+
+    <programlisting>cyrus_pwcheck_enable="YES"</programlisting>
+
+    <para>Zapewni to inicjalizacjê <acronym>SMTP_AUTH</acronym> podczas
+      uruchamiania systemu.</para>
+
+    <para>Wiêcej informacji dostêpnych jest na stronach
+      <application>sendmail</application>a dotycz±cych uwierzytleniania
+      <acronym>SMTP</acronym> (<ulink url="http://www.sendmail.org/~ca/email/auth.html">
+       authentication</ulink>).</para>
+
+  </sect1>
+
+  <sect1 id="mail-agents">
+    <sect1info>
+      <authorgroup>
+	<author>
+	  <firstname>Marc</firstname>
+	  <surname>Silver</surname>
+	  <contrib>Napisa³ </contrib>
+	</author>
+      </authorgroup>
+    </sect1info>
+    <title>Agenci poczty u¿ytkownika (MUA)</title>
+
+    <indexterm>
+      <primary>Agenci poczty u¿ytkownika</primary>
+    </indexterm>
+
+    <para>Agent poczty u¿ytkownika (ang. Mail User Agent
+      - <acronym>MUA</acronym>) jest aplikacj± u¿ywan± do wysy³ania
+      i odbierania wiadomo¶ci.  Ponadto, poniewa¿ poczta elektroniczna
+      rozwija siê i staje siê bardziej skomplikowana, programy pocztowe
+      u¿ytkownika staj± siê coraz bardziej rozbudowane aby nad±¿yæ
+      za jej rozwojem.  Zapewnia to u¿ytkownikom zwiêkszon± funkcjonalno¶æ
+      i elastyczno¶æ.  System &os; wspiera wiele programów <acronym>MUA</acronym>
+      a wszystkie mo¿na w ³atwy sposób zainstalowaæ korzystaj±c
+      z <link linkend="ports">Kolekcji portów</link>.  U¿ytkownicy mog± wybieraæ
+      miêdzy klientami poczty dzia³aj±cymi w ¶rodowisku graficznym takimi
+      jak <application>evolution</application> lub <application>balsa</application>,
+      programami dzia³aj±cymi w ¶rodowisku tekstowym takimi
+      jak <application>mutt</application>, <application>pine</application>,
+      <command>mail</command> oraz interfejsami sieci web u¿ywanymi przez niektóre
+      du¿e organizacje.</para>
+
+    <sect2 id="mail-command">
+      <title>mail</title>
+
+      <para>&man.mail.1; jest domy¶lnym agentem poczty u¿ytkownika
+	(<acronym>MUA</acronym>) w systemie &os;.  Jest to program
+	dzia³aj±cy w ¶rodowisku tekstowym, oferuj±cy wszystkie podstawowe
+	funkcje konieczne do wysy³ania i odbierania poczty zawieraj±cej
+	tekst.  Wad± jego s± ograniczenia w mo¿liwo¶ciach wysy³ania niektórych
+	za³±czników oraz to, ¿e mo¿e wspó³pracowaæ jedynie z lokalnymi
+	skrzynkami pocztowymi.</para>
+
+      <para>Chocia¿ <command>mail</command> nie umo¿liwia pobierania
+	poczty z serwerów <acronym>POP</acronym> lub <acronym>IMAP</acronym>,
+	mo¿na omin±æ to ograniczenie korzystaj±c z programów takich
+	jak <application>fetchmail</application> (który bêdzie omówiony
+	w dalszej czê¶ci tego rozdzia³u &mdash; <xref
+	linkend="mail-fetchmail">).</para>
+
+      <para>W celu wys³ania lub odebrania poczty wystarczy wywo³aæ polecenie
+	<command>mail</command> jak w poni¿szym przyk³adzie:</para>
+
+      <screen>&prompt.user; <userinput>mail</userinput></screen>
+
+      <para>Zawarto¶æ skrzynki pocztowej u¿ytkownika z katalogu
+	<filename class="directory">/var/mail</filename> jest
+	automatycznie czytana przez program
+	<command>mail</command>.  W przypadku gdy skrzynka jest pusta,
+	program koñczy dzia³anie ze stosownym komunikatem.  Kiedy zawarto¶æ
+	skrzynki zostanie odczytana interfejs programu jest uruchamiany
+	i wy¶wietlana jest lista dostêpnych wiadomo¶ci.  Wiadomo¶ci
+	s± automatycznie numerowane i wy¶wietlane w sposób pokazany
+	w poni¿szym przyk³adzie:</para>
+
+      <screen>Mail version 8.1 6/6/93.  Type ? for help.
+"/var/mail/marcs": 3 messages 3 new
+>N  1 root@localhost        Mon Mar  8 14:05  14/510   "test"
+ N  2 root@localhost        Mon Mar  8 14:05  14/509   "user account"
+ N  3 root@localhost        Mon Mar  8 14:05  14/509   "sample"</screen>
+
+      <para>Wiadomo¶ci mog± byæ odczytywane z wykorzystaniem komendy
+	<keycap>t</keycap> zakoñczonej numerem wiadomo¶ci, któr± chcemy
+	odczytaæ.  W nastêpnym przyk³adzie odczytujemy pierwsz± wiadomo¶æ
+	na li¶cie:</para>
+
+      <screen>&amp; <userinput>t 1</userinput>
+Message 1:
+From root@localhost  Mon Mar  8 14:05:52 2004
+X-Original-To: marcs@localhost
+Delivered-To: marcs@localhost
+To: marcs@localhost
+Subject: test
+Date: Mon,  8 Mar 2004 14:05:52 +0200 (SAST)
+From: root@localhost (Charlie Root)
+
+This is a test message, please reply if you receive it.</screen>
+
+      <para>Jak widaæ w powy¿szym przyk³adzie klawisz <keycap>t</keycap>
+	powoduje wy¶wietlenie wiadomo¶ci z pe³nym nag³ówkiem.  Aby wróciæ
+	do listy wiadomo¶ci nale¿y u¿yæ klawisza <keycap>h</keycap>.</para>
+
+      <para>Je¿eli chcemy odpowiedzieæ na list mo¿emy to zrobiæ korzystaj±c
+	z polecenia <keycap>R</keycap> lub <keycap>r</keycap>.
+	Klawisz <keycap>R</keycap> powoduje odes³anie odpowiedzi tylko
+	do nadawcy wiadomo¶ci natomiast <keycap>r</keycap> wysy³a odpowied¼
+	zarówno do nadawcy jak i pozosta³ych odbiorców
+	tej wiadomo¶ci.  Polecenie to równie¿ koñczy siê numerem wiadomo¶ci,
+	na któr± chcemy odpowiedzieæ.  Po wpisaniu tego polecenia nale¿y
+	wpisaæ odpowied¼ i zakoñczyæ j± wpisaniem pojedynczej kropki w nowym
+	wierszu.  Poni¿ej przedstawiono przyk³adow± odpowied¼:</para>
+
+      <screen>&amp; <userinput>R 1</userinput>
+To: root@localhost
+Subject: Re: test
+
+<userinput>Thank you, I did get your email.
+.</userinput>
+EOT</screen>
+
+      <para>W celu wys³ania nowej wiadomo¶ci nale¿y u¿yæ klawisza
+	<keycap>m</keycap>, a nastêpnie wpisaæ adres odbiorcy.  Mo¿na równie¿
+	podaæ kilku odbiorców oddzielaj±c ka¿dego z nich przecinkiem.  Temat
+	wiadomo¶ci wpisujemy przed wpisaniem w³a¶ciwej tre¶ci
+	wiadomo¶ci.  Koniec wiadomo¶ci zaznaczamy wpisuj±c pojedyncz± kropkê
+	w nowym wierszu.</para>
+
+      <screen>&amp; <userinput>mail root@localhost</userinput>
+Subject: <userinput>I mastered mail
+
+Now I can send and receive email using mail ... :)
+.</userinput>
+EOT</screen>
+
+      <para>Chocia¿ wewn±trz programu mo¿na skorzystaæ w dowolnym
+	momencie z polecenia <keycap>?</keycap> w celu wy¶wietlenia
+	pomocy, warto zapoznaæ siê ze stronami man programu &man.mail.1;,
+	aby uzyskaæ dodatkow± pomoc.</para>
+
+      <note>
+        <para>Jak ju¿ wcze¶niej wspomniano program &man.mail.1; nie by³
+	  od pocz±tku tworzony do obs³ugi za³±czników st±d wspó³pracuje
+	  z nimi bardzo s³abo.  Nowsze programy takie jak
+	  <application>mutt</application> obs³uguj± za³±czniki w sposób
+	  o wiele bardziej zaawansowany.  Je¿eli jednak w dalszym ci±gu
+	  chcemy korzystaæ z programu <command>mail</command> warto
+	  rozwa¿yæ u¿ycie programu <application>mpack</application>
+	  (dostêpny w kolekcji portów w <filename
+	  role="package">converters/mpack</filename>).</para>
+      </note>
+    </sect2>
+
+    <sect2 id="mutt-command">
+      <title>mutt</title>
+
+      <para><application>mutt</application> jest ma³ym ale bardzo
+	funkcjonalnym klientem poczty z dostêpnymi wieloma funkcjami,
+	z których niektóre to:</para>
+
+      <itemizedlist>
+        <listitem>
+	  <para>mo¿liwo¶æ wy¶wietlania wiadomo¶ci wed³ug w±tków;</para>
+        </listitem>
+
+        <listitem>
+	  <para>obs³uga PGP do szyfrowania poczty i podpisów elektronicznych;</para>
+        </listitem>
+
+        <listitem>
+	  <para>obs³uga MIME;</para>
+        </listitem>
+
+        <listitem>
+	  <para>obs³uga formatu przechowywania wiadomo¶ci Maildir;</para>
+        </listitem>
+
+        <listitem>
+	  <para>szeroka mo¿liwo¶æ dostosowywania ustawieñ.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Powy¿sze cechy powoduj± ¿e <application>mutt</application>
+	jest jednym z najbardziej zaawansowanych dostêpnych agentów
+	poczty u¿ytkownika.  Wiêcej informacji o tym programie dostêpnych
+	jest na stronie <ulink url="http://www.mutt.org"></ulink>.</para>
+
+      <para>Wersja stabilna programu <application>mutt</application> dostêpna
+	jest w kolekcji portów jako <filename role="package">mail/mutt</filename>,
+	natomiast wersja rozwojowa dostêpna jest jako port <filename
+	role="package">mail/mutt-devel</filename>.  Po zainstalowaniu
+	programu uruchamiamy go poleceniem:</para>
+
+      <screen>&prompt.user; <userinput>mutt</userinput></screen>
+
+      <para><application>mutt</application> automatycznie przeczyta
+	zawarto¶æ skrzynki pocztowej u¿ytkownika z katalogu <filename
+	class="directory">/var/mail</filename> i wy¶wietli
+	jej zawarto¶æ.  Je¿eli skrzynka pocztowa bêdzie pusta,
+	<application>mutt</application> bêdzie oczekiwa³ na polecenia
+	u¿ytkownika.  Poni¿szy przyk³ad prezentuje program
+	<application>mutt</application> wy¶wietlaj±cy listê wiadomo¶ci:</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/mutt1" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para>Aby odczytaæ wiadomo¶æ wystarczy zaznaczyæ j± wykorzystuj±c
+	klawisze kursora a nastêpnie potwierdziæ klawiszem
+	<keycap>Enter</keycap>.  Przyk³adowa wiadomo¶æ wy¶wietlona przez
+	klienta <application>mutt</application> wygl±da nastêpuj±co:</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/mutt2" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para>Podobnie jak polecenie &man.mail.1;, <application>mutt</application>
+	daje u¿ytkownikom mo¿liwo¶æ odpowiadania na wiadomo¶ci zarówno tylko
+	do nadawcy jak i do wszystkich odbiorców.  Klawisz <keycap>r</keycap>
+	powoduje odes³anie odpowiedzi tylko do nadawcy wiadomo¶ci, natomiast
+	klawisz <keycap>g</keycap> powoduje wys³anie wiadomo¶ci zarówno
+	do nadawcy jak i do wszystkich pozosta³ych odbiorców wiadomo¶ci
+	oryginalnej.</para>
+
+      <note>
+	<para><application>mutt</application> wykorzystuje &man.vi.1; jako edytor
+	  do tworzenia nowych i odpowiadania na wiadomo¶ci.  Mo¿na to dostosowaæ
+	  do wymagañ u¿ytkownika przez edycjê (lub utworzenie) pliku
+	  <filename>.muttrc</filename> w katalogu macierzystym u¿ytkownika
+	  i ustawienie zmiennej <literal>editor</literal> b±d¼ zmiennej
+	  ¶rodowiskowej <envar>EDITOR</envar>.  Szczegó³owe informacje
+	  o konfiguracji programu <application>mutt</application>
+	  znale¼æ mo¿na na stronie
+	  <ulink url="http://www.mutt.org/"></ulink>.</para>
+      </note>
+
+      <para>W celu utworzenia nowej wiadomo¶ci nale¿y nacisn±æ
+	klawisz <keycap>m</keycap>.  Po wprowadzeniu poprawnego
+	tematu wiadomo¶ci, <application>mutt</application> uruchamia
+	edytor &man.vi.1; i mo¿na przyst±piæ do pisania tekstu
+	wiadomo¶ci.  Po zakoñczeniu zapisujemy i wychodzimy
+	z edytora.  <application>mutt</application> wy¶wietla
+	podsumowanie wiadomo¶ci, która ma zostaæ wys³ana.  Wysy³anie
+	odbywa siê po naci¶niêciu klawisza <keycap>y</keycap>.  Przyk³adowy
+	ekran podsumowania wygl±da nastêpuj±co:</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/mutt3" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para><application>mutt</application> zawiera tak¿e rozbudowan±
+	pomoc, do której dostêp uzyskujemy z wiêkszo¶ci opcji menu
+	za pomoc± klawisza <keycap>?</keycap>.  Górna linijka programu
+	wy¶wietla skróty klawiszowe wszêdzie gdzie s± one dostêpne.</para>
+    </sect2>
+
+    <sect2 id="pine-command">
+      <title>pine</title>
+
+      <para><application>pine</application> jest skierowany przede
+	wszystkim do u¿ytkowników pocz±tkuj±cych, ale zawiera równie¿
+	kilka opcji zaawansowanych.</para>
+
+      <warning>
+	<para> program <application>pine</application> w przesz³o¶ci
+	  posiada³ kilka dziur umo¿liwiaj±cych zdalnym u¿ytkownikom
+	  na uruchomienie dowolnego kodu z prawami u¿ytkownika lokalnego
+	  dziêki wys³aniu specjalnie spreparowanej wiadomo¶ci email.  Wszystkie
+	  takie <emphasis>znane</emphasis> problemy zosta³y naprawione
+	  ale kod programu <application>pine</application> tworzony jest
+	  w bardzo ma³o bezpiecznym stylu, dlatego dzia³ bezpieczeñstwa
+	  &os; uwa¿a, ¿e wci±¿ mog± siê w nim znajdowac ukryte
+	  dziury.  Nale¿y zatem pamiêtaæ, ¿e instalujemy i korzystamy
+	  z programu <application>pine</application> na w³asne ryzyko.</para>
+      </warning>
+
+      <para>Aktualn± wersjê programu <application>pine</application> mo¿emy
+	zainstalowaæ korzystaj±c z portu <filename
+	role="package">mail/pine4</filename>.  Po zainstalowaniu uruchamiamy
+	program poleceniem:</para>
+
+      <screen>&prompt.user; <userinput>pine</userinput></screen>
+
+      <para>Przy pierwszym uruchomieniu program <application>pine</application>
+	wy¶wietla stronê powitaln± z krótkim wprowadzeniem oraz pro¶b± grupy
+	tworz±cej ten program o wys³anie anonimowego emaila umo¿liwiaj±cego
+	im oszacowanie liczby u¿ytkowników ich programu.  Aby wys³aæ t± anonimow±
+	wiadomo¶æ musimy nacisn±æ <keycap>Enter</keycap> lub, je¿eli nie chcemy
+	tego robiæ, przyciskamy klawisz <keycap>E</keycap> i wychodzimy ze strony
+	powitalnej bez wysy³ania wiadomo¶ci.  Przyk³adowa strona powitalna wygl±da
+	nastêpuj±co:</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/pine1" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para>Nastêpnie u¿ytkownicy s± zaznajamiani z g³ównym menu programu,
+	w którym najwygodniej poruszaæ siê za pomoc± klawiszy kursora.  G³ówne
+	menu umo¿liwia korzystanie ze skrótów klawiszowych u¿ywanych
+	do najczê¶ciej wykonywanych operacji takich jak tworzenie nowych
+	wiadomo¶ci, przegl±danie katalogów pocztowych a nawet administracja
+	ksi±¿k± adresow±.  Poni¿ej menu g³ównego wy¶wietlone s± powi±zane
+	skróty klawiszowe dla wybranej funkcji.</para>
+
+      <para>Domy¶lnym katalogiem otwieranym przez program
+	<application>pine</application> jest skrzynka odbiorcza
+	(ang. <filename class="directory">inbox</filename>).  Klawisz
+	<keycap>I</keycap> umo¿wliwia podgl±d wiadomo¶ci.  Podobny efekt
+	mo¿na osi±gn±æ wybieraj±c opcjê <guimenuitem>MESSAGE INDEX</guimenuitem>
+	jak w poni¿szym przyk³adzie:</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/pine2" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para>Opcja <guimenuitem>MESSAGE INDEX</guimenuitem> umo¿liwia podgl±d
+	wiadomo¶ci w aktualnym katalogu (wybór okre¶la siê za pomoc±
+	klawiszy kursora).  Pod¶wietlone wiadomo¶ci mo¿na czytaæ naciskaj±c
+	klawisz <keycap>Enter</keycap>.</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/pine3" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para>Na poni¿szym zrzucie ekranowym wy¶wietlona jest przyk³adowa
+	wiadomo¶æ.  Skróty klawiaturowe widoczne s± w dolnej czê¶ci
+	ekranu.  Przyk³adem takiego skrótu jest klawisz <keycap>r</keycap>
+	informuj±cy <acronym>MUA</acronym> o konieczno¶ci wys³ania
+	odpowiedzi do aktualnie wy¶wietlonej wiadomo¶ci.</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/pine4" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para>Domy¶lnym edytorem <application>pine</application>
+	jest edytor <application>pico</application> instalowany razem
+	z programem <application>pine</application>.  U³atwia on nawigowanie
+	po edytowanej wiadomo¶ci i jest znacznie bardziej przyjazny
+	dla pocz±tkuj±cych u¿ytkowników ni¿ &man.vi.1; lub &man.mail.1;.
+	Po zakoñczeniu edycji wysy³amy wiadomo¶æ za pomoc± kombinacji klawiszy
+	<keycombo action="simul"><keycap>Ctrl</keycap><keycap>X</keycap>
+	</keycombo> (program zarz±da potwierdzenia).</para>
+
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="mail/pine5" format="PNG">
+	</imageobject>
+      </mediaobject>
+
+      <para><application>pine</application> mo¿na konfigurowaæ korzystaj±c
+	z opcji <guimenuitem>SETUP</guimenuitem> menu g³ównego
+	programu.  Wiêcej informacji mo¿na znale¼æ na stronie
+	<ulink url="http://www.washington.edu/pine/"></ulink>.</para>
+
+    </sect2>
+  </sect1>
+
+  <sect1 id="mail-fetchmail">
+    <sect1info>
+      <authorgroup>
+	<author>
+	  <firstname>Marc</firstname>
+	  <surname>Silver</surname>
+	  <contrib>Napisa³ </contrib>
+	</author>
+      </authorgroup>
+    </sect1info>
+    <title>Korzystanie z programu fetchmail</title>
+
+    <indexterm>
+      <primary>fetchmail</primary>
+    </indexterm>
+
+    <para><application>fetchmail</application> jest bardzo
+      rozbudowanym klientem <acronym>IMAP</acronym>
+      oraz <acronym>POP</acronym> umo¿liwiaj±cym automatyczne
+      pobieranie wiadomo¶ci z odleg³ych serwerów <acronym>IMAP</acronym>
+      / <acronym>POP</acronym> oraz zapisywanie ich w lokalnych
+      skrzynkach pocztowych, umo¿liwiaj±c w ten sposób ³atwiejszy
+      do nich dostêp.  <application>fetchmail</application> naj³atwiej
+      zainstalowaæ korzystaj±c z portu
+      <filename role="package">mail/fetchmail</filename>.  Udostêpnia on wiele
+      funkcji, m.in.:</para>
+
+    <itemizedlist>
+      <listitem>
+	<para>Wsparcie dla protoko³ów <acronym>POP3</acronym>,
+	  <acronym>APOP</acronym>, <acronym>KPOP</acronym>,
+	  <acronym>IMAP</acronym>, <acronym>ETRN</acronym> oraz
+	  <acronym>ODMR</acronym>.</para>
+      </listitem>
+
+      <listitem>
+	<para>Mo¿liwo¶æ dalszego przesy³ania wiadomo¶ci z wykorzystaniem
+	  protoko³u <acronym>SMTP</acronym> co pozwala na filtrowanie,
+	  przekazywanie oraz aliasing do normalnego funkcjonowania.</para>
+      </listitem>
+
+      <listitem>
+	<para>Mo¿liwo¶æ pracy w trybie demona w celu okresowego
+	  sprawdzania nowych wiadomo¶ci.</para>
+      </listitem>
+
+      <listitem>
+	<para>Mo¿liwo¶æ odbierania poczty z wielu odleg³ych skrzynek
+	  pocztowych i przesy³ania ich do ró¿nych u¿ytkowników lokalnych
+	  na podstawie danych konfiguracyjnych.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Prezentacja wszystkich mo¿liwo¶ci programu
+      <application>fetchmail</application> jest poza zakresem
+      tego dokumentu, niemniej jednak przedstawione zostanie
+      kilka jego podstawowych funkcji.  W celu poprawnego
+      uruchomienia programu <application>fetchmail</application>
+      koniecznym jest utworzenie pliku konfiguracyjnego
+      <filename>.fetchmailrc</filename>.  Plik ten zawiera zarówno
+      informacje serwera jak i dane uwierzytelniaj±ce dlatego
+      zaleca siê, aby mo¿liwo¶æ czytania tego pliku mia³ tylko
+      jego w³a¶ciciel.  Mo¿na to ustawiæ korzystaj±c z polecenia:</para>
+
+    <screen>&prompt.user; <userinput>chmod 600 .fetchmailrc</userinput></screen>
+
+    <para>Poni¿szy przyk³ad pliku konfiguracyjnego
+      <filename>.fetchmailrc</filename> zawiera dane konieczne
+      do pobrania wiadomo¶ci pojedynczego u¿ytkownika z wykorzystaniem
+      protoko³u <acronym>POP</acronym>.  Konfiguruje on program
+      <application>fetchmail</application> do po³±czenia siê z serwerem
+      <hostid role="fqdn">example.com</hostid> na konto u¿ytkownika
+      <username>joesoap</username> z has³em
+      <literal>XXX</literal>. Przyk³ad ten dodatkowo zak³ada,
+      ¿e u¿ytkownik <username>joesoap</username> jest równie¿
+      u¿ytkownikiem w systemie lokalnym.</para>
+
+    <programlisting>poll example.com protocol pop3 username "joesoap" password "XXX"</programlisting>
+
+    <para>Nastêpny przyk³ad ³±czy siê z kilkoma serwerami
+      <acronym>POP</acronym> i <acronym>IMAP</acronym> oraz przekierowuje
+      odebran± pocztê do ró¿nych u¿ytkowników lokalnych tam gdzie
+      to okre¶lono:</para>
+
+    <programlisting>poll example.com proto pop3:
+user "joesoap", with password "XXX", is "jsoap" here;
+user "andrea", with password "XXXX";
+poll example2.net proto imap:
+user "john", with password "XXXXX", is "myth" here;</programlisting>
+
+    <para>Program  <application>fetchmail</application> mo¿e
+      dzia³aæ równie¿ w trybie demona.  Nale¿y w tym celu w momencie
+      uruchamiania, podaæ parametr <option>-d</option> wraz z odstêpem
+      czasowym (w sekundach) z jakim <application>fetchmail</application>
+      bêdzie siê ³±czy³ z serwerami okre¶lonymi w pliku
+      <filename>.fetchmailrc</filename>.  Poni¿szy przyk³ad wymusza
+      odpytywanie serwerów co ka¿de 600 sekund:</para>
+
+    <screen>&prompt.user; <userinput>fetchmail -d 600</userinput></screen>
+
+    <para>Wiêcej informacji dotycz±cych <application>fetchmail</application>a
+      jest dostêpnych pod adresem <ulink
+      url="http://fetchmail.berlios.de/"></ulink>.</para>
+  </sect1>
+
+  <sect1 id="mail-procmail">
+    <sect1info>
+      <authorgroup>
+	<author>
+	  <firstname>Marc</firstname>
+	  <surname>Silver</surname>
+	  <contrib>Napisa³ </contrib>
+	</author>
+      </authorgroup>
+    </sect1info>
+    <title>Korzystanie z programu procmaill</title>
+
+    <indexterm>
+      <primary>procmail</primary>
+    </indexterm>
+
+    <para>Program <application>procmail</application> jest bardzo
+      wydajn± aplikacj± u¿ywan± do filtrowania poczty
+      przychodz±cej.  Umo¿liwia on u¿ytkownikom definiowanie
+      <quote>zasad</quote> przyporz±dkowywanych do przychodz±cych wiadomo¶ci
+      i wykonywania na nich okre¶lonych operacji lub przes³ania
+      do alternatywnych skrzynek pocztowych oraz/lub adresów
+      poczty.  Dostêpny jest w kolecji portów
+      (<filename role="package">mail/procmail</filename> ).  Po instalacji
+      mo¿na go w ³atwy sposób zintegrowaæ z naszym <acronym>MTA</acronym>
+      (dok³adne informacje o tej integracji mo¿na znale¼æ w dokumentacji
+      u¿ywanego przez nas agenta dostarczania poczty - <acronym>MTA</acronym>).
+      Dodatkowo <application>procmail</application> mo¿e byæ uruchamiany
+      przez dodanie poni¿szej linii do pliku <filename>.forward</filename>
+      w katalogu domowych u¿ytkownika:</para>
+
+    <programlisting>"|exec /usr/local/bin/procmail || exit 75"</programlisting>
+
+    <para>Poni¿sza czê¶æ tej sekcji prezentuje klika przyk³adowych
+      zasad wraz z krótkim opisem dzia³ania ka¿dej z nich.  Zasady
+      te powinny znajdowaæ siê w katalogu domowym u¿ytkownika
+      w pliku <filename>.procmailrc</filename>.</para>
+
+    <para>Wiêkszo¶æ z tych zasad mo¿na równie¿ znale¼æ na stronie
+      man &man.procmailex.5;.</para>
+
+    <para>Prze¶lij wszystkie wiadomo¶ci z adresu
+      <email>user@example.com</email> na zewnêtrzny adres
+      <email role="nolink">goodmail@example2.com</email>:</para>
+
+    <programlisting>:0
+* ^From.*user@example.com
+! goodmail@example2.com</programlisting>
+
+    <para>Prze¶lij wszystkie wiadomo¶ci mniejsze ni¿ 1000 bajtów
+      na zewnêtrzny adres
+      <email role="nolink">goodmail@example2.com</email>:</para>
+
+    <programlisting>:0
+* &lt; 1000
+! goodmail@example2.com</programlisting>
+
+    <para>Wy¶lij wszystkie wiadomo¶ci wys³ane na adres
+      <email>alternate@example.com</email> do skrzynki
+      pocztowej o nazwie <filename>alternate</filename>:</para>
+
+    <programlisting>:0
+* ^TOalternate@example.com
+alternate</programlisting>
+
+    <para>Wy¶lij wszystkie wiadomo¶ci z tematem <quote>Spam</quote>
+      do <filename>/dev/null</filename>:</para>
+
+    <programlisting>:0
+^Subject:.*Spam
+/dev/null</programlisting>
+
+    <para>U¿yteczna recepta rozdzielaj±ca przychodz±ce wiadomo¶ci
+      list dyskusyjnych <hostid role="domainname">&os;.org</hostid>
+      i umieszczaj±ca je w ich w³asnych skrzynkach pocztowych:</para>
+
+    <programlisting>:0
+* ^Sender:.owner-freebsd-\/[^@]+@FreeBSD.ORG
+{
+	LISTNAME=${MATCH}
+	:0
+	* LISTNAME??^\/[^@]+
+	FreeBSD-${MATCH}
+}</programlisting>
+  </sect1>
+</chapter>
+
+<!--
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "part" "chapter")
+     End:
+-->

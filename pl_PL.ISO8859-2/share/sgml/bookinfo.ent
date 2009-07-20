@@ -1,0 +1,19 @@
+<!--
+     The FreeBSD Polish Documentation Project
+
+     Odno¶niki do innych plików, które mog± byæ zawarte w elemencie
+     DocBook-owym BookInfo.
+
+     Nazwy obiektów przyjmuj± formê "bookinfo.<element>", gdzie <element> jest
+     nazw± najbardziej zewnêtrznego elementu w obiekcie. Na przyk³ad:
+     "bookinfo.legalnoctice", albo "bookinfo.preface".
+
+     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/bookinfo.ent,v 1.1 2006/11/10 11:41:06 therek Exp $
+     Original revision: 1.4
+-->
+
+<!ENTITY bookinfo.legalnotice SYSTEM "legalnotice.sgml">
+
+<!ENTITY bookinfo.trademarks SYSTEM "trademarks.sgml">
+
+<!ENTITY bookinfo.freebsd-glossary SYSTEM "glossary/freebsd-glossary.sgml">
