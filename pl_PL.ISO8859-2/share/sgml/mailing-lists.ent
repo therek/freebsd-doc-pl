@@ -1,7 +1,7 @@
 <!--
      Names of FreeBSD mailing lists and related software.
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/mailing-lists.ent,v 1.3 2007/05/19 20:16:24 therek Exp $
+     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/mailing-lists.ent,v 1.3 2007/01/04 22:02:52 hrs Exp $
      Original revision: 1.51
 -->
 
@@ -245,14 +245,8 @@
 <!ENTITY a.isdn.name "<ulink url='&a.isdn.url;'>freebsd-isdn</ulink>">
 
 <!ENTITY a.isp.url "&a.mailman.listinfo;/freebsd-isp">
-<!ENTITY a.isp "<ulink url='&a.isp.url;'>Lista dyskusyjna dostawców us³ug internetowych FreeBSD</ulink>">
+<!ENTITY a.isp "<ulink url='&a.isp.url;'>FreeBSD Internet service provider's mailing list</ulink>">
 <!ENTITY a.isp.name "<ulink url='&a.isp.url;'>freebsd-isp</ulink>">
-<!ENTITY a.pl.isp.m "<ulink url='&a.isp.url;'>Lista dyskusyjna dostawców us³ug internetowych FreeBSD</ulink>">
-<!ENTITY a.pl.isp.d "<ulink url='&a.isp.url;'>Listy dyskusyjnej dostawców us³ug internetowych FreeBSD</ulink>">
-<!ENTITY a.pl.isp.c "<ulink url='&a.isp.url;'>Li¶cie dyskusyjnej dostawców us³ug internetowych FreeBSD</ulink>">
-<!ENTITY a.pl.isp.b "<ulink url='&a.isp.url;'>Listê dyskusyjn± dostawców us³ug internetowych FreeBSD</ulink>">
-<!ENTITY a.pl.isp.n "<ulink url='&a.isp.url;'>List± dyskusyjn± dostawców us³ug internetowych FreeBSD</ulink>">
-<!ENTITY a.pl.isp.ms "<ulink url='&a.isp.url;'>Li¶cie dyskusyjnej dostawców us³ug internetowych FreeBSD</ulink>">
 
 <!ENTITY a.java.url "&a.mailman.listinfo;/freebsd-java">
 <!ENTITY a.java "<ulink url='&a.java.url;'>FreeBSD Java Language mailing list</ulink>">

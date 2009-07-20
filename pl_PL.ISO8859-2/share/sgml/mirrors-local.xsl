@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/mirrors-local.xsl,v 1.2 2006/11/28 21:36:37 therek Exp $
+<!-- $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/mirrors-local.xsl,v 1.1 2006/11/26 16:43:39 hrs Exp $
      Original revision: 1.3
 -->
 

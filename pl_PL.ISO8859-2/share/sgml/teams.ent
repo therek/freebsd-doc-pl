@@ -14,7 +14,7 @@
              w innych jêzykach, a w konsekwencji zostaniesz publicznie
              wy¶miany.
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/teams.ent,v 1.1 2006/11/10 11:41:07 therek Exp $
+     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/teams.ent,v 1.2 2006/11/26 16:43:39 hrs Exp $
      Original revision: 1.17
 -->
 
@@ -149,4 +149,3 @@
 <!ENTITY a.pl.security-officer.b "Zespó³ oficera bezpieczeñstwa <email>security-officer@FreeBSD.org</email>">
 <!ENTITY a.pl.security-officer.n "Zespo³em oficera bezpieczeñstwa <email>security-officer@FreeBSD.org</email>">
 <!ENTITY a.pl.security-officer.ms "Zespole oficera bezpieczeñstwa <email>security-officer@FreeBSD.org</email>">
-

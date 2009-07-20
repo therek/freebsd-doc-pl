@@ -1,10 +1,10 @@
 <!--
      The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/freebsd.dsl,v 1.2 2006/11/28 21:36:36 therek Exp $
+     $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/freebsd.dsl,v 1.4 2006/11/26 16:43:39 hrs Exp $
      Original revision: 1.22
  -->
-<!-- $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/freebsd.dsl,v 1.2 2006/11/28 21:36:36 therek Exp $ -->
+<!-- $FreeBSD: doc/pl_PL.ISO8859-2/share/sgml/freebsd.dsl,v 1.4 2006/11/26 16:43:39 hrs Exp $ -->
 
 <!DOCTYPE style-sheet PUBLIC "-//James Clark//DTD DSSSL Style Sheet//EN" [
 <!ENTITY freebsd.dsl PUBLIC "-//FreeBSD//DOCUMENT DocBook Language Neutral Stylesheet//EN" CDATA DSSSL>
