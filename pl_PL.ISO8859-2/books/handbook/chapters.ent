@@ -7,7 +7,7 @@
      Chapters should be listed in the order in which they are referenced.
  
      $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/chapters.ent,v 1.2 2007/05/19 20:23:56 therek Exp $
-     Original revision: 1.37
+     Original revision: 1.39
 -->
 
 <!ENTITY chap.preface			SYSTEM "preface/preface.sgml">
@@ -36,10 +36,12 @@
 <!ENTITY chap.audit			SYSTEM "audit/chapter.sgml">
 <!ENTITY chap.disks			SYSTEM "disks/chapter.sgml">
 <!ENTITY chap.geom			SYSTEM "geom/chapter.sgml">
+<!ENTITY chap.filesystems		SYSTEM "filesystems/chapter.sgml">
 <!ENTITY chap.vinum			SYSTEM "vinum/chapter.sgml">
 <!ENTITY chap.virtualization		SYSTEM "virtualization/chapter.sgml">
 <!ENTITY chap.l10n			SYSTEM "l10n/chapter.sgml">
 <!ENTITY chap.cutting-edge		SYSTEM "cutting-edge/chapter.sgml">
+<!ENTITY chap.dtrace			SYSTEM "dtrace/chapter.sgml">
 
 <!-- Part four -->
 <!ENTITY chap.serialcomms		SYSTEM "serialcomms/chapter.sgml">
