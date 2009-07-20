@@ -1,7 +1,7 @@
 # The FreeBSD Polish Documentation Project
 #
-# $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/Makefile,v 1.2 2007/05/19 20:23:56 therek Exp $
-# Original revision: 1.104
+# $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/Makefile,v 1.3 2007/06/28 02:46:39 chinsan Exp $
+# Original revision: 1.112
 #
 # Build the FreeBSD Handbook.
 #
@@ -23,6 +23,13 @@
 #                       be redirected into a file and distributed as a 
 #                       public keyring of FreeBSD developers that can
 #                       easily be imported into PGP/GPG.
+#
+# ------------------------------------------------------------------------
+#
+# To add a new chapter to the Handbook:
+#
+# - Update this Makefile, chapters.ent and book.sgml
+# - Add a descriptive entry for the new chapter in preface/preface.sgml
 #
 # ------------------------------------------------------------------------
 
@@ -49,12 +56,13 @@ IMAGES_EN+= geom/striping.pic
 IMAGES_EN+= install/adduser1.scr
 IMAGES_EN+= install/adduser2.scr
 IMAGES_EN+= install/adduser3.scr
+IMAGES_EN+= install/boot-loader-menu.scr
 IMAGES_EN+= install/boot-mgr.scr
+IMAGES_EN+= install/config-country.scr
 IMAGES_EN+= install/console-saver1.scr
 IMAGES_EN+= install/console-saver2.scr
 IMAGES_EN+= install/console-saver3.scr
 IMAGES_EN+= install/console-saver4.scr
-IMAGES_EN+= install/desktop.scr
 IMAGES_EN+= install/disklabel-auto.scr
 IMAGES_EN+= install/disklabel-ed1.scr
 IMAGES_EN+= install/disklabel-ed2.scr
@@ -109,7 +117,6 @@ IMAGES_EN+= install/timezone2.scr
 IMAGES_EN+= install/timezone3.scr
 IMAGES_EN+= install/userconfig.scr
 IMAGES_EN+= install/userconfig2.scr
-IMAGES_EN+= install/xf86setup.scr
 IMAGES_EN+= mail/mutt1.scr
 IMAGES_EN+= mail/mutt2.scr
 IMAGES_EN+= mail/mutt3.scr
@@ -148,6 +155,31 @@ IMAGES_EN+= virtualization/parallels-freebsd10.png
 IMAGES_EN+= virtualization/parallels-freebsd11.png
 IMAGES_EN+= virtualization/parallels-freebsd12.png
 IMAGES_EN+= virtualization/parallels-freebsd13.png
+IMAGES_EN+= virtualization/virtualpc-freebsd1.png
+IMAGES_EN+= virtualization/virtualpc-freebsd2.png
+IMAGES_EN+= virtualization/virtualpc-freebsd3.png
+IMAGES_EN+= virtualization/virtualpc-freebsd4.png
+IMAGES_EN+= virtualization/virtualpc-freebsd5.png
+IMAGES_EN+= virtualization/virtualpc-freebsd6.png
+IMAGES_EN+= virtualization/virtualpc-freebsd7.png
+IMAGES_EN+= virtualization/virtualpc-freebsd8.png
+IMAGES_EN+= virtualization/virtualpc-freebsd9.png
+IMAGES_EN+= virtualization/virtualpc-freebsd10.png
+IMAGES_EN+= virtualization/virtualpc-freebsd11.png
+IMAGES_EN+= virtualization/virtualpc-freebsd12.png
+IMAGES_EN+= virtualization/virtualpc-freebsd13.png
+IMAGES_EN+= virtualization/vmware-freebsd01.png
+IMAGES_EN+= virtualization/vmware-freebsd02.png
+IMAGES_EN+= virtualization/vmware-freebsd03.png
+IMAGES_EN+= virtualization/vmware-freebsd04.png
+IMAGES_EN+= virtualization/vmware-freebsd05.png
+IMAGES_EN+= virtualization/vmware-freebsd06.png
+IMAGES_EN+= virtualization/vmware-freebsd07.png
+IMAGES_EN+= virtualization/vmware-freebsd08.png
+IMAGES_EN+= virtualization/vmware-freebsd09.png
+IMAGES_EN+= virtualization/vmware-freebsd10.png
+IMAGES_EN+= virtualization/vmware-freebsd11.png
+IMAGES_EN+= virtualization/vmware-freebsd12.png
 
 # Images from the cross-document image library
 IMAGES_LIB=  callouts/1.png
@@ -175,6 +207,7 @@ IMAGES_LIB+= callouts/15.png
 SRCS+= audit/chapter.sgml
 SRCS+= book.sgml
 SRCS+= colophon.sgml
+SRCS+= dtrace/chapter.sgml
 SRCS+= freebsd-glossary.sgml
 SRCS+= advanced-networking/chapter.sgml
 SRCS+= basics/chapter.sgml
@@ -186,6 +219,7 @@ SRCS+= desktop/chapter.sgml
 SRCS+= disks/chapter.sgml
 SRCS+= eresources/chapter.sgml
 SRCS+= firewalls/chapter.sgml
+SRCS+= filesystems/chapter.sgml
 SRCS+= geom/chapter.sgml
 SRCS+= install/chapter.sgml
 SRCS+= introduction/chapter.sgml
