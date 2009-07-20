@@ -1,4 +1,4 @@
-# $FreeBSD: doc/pl_PL.ISO8859-2/books/Makefile,v 1.1 2006/11/10 11:43:19 therek Exp $
+# $FreeBSD: doc/pl_PL.ISO8859-2/books/Makefile,v 1.1 2006/09/24 18:59:01 hrs Exp $
 # Original revision: 1.14
 
 #SUBDIR+= arch-handbook
