@@ -1,8 +1,8 @@
 <!--
      The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/book.sgml,v 1.4 2007/05/19 20:23:56 therek Exp $
-     Original revision: 1.171
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/book.sgml,v 1.2 2006/11/26 16:43:39 hrs Exp $
+     Original revision: 1.175
 -->
 
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN" [
@@ -49,6 +49,8 @@
 <!ENTITY % chap.freebsd-glossary "IGNORE">
 <!ENTITY % chap.mac "IGNORE">
 <!ENTITY % chap.audit "IGNORE">
+<!ENTITY % chap.filesystems "IGNORE">
+<!ENTITY % chap.dtrace "IGNORE">
 
 <!ENTITY % pgpkeys SYSTEM "../../../share/pgpkeys/pgpkeys.ent"> %pgpkeys;
 ]>
@@ -75,6 +77,8 @@
       <year>2005</year>
       <year>2006</year>
       <year>2007</year>
+      <year>2008</year>
+      <year>2009</year>
       <holder>Projekt Dokumentacji FreeBSD</holder>
     </copyright>
 
@@ -265,10 +269,12 @@
     <![ %chap.audit;			[ &chap.audit;		      ]]>
     <![ %chap.disks;                    [ &chap.disks;                ]]>
     <![ %chap.geom;			[ &chap.geom;		      ]]>
+    <![ %chap.filesystems;              [ &chap.filesystems;          ]]>
     <![ %chap.vinum;                    [ &chap.vinum;                ]]>
     <![ %chap.virtualization;           [ &chap.virtualization;       ]]>
     <![ %chap.l10n;                     [ &chap.l10n;                 ]]>
     <![ %chap.cutting-edge;             [ &chap.cutting-edge;         ]]>
+    <![ %chap.dtrace;                   [ &chap.dtrace;               ]]>
   </part>
 
   <part id="network-communication">
