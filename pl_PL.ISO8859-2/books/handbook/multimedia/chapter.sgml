@@ -1,8 +1,8 @@
 <!--
      The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/multimedia/chapter.sgml,v 1.4 2007/06/20 18:54:15 therek Exp $
-     Original version: 1.126
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/multimedia/chapter.sgml,v 1.1 2006/09/24 18:59:04 hrs Exp $
+     Original version: 1.132
 -->
 
 <chapter id="multimedia">
@@ -35,7 +35,7 @@
       edytowaæ nagrany d¼wiêk, dodawaæ efekty i kontrolowaæ podpiête urz±dzenia
       MIDI.</para>
 
-    <para>Z pewn± doz± chêci do eksperymentów, na FreeBSD mo¿liwe jest te¿
+    <para>Z pewn± doz± chêci do eksperymentów, na &os; mo¿liwe jest te¿
       odtwarzanie filmów i p³yt DVD. Liczba aplikacji umo¿liwiaj±cych kodowanie,
       konwersjê i odtwarzanie ró¿nych no¶ników wideo jest ograniczona
       w porównianiu do aplikacji od d¼wiêku. Przyk³adowo podczas pisania
@@ -60,8 +60,7 @@
       </listitem>
 
       <listitem>
-        <para>Metody sprawdzenia, czy nasza karta muzyczna dzia³a, przy pomocy
-          przyk³adowych programów</para>
+        <para>Metody sprawdzenia, czy nasza karta muzyczna dzia³a</para>
       </listitem>
 
       <listitem>
@@ -87,7 +86,7 @@
       </listitem>
 
       <listitem>
-        <para>Jak zgraæ p³yty CD i DVD</para>
+        <para>Jak zgraæ zawarto¶æ p³yt CD i DVD do plików</para>
       </listitem>
 
       <listitem>
@@ -147,7 +146,7 @@
       Sprawd¼my listê obs³ugiwanych urz±dzeñ audio w <ulink
       url="&rel.current.hardware;">Hardware Notes</ulink>,
       aby siê dowiedzieæ, czy nasza karta jest obs³ugiwana.
-      W tym dokumencie tak¿e bêdzie napisane, który sterownik odpowiada za jej
+      Dokument ten poinformuje nas równie¿, który sterownik odpowiada za jej
       obs³ugê.</para>
 
 
@@ -196,9 +195,9 @@
     <sect3>
       <title>Konfigurowanie j±dra z obs³ug± d¼wiêku</title>
 
-      <para>Pierwsz± rzecz±, któr± musimy wykonaæ jest dodanie podstawowego
-        sterownika audio &man.sound.4; do j±dra. Aby to zrobiæ, musimy dodaæ
-        nastêpuj±c± liniê do pliku konfiguracyjnego j±dra:</para>
+      <para>Pierwsz± rzecz±, któr± musimy wykonaæ jest dodanie sterownika
+        ¶rodowiska audio &man.sound.4; do j±dra. Aby to zrobiæ, musimy dodaæ
+        nastêpuj±cy wiersz do pliku konfiguracyjnego j±dra:</para>
 
       <programlisting>device sound</programlisting>
 
@@ -212,18 +211,18 @@
 
       <programlisting>device snd_emu10k1</programlisting>
 
-      <para>Omówienie sk³adni dla sterownika jest w jego podrêczniku (man).
-        Informacje przybli¿aj±ce sk³adniê sterowników muzycznych w pliku
-        konfiguracyjnym j±dra znajduj± siê tak¿e w pliku
-        <filename>/usr/src/sys/conf/NOTES</filename></para>
+      <para>Sk³adnia dla ka¿dego sterownika omówiona zosta³a w jego podrêczniku
+        systemowym (man).  Precyzyjne informacje dotycz±ce sk³adni konfiguracji
+        j±dra dla ka¿dego obs³ugiwanego sterownika karty d¼wiêkowej znajduj± siê
+        równie¿ w pliku <filename>/usr/src/sys/conf/NOTES</filename></para>
 
       <para>Karty ISA nie obs³uguj±ce PnP mog± wymagaæ dodatkowych informacji
-        przekazanych j±dru (IRQ, port we/wy, itp.). Jest to robione poprzez plik
+        przekazanych j±dru (IRQ, port we/wy, itp.). Jest to realizowane poprzez plik
         <filename>/boot/device.hints</filename>. W czasie startu systemu
-        &man.loader.8; przeczyta ten plik i przeka¿e ustawienia do j±dra.
-        Na przyk³ad stara karta muzyczna Creative &soundblaster; 16 ISA non-PnP
-        bêdzie u¿ywa³a sterownika &man.snd.sbc.4; w po³±czeniu z snd_sb16(4).
-        Dla tej karty nastêpuj±ce linie musz± byæ dodane do pliku
+        &man.loader.8; wczytuje ten plik i przekazuje ustawienia do j±dra.
+        Na przyk³ad, stara karta muzyczna Creative &soundblaster; 16 ISA non-PnP
+        bêdzie u¿ywa³a sterownika &man.snd.sbc.4; razem z <literal>snd_sb16</literal>.
+        Dla tej karty nastêpuj±ce wiersze musz± byæ dodane do pliku
         konfiguracyjnego j±dra:</para>
 
       <programlisting>device snd_sbc
@@ -241,12 +240,13 @@ hint.sbc.0.flags="0x15"</programlisting>
         i IRQ <literal>5</literal>.</para>
 
       <para>Sk³adnia u¿yta w pliku <filename>/boot/device.hints</filename>
-        jest omówiona w podrêczniku sterownika muzycznego.</para>
+        jest omówiona w podrêczniku &man.sound.4; oraz podrêcznika
+        sterownika dla danego urz±dzenia.</para>
 
-      <para>Ustawienia pokazane wy¿ej s± domy¶lnymi. W niektórych przypadkach
-        bêdzie wymagana zmiana IRQ lub pozosta³ych ustawieñ, aby siê zgadza³y
-        z nasz± kart±. Zobaczmy stronê podrêcznika o &man.snd.sbc.4; aby uzyskaæ
-        wiêcej informacji.</para>
+      <para>Ustawienia pokazane wy¿ej s± domy¶lnymi.  W niektórych przypadkach
+        bêdzie wymagana zmiana IRQ lub pozosta³ych ustawieñ, tak by zgadza³y siê
+        z nasz± kart±. Wiêcej informacji odno¶nie danej karty znale¼æ mo¿na
+        w podrêczniku &man.snd.sbc.4;.</para>
     </sect3>
   </sect2>
 
@@ -275,7 +275,7 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
       wy¶wietlone ¿adne urz±dzenia <devicename>pcm</devicename>, wróæmy i
       przeczytajmy co zrobili¶my wcze¶niej. Je¶li wkompilowalismy sterowniki
       w j±dro, przeczytajmy jego plik konfiguracyjny i upewnijmy siê,
-      ¿e odpowiednie urz±dzenie zosta³o wybrane. Czêste problemy s± wymienione
+      ¿e wybrany zosta³ sterownik w³a¶ciwego urz±dzenia. Czêste problemy s± wymienione
       w <xref linkend="troubleshooting"></para>
 
     <para>Je¶li wszystko posz³o pomy¶lnie mamy dzia³aj±c± kartê muzyczn±.
@@ -289,12 +289,14 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
       <filename role="package">audio/workman</filename>
       oferuja wygodniejszy interfejs. Mo¿emy równie¿ zainstalowaæ tak±
       aplikacjê jak <filename role="package">audio/mpg123</filename>,
-      aby móc s³uchaæ plików MP3. Szybkim sposobem na przetestowanie karty
-      jest wys³anie danych do <filename>/dev/dsp</filename>, jak tutaj:</para>
+      aby móc s³uchaæ plików MP3.</para>
+
+    <para>Innym, szybkim sposobem na przetestowanie karty
+      jest wys³anie danych do <filename>/dev/dsp</filename>, jak poni¿ej:</para>
 
     <screen>&prompt.user; <userinput>cat <replaceable>filename</replaceable> &gt; /dev/dsp</userinput></screen>
 
-    <para>gdzie <replaceable>filename</replaceable> to dowolny plik
+    <para>gdzie <filename><replaceable>filename</replaceable></filename> to dowolny plik
       (byle nie za krótki). Komenda ta powinna spowodowaæ odtworzenie jakiego¶
       d¼wiêku, potwierdzaj±c, ¿e karta dzia³a.</para>
 
@@ -312,20 +314,14 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
 
       <informaltable frame="none" pgwide="1">
          <tgroup cols="2">
-        <thead>
-        <row>
-         <entry>B³±d</entry>
-          <entry>Rozwi±zanie</entry>
-        </row>
+  	  <thead>
+	    <row>
+	     <entry>B³±d</entry>
+	      <entry>Rozwi±zanie</entry>
+	    </row>
           </thead>
 
-      <tbody>
-        <row>
-          <entry><errorname>unsupported subdevice XX</errorname></entry>
-          <entry><para>Jeden lub wiêcej plików/wêz³ów urz±dzeñ nie zosta³o
-              poprawnie utworzonych. Powtórzmy kroki wymienione powy¿ej.</para></entry>
-            </row>
-
+	  <tbody>
             <row>
               <entry><errorname>sb_dspwr(XX) timed out</errorname></entry>
               <entry><para>Port we/wy nie jest ustawiony poprawnie.</para></entry>
@@ -375,21 +371,21 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
       urz±dzenia muzycznego.</para>
 
     <para>FreeBSD pozwala nam na zrobienie tego poprzez
-      <emphasis>Wirtualne Kana³y D¼wiêku</emphasis>, które s± ustawiane przez
+      <emphasis>Wirtualne Kana³y D¼wiêku</emphasis>, które mog± byæ w³±czone za pomoc±
       &man.sysctl.8;. Wirtualne kana³y pozwalaj± przeprowadziæ multipleksacjê
-      kana³ów naszej karty muzycznej, miksuj±c je bezpo¶rednio w j±drze.</para>
+      odtwarzania naszej karty muzycznej, miksuj±c je bezpo¶rednio w j±drze.</para>
 
     <para>Istniej± dwa parametry sysctl'a, pozwalaj±ce ustawiæ liczê
       wirtualnych kana³ów które, je¶li jeste¶my <username>root</username>em,
       mo¿emy ustawiæ:</para>
-
-    <screen>&prompt.root; <userinput>sysctl hw.snd.pcm0.vchans=4</userinput>
+    <screen>&prompt.root; <userinput>sysctl dev.pcm.0.play.vchans=4</userinput>
+&prompt.root; <userinput>sysctl dev.pcm.0.rec.vchans=4</userinput>
 &prompt.root; <userinput>sysctl hw.snd.maxautovchans=4</userinput></screen>
 
     <para>Powy¿szy przyk³ad rezerwuje cztery wirtualne kana³y, które w
-      codziennym u¿ytku siê przydaj±.
-      <varname>hw.snd.pcm0.vchans</varname> jest liczb± wirtualnych kana³ów,
-      które posiada <devicename>pcm0</devicename>, które mo¿na ustawiæ
+      codziennym u¿ytku siê przydaj±.  Zarówno <varname>dev.pcm.0.play.vchans=4</varname>
+      jak i <varname>dev.pcm.0.rec.vchans=4</varname> oznaczaj± liczbê wirtualnych kana³ów,
+      którymi dysponuje <devicename>pcm0</devicename> do odtwarzania i nagrywania, a które mo¿na ustawiæ
       od chwili pod³±czenia (w systemie) urz±dzenia.
       <literal>hw.snd.maxautovchans</literal> jest liczb± wirtualnych kana³ów
       przypisanych urz±dzeniu, gdy jest ono pod³±czanie przez u¿ycie
@@ -397,7 +393,8 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
       ³adowany niezale¿nie od sterowników urz±dzeñ,
       <varname>hw.snd.maxautovchans</varname> mo¿e przechowywaæ liczbê
       wirtualnych kana³ów, która bêdzie automatycznie przypisana nowo
-      pod³±czonym urz±dzeniom.</para>
+      pod³±czonym urz±dzeniom.  Wiêcej informacji mo¿na znale¼æ
+      w &man.pcm.4;.</para>
 
     <note>
       <para>Notatka: Nie mo¿na zmieniæ liczby wirtualnych kana³ów,
@@ -410,9 +407,10 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
       aplikacjom na
       <filename>/dev/dsp0</filename>.<replaceable>x</replaceable>,
       gdzie <replaceable>x</replaceable> to 0 do 3,
-      je¶li <varname>hw.snd.pcm.0.vchans</varname> jest ustawione na 4,
+      je¶li <varname>dev.pcm.0.rec.vchans</varname> jest ustawione na 4,
       jak w powy¿szym przyk³adzie. W systemie u¿ywaj±cym &man.devfs.5;,
-      powy¿sze bêdzie automatycznie przydzielone bez wiedzy u¿ytkownika.</para>
+      powy¿sze bêdzie automatycznie przydzielone programowi ¿±daj±cemu
+      dostêpu do <filename>/dev/dsp0</filename>.</para>
    </sect2>
 
   <sect2>
@@ -428,21 +426,17 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
 
     <title>Ustawianie domy¶lnych warto¶ci kana³ów miksera</title>
 
-    <note>
-      <para>To jest wspierane tylko w &os; 5.3-RELEASE i pó¼niejszych.</para>
-    </note>
-
     <para>Domy¶lne warto¶ci dla ró¿nych kana³ów miksera s± wpisane w ¼ród³o
       sterownika  &man.pcm.4;. Istnieje wiele ró¿nych aplikacji i demonów,
-      które umo¿liwiaj± nam ustawienie warto¶ci dla miksera i ich zapamiêtanie.
-      Nastêpnie przy ka¿dym uruchomieniu bêd± one ponownie ustawiane,
-      jednak nie jest to czyste rozwi±zanie. My chcemy mieæ domy¶lne warto¶ci
-      na poziomie sterownika. Jest to osi±gane przez zdefiniowane odpowiednich
+      które umo¿liwiaj± nam zapamiêtanie warto¶ci dla miksera pomiêdzy
+      uruchomieniami, jednak nie jest to czyste rozwi±zanie.  Mo¿liwe jest
+      zdefiniowanie domy¶lnych warto¶ci kana³ów miksera na poziomie sterownika.
+      Jest to osi±gane przez zdefiniowane odpowiednich
       warto¶ci w pliku <filename>/boot/device.hints</filename>, np.:</para>
 
-<programlisting>hint.pcm.0.vol="100"</programlisting>
+<programlisting>hint.pcm.0.vol="50"</programlisting>
 
-    <para>Ustawi to kana³ g³o¶no¶ci na domy¶ln± warto¶æ 100,
+    <para>Ustawi to kana³ g³o¶no¶ci na domy¶ln± warto¶æ 50,
       gdy modu³ &man.pcm.4; jest ³adowany.</para>
   </sect2>
 </sect1>
@@ -488,10 +482,12 @@ kld snd_ich (1p/2r/0v channels duplex default)</screen>
         alternatywnym, obs³ugiwanym z linii poleceñ odtwarzaczem MP3.</para>
 
       <para><application>mpg123</application>  mo¿e byæ uruchomiony przez
-        okre¶lenie urz±dzenia audio i pliku MP3 w linii poleceñ,
-        jak pokazano poni¿ej:</para>
+        okre¶lenie urz±dzenia audio i pliku MP3 w linii poleceñ.  Zak³adaj±c,
+        ¿e nasze urz±dzenie audio to <devicename>/dev/dsp1.0</devicename> oraz
+        ¿e chcemy odwtorzyæ plik MP3 <replaceable>Foobar-GreatestHits.mp3</replaceable>
+        powinni¶my wpisaæ polecenie:</para>
 
-      <screen>&prompt.root; <userinput>mpg123 -a <replaceable>/dev/dsp1.0</replaceable> Foobar-GreatestHits.mp3</userinput>
+      <screen>&prompt.root; <userinput>mpg123 -a <devicename>/dev/dsp1.0</devicename> <replaceable>Foobar-GreatestHits.mp3</replaceable></userinput>
 High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3.
 Version 0.59r (1999/Jun/15). Written and copyrights by Michael Hipp.
 Uses code from various people. See 'README' for more!
@@ -504,10 +500,6 @@ THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN RISK!
 Playing MPEG stream from Foobar-GreatestHits.mp3 ...
 MPEG 1.0 layer III, 128 kbit/s, 44100 Hz joint-stereo
 </screen>
-
-      <para><literal>/dev/dsp1.0</literal> powinni¶my zast±piæ wpisem
-        urz±dzenia <devicename>dsp</devicename> w naszym systemie.</para>
-
     </sect2>
 
     <sect2 id="rip-cd">
@@ -559,7 +551,7 @@ MPEG 1.0 layer III, 128 kbit/s, 44100 Hz joint-stereo
     </sect2>
 
     <sect2 id="mp3-encoding">
-      <title>Kodowanie MP3ójek</title>
+      <title>Kodowanie plików MP3</title>
 
       <para>Obecnie najczê¶ciej wybieranym koderem mp3 jest
         <application>lame</application>.
@@ -567,8 +559,8 @@ MPEG 1.0 layer III, 128 kbit/s, 44100 Hz joint-stereo
         <filename role="package">audio/lame</filename> w drzewie portów.</para>
 
       <para>U¿ywaj±c zgranych plików WAV, nastêpuj±ce polecenie skonwertuje
-        <filename>audio01.wav</filename> na
-        <filename>audio01.mp3</filename>:</para>
+        <filename><replaceable>audio01.wav</replaceable></filename> na
+        <filename><replaceable>audio01.mp3</replaceable></filename>:</para>
 
       <screen>&prompt.root; <userinput>lame -h -b <replaceable>128</replaceable> \
 --tt "<replaceable>Foo Tytu³Piosenki</replaceable>" \
@@ -587,7 +579,7 @@ MPEG 1.0 layer III, 128 kbit/s, 44100 Hz joint-stereo
         <option>--t</option> oznaczaj± tagi ID3, które przewa¿nie zawieraj±
         informacje o piosence. S± one zawarte bezpo¶rednio w pliku MP3.
         Dodatkowe opcje kodowania mo¿na znale¼æ na stronie podrêcznika do
-        lame.</para>
+        <application>lame</application>.</para>
     </sect2>
 
     <sect2 id="mp3-decoding">
@@ -652,8 +644,8 @@ MPEG 1.0 layer III, 128 kbit/s, 44100 Hz joint-stereo
 
       <procedure>
     <step>
-      <para>Uruchommy <command>mpg123 -s
-        <replaceable>audio01.mp3</replaceable> &gt; audio01.pcm</command></para>
+      <para>Uruchommy <command>mpg123 -s <replaceable>audio01.mp3</replaceable>
+        &gt; <replaceable>audio01.pcm</replaceable></command></para>
     </step>
       </procedure>
 
@@ -1086,17 +1078,17 @@ http://www.mplayerhq.hu/homepage/dload.html
       poprzez jeden z interfejsów wideo u¿yjmy opcji
       <option>-vo</option> :</para>
 
-      <screen>&prompt.user; <userinput>mplayer -vo xv testfile.avi</userinput></screen>
-      <screen>&prompt.user; <userinput>mplayer -vo sdl testfile.avi</userinput></screen>
-      <screen>&prompt.user; <userinput>mplayer -vo x11 testfile.avi</userinput></screen>
-      <screen>&prompt.root; <userinput>mplayer -vo dga testfile.avi</userinput></screen>
-      <screen>&prompt.root; <userinput>mplayer -vo 'sdl:dga' testfile.avi</userinput></screen>
+      <screen>&prompt.user; <userinput>mplayer -vo xv <replaceable>testfile.avi</replaceable></userinput></screen>
+      <screen>&prompt.user; <userinput>mplayer -vo sdl <replaceable>testfile.avi</replaceable></userinput></screen>
+      <screen>&prompt.user; <userinput>mplayer -vo x11 <replaceable>testfile.avi</replaceable></userinput></screen>
+      <screen>&prompt.root; <userinput>mplayer -vo dga <replaceable>testfile.avi</replaceable></userinput></screen>
+      <screen>&prompt.root; <userinput>mplayer -vo 'sdl:dga' <replaceable>testfile.avi</replaceable></userinput></screen>
 
     <para>Warto spróbowaæ ka¿dej z tych opcji, jako ¿e na ich wzglêdn± szybko¶æ
       wp³ywa wiele czynników, które s± zwi±zane g³ównie ze sprzêtem.</para>
 
-    <para>Aby pu¶ciæ co¶ z DVD, zast±pmy <filename>testfile.avi</filename> na
-      <option>dvd://<replaceable>N</replaceable> -dvd-device 
+    <para>Aby odtworzyæ co¶ z DVD, zast±pmy
+      <filename><replaceable>testfile.avi</replaceable></filename> na <option>dvd://<replaceable>N</replaceable> -dvd-device 
       <replaceable>DEVICE</replaceable></option>,
       gdzie <replaceable>N</replaceable> jest numerem fragmentu do odtworzenia,
       a <filename><replaceable>DEVICE</replaceable></filename> jest wêz³em
@@ -1155,24 +1147,24 @@ zoom=yes</programlisting>
       dobr± i z³± wydajno¶ci±. Podaje tutaj kilka przyk³adów aby umo¿liwiæ
       nam start. Najpierw prosta kopia:</para>
 
-     <screen>&prompt.user; <userinput>mencoder input.avi -oac copy -ovc copy -o output.avi</userinput></screen>
+     <screen>&prompt.user; <userinput>mencoder <replaceable>input.avi</replaceable> -oac copy -ovc copy -o <replaceable>output.avi</replaceable></userinput></screen>
 
     <para>Nieprawid³owe kombinacje opcji w linii poleceñ mog± utworzyæ
       pliki wyj¶ciowe, które nie jest w stanie odtworzyæ nawet
       <command>mplayer</command>. Dlatego, je¶li chcemy tylko zgraæ do pliku,
       u¿yjmy <option>-dumpfile</option> w <command>mplayer</command>'rze.</para>
 
-    <para>Aby przekonwertowaæ <filename>input.avi</filename> do kodeka MPEG4
+    <para>Aby przekonwertowaæ <filename><replaceable>input.avi</replaceable></filename> do kodeka MPEG4
       z d¼wiêkiem MPEG3 (<filename role="package">audio/lame</filename>
       jest wymagane):</para>
 
-    <screen>&prompt.user; <userinput>mencoder input.avi -oac mp3lame -lameopts br=192 \
-     -ovc lavc -lavcopts vcodec=mpeg4:vhq -o output.avi</userinput></screen>
+    <screen>&prompt.user; <userinput>mencoder <replaceable>input.avi</replaceable> -oac mp3lame -lameopts br=192 \
+     -ovc lavc -lavcopts vcodec=mpeg4:vhq -o <replaceable>output.avi</replaceable></userinput></screen>
 
     <para>Utworzony zosta³ plik, mo¿liwy do odtworzenia w
       <command>mplayer</command> i <command>xine</command>.</para>
 
-    <para><filename>input.avi</filename> mo¿e byæ zast±pione przez
+    <para><filename><replaceable>input.avi</replaceable></filename> mo¿e byæ zast±pione przez
       <option>dvd://1 -dvd-device /dev/dvd</option> i uruchomione jako
       <username>root</username>, aby skonwertowaæ fragment DVD bezpo¶rednio.
       Je¶li jeste¶my zawiedzeni wynikiem pierwszej próby, zaleca siê,
@@ -1219,7 +1211,7 @@ zoom=yes</programlisting>
     <para>Alternatyw± mo¿e byæ wywo³anie do bezpo¶redniego odtworzenia pliku,
       bez GUI:</para>
 
-      <screen>&prompt.user; <userinput>xine -g -p mymovie.avi</userinput></screen>
+      <screen>&prompt.user; <userinput>xine -g -p <replaceable>mymovie.avi</replaceable></userinput></screen>
 
     </sect3>
 
@@ -1249,7 +1241,7 @@ WITH_MJPEG=yes -DWITH_XVID=yes</userinput></screen>
       <screen>&prompt.user; <userinput>transcode -i input.avi -V --export_prof vcd-pal -o output_vcd</userinput>
 &prompt.user; <userinput>mplex -f 1 -o output_vcd.mpg output_vcd.m1v output_vcd.mpa</userinput></screen>
 
-    <para>Wynikowy plik MPEG, <filename>output_vcd.mpg</filename>,
+    <para>Wynikowy plik MPEG, <filename><replaceable>output_vcd.mpg</replaceable></filename>,
       jest gotowy do odtwarzania <application>MPlayer</application>'em.
       Mogliby¶my nawet wypaliæ go na p³ytê CD-R aby utworzyæ Video CD.
       W tym przypadku potrzebowaliby¶my dodatkowych narzêdzi,
@@ -1709,7 +1701,7 @@ device `epson:/dev/uscanner0' is a Epson GT-8200 flatbed scanner</screen>
         Jako przyk³ad, nasz skaner USB u¿ywa wêz³a
         <filename>/dev/uscanner0</filename>, który jest w posiadaniu grupy
         <groupname>operator</groupname>. Dodaj±c u¿ytkownika
-        <username>joe</username> do grupy <groupname>operator</groupname>
+        <username><replaceable>joe</replaceable></username> do grupy <groupname>operator</groupname>
         pozwalamy mu na korzystanie ze skanera:</para>
 
       <screen>&prompt.root; <userinput>pw groupmod operator -m <replaceable>joe</replaceable></userinput></screen>
