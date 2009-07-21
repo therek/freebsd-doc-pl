@@ -1,8 +1,8 @@
 <!--
     The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/mail/chapter.sgml,v 1.2 2007/05/19 14:18:48 therek Exp $
-     Original revision: 1.136
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/mail/chapter.sgml,v 1.1 2006/09/24 18:59:03 hrs Exp $
+     Original revision: 1.138
 -->
 
 <chapter id="mail">
@@ -731,14 +731,9 @@ postmaster@example.com          postmaster@noc.example.net
     <sect2 id="mail-disable-sendmail">
       <title>Wy³±czenie <application>sendmail</application>a</title>
 
-      <para>Procedura uruchamiania <application>sendmail</application>a
-	znacznie ró¿ni siê miêdzy wersj± 4.5-RELEASE, 4.6-RELEASE
-	a wersjami pó¼niejszymi, dlatego te¿ sposób wy³±czenia
-	<application>sendmail</application>a jest nieco inny.</para>
-
 	<warning>
 	  <para> Nale¿y pamiêtaæ, aby po wy³±czeniu us³ug poczty
-	    wychodz±cej <application>sendmail</application>a zamieniæ
+	    wychodz±cej <application>sendmail</application>a zast±piæ
 	    je innym systemem dostarczania poczty.  Pominiêcie
 	    tego kroku spowoduje ¿e us³ugi systemowe takie jak
 	    &man.periodic.8; nie bêd± w stanie dostarczaæ wyników
@@ -752,49 +747,6 @@ postmaster@example.com          postmaster@noc.example.net
 	    poczty i nigdy nie zostan± dostarczone
 	    do adresata.</para>
 	</warning>
-
-      <sect3>
-	<title>FreeBSD 4.5-STABLE przed 04-04-2002 i wcze¶niejsze
-	  (równie¿ 4.5-RELEASE i wcze¶niejsze)</title>
-
-	<para>wpisanie wiersza:</para>
-
-	  <programlisting>sendmail_enable="NO"</programlisting>
-
-	  <para>do pliku <filename>/etc/rc.conf</filename> wy³±czy
-	  <application>sendmail</application>a jako serwer poczty
-	  przychodz±cej, ale w dalszym ci±gu umo¿liwi wysy³anie
-	  poczty (je¿eli plik <filename>/etc/mail/mailer.conf</filename>
-	  nie zostanie zmodyfikowany, szczegó³y poni¿ej).</para>
-      </sect3>
-
-      <sect3>
-	<title>FreeBSD 4.5-STABLE after 2002/4/4
-	  (Including 4.6-RELEASE and Later)</title>
-
-	<para>Ca³kowite wy³±czenie <application>sendmail</application>a,
-	  w³±cznie z mo¿liwo¶ci± wysy³ania poczty, umo¿liwia
-	  wpisanie wiersza:</para>
-
-	  <programlisting>sendmail_enable="NONE"</programlisting>
-
-	  <para>do pliku <filename>/etc/rc.conf.</filename>.</para>
-
-	<para>Je¿eli naszym celem jest tylko wy³±czenie serwera
-	  poczty przychodz±cej nale¿y wpisaæ wiersz:</para>
-
-	  <programlisting>sendmail_enable="NO"</programlisting>
-
-	<para>do pliku <filename>/etc/rc.conf</filename>.  Je¿eli
-	  poczta przychodz±ca jest wy³±czona w dalszym ci±gu
-	  funkcjonuje lokalne dostarczanie wiadomo¶ci.  Wiêcej
-	  informacji nt. opcji startowych
-	  <application>sendmail</application>a jest dostêpnych
-	  na stronie man &man.rc.sendmail.8;.</para>
-      </sect3>
-
-      <sect3>
-	<title>FreeBSD 5.0-STABLE i pó¼niejsze</title>
 
 	<para>Ca³kowite wy³±czenie <application>sendmail</application>a,
 	  w³±cznie z mo¿liwo¶ci± wysy³ania poczty, umo¿liwia
@@ -815,56 +767,20 @@ sendmail_msp_queue_enable="NO"</programlisting>
 	<para>do pliku <filename>/etc/rc.conf</filename>.  Wiêcej
 	  informacji nt. opcji startowych <application>sendmail</application>a
 	  jest dostêpnych na stronie man &man.rc.sendmail.8;.</para>
-      </sect3>
     </sect2>
 
     <sect2>
       <title>Uruchamianie nowego MTA przy starcie systemu</title>
 
-      <para>Mamy mo¿liwo¶æ wyboru dwóch sposobów uruchamianie nowego
-	MTA przy starcie systemu w zale¿no¶ci od wersji systemu
-	FreeBSD.</para>
+      <para>By nowe MTA by³o uruchamiane w trakcie startu systemu, nale¿y
+	do konfiguracji w pliku <filename>/etc/rc.conf</filename> dopisaæ
+	odpowiedni wiersz.  Przyk³adowo, dla postfiksa wygl±da
+	to nastêpuj±co.</para>
 
-      <sect3>
-	<title>FreeBSD 4.5-STABLE przed 11-04-2002
-	(równie¿ 4.5-RELEASE i wcze¶niejsze)</title>
+      <screen>&prompt.root; echo '<replaceable>postfix</replaceable>_enable=<quote>YES</quote>' &gt;&gt; /etc/rc.conf</screen>
 
-	<para>W katalogu <filename>/usr/local/etc/rc.d/</filename> musimy
-	  utworzyæ skrypt z rozszerzeniem <filename>.sh</filename> i prawami
-	  uruchamiania dla u¿ytkownika <username>root</username>.  Skrypt
-	  powinien akceptowaæ parametry <literal>start</literal>
-	  i <literal>stop</literal> oraz odpowiednio na nie reagowaæ. Podczas
-	  uruchamiania systemu skrypty systemowe wykonaj± nastêpuj±ce
-	  polecenie:</para>
-
-	<programlisting>/usr/local/etc/rc.d/supermailer.sh start</programlisting>
-
-	<para>Polecenie to mo¿e byæ u¿yte do rêcznego uruchomienia
-	  serwera.  W momencie wy³±czania systemu skrypty systemowe wykonaj±
-	  polecenie:</para>
-
-	<programlisting>/usr/local/etc/rc.d/supermailer.sh stop</programlisting>
-
-	<para>które równie¿ mo¿na wykorzystaæ do rêcznego zatrzymania
-	  naszego serwera poczty podczas pracy systemu.</para>
-
-      </sect3>
-
-      <sect3>
-	<title>FreeBSD 4.5-STABLE po 11-04-2002
-	  (równie¿ 4.6-RELEASE i pó¼niejsze)</title>
-
-	<para>W pó¼niejszych wersjach FreeBSD mo¿emy u¿yæ powy¿szej metody
-	  lub wpisaæ wiersz:</para>
-
-	<programlisting>mta_start_script="filename"</programlisting>
-
-	<para>do pliku <filename>/etc/rc.conf</filename>, gdzie
-	  <replaceable>filename</replaceable> to pe³na ¶cie¿ka
-	  do skryptu uruchamiaj±cego nasz nowy MTA przy starcie
-	  systemu.</para>
-      </sect3>
-
+      <para>W tym momencie MTA bêdzie automatycznie uruchamiane w trakcie
+	startu systemu.</para>
     </sect2>
 
     <sect2>
