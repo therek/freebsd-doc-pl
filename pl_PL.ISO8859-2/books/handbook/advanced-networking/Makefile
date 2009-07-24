@@ -1,7 +1,7 @@
 #
 # Build the Handbook with just the content from this chapter.
 #
-# $FreeBSD: doc/en_US.ISO8859-1/books/handbook/advanced-networking/Makefile,v 1.2 2004/06/03 07:04:51 trhodes Exp $
+# $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/advanced-networking/Makefile,v 1.1 2006/09/24 18:59:01 hrs Exp $
 #
 
 CHAPTERS= 	advanced-networking/chapter.sgml
