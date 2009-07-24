@@ -1,7 +1,7 @@
 #
 # Build the Handbook with just the content from this chapter.
 #
-# $FreeBSD: doc/en_US.ISO8859-1/books/handbook/vinum/Makefile,v 1.1 2002/08/14 01:46:23 trhodes Exp $
+# $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/vinum/Makefile,v 1.1 2006/09/24 18:59:05 hrs Exp $
 #
 
 CHAPTERS= 	vinum/chapter.sgml
