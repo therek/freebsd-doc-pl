@@ -1,8 +1,8 @@
 <!--
      The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/bibliography/chapter.sgml,v 1.1 2006/11/10 11:46:09 therek Exp $
-     Original revision: 1.260
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/bibliography/chapter.sgml,v 1.2 2007/01/04 22:02:50 hrs Exp $
+     Original revision: 1.86
 -->
 
 <appendix id="bibliography">
@@ -22,8 +22,9 @@
     <itemizedlist>
       <listitem>
 	<para><ulink
-	    url="http://jdli.tw.FreeBSD.org/publication/book/freebsd2/index.htm">Using FreeBSD</ulink> (po
-            chiñsku).</para>
+	  url="http://jdli.tw.FreeBSD.org/publication/book/freebsd2/index.htm">Using FreeBSD</ulink> (po chiñsku),
+	  wydany przez <ulink url="http://www.drmaster.com.tw/">Drmaster
+	  </ulink>, 1997. ISBN 9-578-39435-7.</para>
       </listitem>
 
       <listitem>
@@ -61,11 +62,14 @@
       </listitem>
 
       <listitem>
-        <para>FreeBSD &amp; Windows (po chiñsku), ISBN 7-113-03845-X</para>
+	<para>FreeBSD &amp; Windows (po chiñsku), wydany przez
+	  <ulink url="http://www.tdpress.com/">China Railway
+	    Publishing House</ulink>. ISBN 7-113-03845-X</para>
       </listitem>
 
       <listitem>
-        <para>FreeBSD Internet Services HOWTO (po chiñsku), ISBN 7-113-03423-3</para>
+	<para>FreeBSD Internet Services HOWTO (po chiñsku),
+	  wydany przez China Railway Publishing House. ISBN 7-113-03423-3</para>
       </listitem>
 
       <listitem>
@@ -86,7 +90,8 @@
       
       <listitem>
 	<para><ulink
-	    url="http://www.ascii.co.jp/pb/book1/shinkan/detail/1322785.html">Personal UNIX Starter Kit FreeBSD</ulink> (po japoñsku), wydany przez <ulink url="http://www.ascii.co.jp/">ASCII</ulink>.  ISBN 4-7561-1733-3 P3000E.</para>
+	    url="http://www.ascii.co.jp/pb/book1/shinkan/detail/1322785.html">Personal UNIX Starter Kit FreeBSD</ulink> (po japoñsku), wydany przez <ulink
+	  url="http://www.ascii.co.jp/">ASCII</ulink>.  ISBN 4-7561-1733-3 P3000E.</para>
       </listitem>
       
       <listitem>
@@ -124,7 +129,10 @@
 
       <listitem>
 	<para><ulink
-	    url="http://www.pc.mycom.co.jp/FreeBSD/install-manual.html">FreeBSD Install and Utilization Manual</ulink> (po japoñsku), wydany przez <ulink url="http://www.pc.mycom.co.jp/">Mainichi Communications Inc.</ulink>.</para>
+	  url="http://www.pc.mycom.co.jp/FreeBSD/install-manual.html">FreeBSD
+	  Install and Utilization Manual</ulink> (po japoñsku), wydany przez
+	  <ulink url="http://www.pc.mycom.co.jp/">Mainichi Communications
+	  Inc.</ulink>, 1998. ISBN 4-8399-0112-0.</para>
       </listitem>
 
       <listitem>
@@ -133,6 +141,20 @@
 	Building Internet Server with
 	FreeBSD</ulink></emphasis> (w jêzyku indonezyjskim), wydany
 	przez <ulink url="http://www.elexmedia.co.id/">Elex Media Komputindo</ulink>.</para>
+      </listitem>
+
+      <listitem>
+	<para>Absolute BSD: The Ultimate Guide to FreeBSD (przek³ad chiñski),
+	  wydawca <ulink
+	  url="http://www.grandtech.com.tw/">GrandTech Press</ulink>, 2003.
+	  ISBN 986-7944-92-5.</para>
+      </listitem>
+
+      <listitem>
+	<para><ulink
+	  url="http://www.twbsd.org/cht/book/">The FreeBSD 6.0 Book</ulink> (po
+	  chiñsku), wydawca Drmaster, 2006.
+	  ISBN 9-575-27878-X.</para>
       </listitem>
 
     </itemizedlist>
@@ -176,9 +198,9 @@
       </listitem>
 
       <listitem>
-	<para>FreeBSD unleashed, wydany przez
-	  <ulink url="http://www.samspublishing.com/">Sams</ulink>, 2002.
-	  ISBN: 0672324563</para>
+	<para>FreeBSD 6 Unleashed, wydany przez
+	  <ulink url="http://www.samspublishing.com/">Sams</ulink>, 2006.
+	  ISBN: 0672328755</para>
       </listitem>
 
       <listitem>
@@ -218,10 +240,10 @@
       </listitem>
       
       <listitem>
-	<para><ulink url="http://www-wks.acs.ohio-state.edu/">Ohio State
-	    University</ulink> napisa³ kurs <ulink
-	    url="http://www-wks.acs.ohio-state.edu/unix_course/unix.html">UNIX
-	    Introductory Course</ulink>, dostêpny w sieci w formacie HTML i
+	<para><ulink url="http://www.osu.edu/">Ohio State University</ulink>
+	  napisa³ kurs <ulink
+	  url="http://8help.osu.edu/wks/unix_course/index.html">UNIX
+	  Introductory Course</ulink>, dostêpny w sieci w formacie HTML i
 	  PostScript.</para>
 
 	<para>W³oski <ulink
@@ -546,7 +568,8 @@
       </listitem>
 
       <listitem>
-	<para>Messmer, Hans-Peter.  <emphasis>The Indispensable PC Hardware Book</emphasis>, 4th Ed.
+	<para>Messmer, Hans-Peter.  <emphasis>The Indispensable PC Hardware
+	  Book</emphasis>, 4th Ed.
 	  Reading, Mass: Addison-Wesley Pub. Co., 2002.  ISBN
 	  0-201-59616-4</para>
       </listitem>
@@ -598,11 +621,6 @@
 	  <ulink url="http://www.FreeBSD.org/cgi/cvsweb.cgi/src/share/misc/bsd-family-tree"></ulink>
 	   lub <ulink type="html" url="file://localhost/usr/share/misc/bsd-family-tree"><filename>/usr/share/misc/bsd-family-tree</filename></ulink>
 	   w systemie FreeBSD.</para>
-      </listitem>
-      
-      <listitem>
-	<para><emphasis>The BSD Release Announcements collection</emphasis>.
-	  1997.  <ulink url="http://www.de.FreeBSD.org/de/ftp/releases/"></ulink></para>
       </listitem>
       
       <listitem>
