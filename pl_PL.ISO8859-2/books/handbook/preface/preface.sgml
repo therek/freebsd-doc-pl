@@ -1,8 +1,8 @@
 <!--
     The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/preface/preface.sgml,v 1.4 2007/05/30 20:26:11 therek Exp $
-     Original revision: 1.39
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/preface/preface.sgml,v 1.1 2006/09/24 18:59:04 hrs Exp $
+     Original revision: 1.46
 -->
 
 <preface id="book-preface">
@@ -30,11 +30,46 @@
   <para><xref linkend="bibliography"> zawiera listê dodatkowych ¼róde³
     informacji.</para>
 
-  <bridgehead id="preface-changes-from2" renderas=sect1>Zmiany od wydania
-    drugiego</bridgehead>
+  <bridgehead id="preface-changes-from3" renderas=sect1>Zmiany od wydania
+  trzeciego</bridgehead>
 
-  <para>Niniejsze trzecie wydanie stanowi punkt kulminacyjny przesz³o
+  <para>Obecna wersja online Podrêcznika reprezentuje efekt wspólnej
+    pracy wielu setek osób przez ostatnie 10 lat.  Poni¿ej znajduje siê
+    lista najwa¿niejszych zmiany jakie mia³y miejsce od momentu publikacji
+    dwutomowego wydania trzeciego w 2004 roku:</para>
+
+  <itemizedlist>
+      <listitem>
+	<para><xref linkend="dtrace">, &dtrace;, zosta³ dodany.  Rozdzia³
+	  ten opisuje potê¿ne narzêdzie do analizy wydajno¶ci &dtrace;.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="filesystems">, Obs³uga systemów plików, zosta³
+	  dodany.  Rozdzia³ ten zawiera informacje o nie natywnych systemach
+	  plików dostêpnych we &os;, jak np. ZFS firmy &sun;.</para>
+      </listitem>
+
+      <listitem>
+	<para><xref linkend="audit">, Audyt bezpieczeñstwa, zosta³
+	  dodany.  Rozdzia³ ten omawia nowe mo¿liwo¶ci audytu bezpieczeñstwa we &os;
+	  i wyja¶nia jak z nich korzystaæ.</para>
+      </listitem>
+
+      <listitem>
+        <para><xref linkend="virtualization">, Wirtualizacja, zosta³ dodany.
+          Zawiera on informacje odno¶nie instalacji &os; w oprogramowaniu
+          wirtualizuj±cym.</para>
+      </listitem>
+  </itemizedlist>
+
+  <bridgehead id="preface-changes-from2" renderas=sect1>Zmiany od wydania
+    drugiego (2004)</bridgehead>
+
+  <para>Trzecie wydanie stanowi³o punkt kulminacyjny przesz³o
     dwuletniej pracy oddanych cz³onków Projektu Dokumentacji FreeBSD.
+    Wersja drukowana uros³a do tak wielkich rozmiarów, ¿e musia³a byæ
+    wydana w postaci dwóch osobnych tomów.
     G³ówne zmiany jakie w tym okresie zosta³y dokonane to:</para>
 
   <itemizedlist>
@@ -110,7 +145,7 @@
       </listitem>
     </itemizedlist>
 
-  <bridgehead id="preface-changes" renderas=sect1>Zmiany od wydania pierwszego</bridgehead>
+  <bridgehead id="preface-changes" renderas=sect1>Zmiany od wydania pierwszego (2001)</bridgehead>
 
     <para>Wydanie drugie stanowi³o punkt kulminacyjny przesz³o dwuletniej pracy
       oddanych cz³onków Projektu Dokumentacji FreeBSD. G³ówne zmiany jakie w tym
@@ -372,6 +407,13 @@
       </listitem>
     </varlistentry>
     <varlistentry>
+      <term><emphasis><xref linkend="filesystems">, Obs³uga systemów plików</emphasis></term>
+      <listitem>
+	<para>Omawia obs³ugê nie natywnych systemów plików we &os;, jak np. Z
+	  File System firmy &sun;.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
       <term><emphasis><xref linkend="vinum-vinum">, Vinum</emphasis></term>
       <listitem>
 	<para>Opisuje jak jak korzystaæ z z mened¿era dysków logicznych Vinum,
@@ -393,12 +435,21 @@
       </listitem>
     </varlistentry>
     <varlistentry>
-      <term><emphasis><xref linkend="cutting-edge">, Kierunek rozwoju</emphasis></term>
+      <term><emphasis><xref linkend="updating-upgrading">, Aktualizacja &os;</emphasis></term>
       <listitem>
 	<para>Wyja¶nia ró¿nice pomiêdzy FreeBSD-STABLE,
-	FreeBSD-CURRENT, i wydaniami FreeBSD.  Opisuje, którzy u¿ytkownicy
-	najwiêcej zyskaj± ¶ledz±c system rozwoju FreeBSD i przybli¿a
-	ten proces.</para>
+	FreeBSD-CURRENT i wydaniami FreeBSD.  Opisuje, którzy u¿ytkownicy
+	najwiêcej zyskaj± ¶ledz±c system rozwoju FreeBSD oraz przybli¿a
+	ten proces.  Opisuje metody, za pomoc± których u¿ytkownicy mog±
+	aktualizowaæ swoje systemy do najnowszego wydania z poprawkami bezpieczeñstwa.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><emphasis><xref linkend="dtrace">, &dtrace;</emphasis></term>
+      <listitem>
+	<para>Opisuje jak skonfigurowaæ i u¿ywaæ narzêdzia &dtrace; firmy &sun;
+	  we &os;.  Dynamiczne ¶ledzenie mo¿e byæ pomocne przy lokalizowaniu ¼ród³a
+	  problemów wydajno¶ciowych poprzez analizê pracy systemu w czasie rzeczywistym.</para>
       </listitem>
     </varlistentry>
 
