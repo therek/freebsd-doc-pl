@@ -1,8 +1,8 @@
 <!--
      The FreeBSD Polish Documentation Project
 
-     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/basics/chapter.sgml,v 1.2 2007/05/29 21:47:49 therek Exp $
-     Original revision: 1.145
+     $FreeBSD: doc/pl_PL.ISO8859-2/books/handbook/basics/chapter.sgml,v 1.2 2006/11/26 16:43:39 hrs Exp $
+     Original revision: 1.156
 -->
 
 <chapter id="basics">
@@ -300,6 +300,39 @@ console none                            unknown off secure</programlisting>
           uczestnicz±cych w nim programach.</para>
       </note>
     </sect2>
+
+    <sect2 id="consoles-vidcontrol">
+      <title>Zmiana tybu wideo konsoli</title>
+
+      <para>Domy¶lny tryb wideo konsoli FreeBSD mo¿e byæ dostosowany do
+	rozdzielczo¶ci 1024x768, 1280x1024, b±d¼ dowolnej innej obs³ugiwanej
+	przez nasz chipset graficzny oraz monitor.  By móc zmieniæ
+	tryb wideo, musimy wpierw zrekompilowaæ j±dro systemu do³±czaj±c
+	dwie dodatkowe opcje konfiguracji:</para>
+
+      <programlisting>options VESA
+options SC_PIXEL_MODE</programlisting>
+
+      <para>Gdy j±dro zostanie ponownie skompilowane z uwzglêdnieniem
+	powy¿szych opcji, mo¿emy okre¶liæ obs³ugiwane przez nasz sprzêt
+	tryby wideo przy u¿yciu narzêdzia &man.vidcontrol.1; w nastêpuj±cy
+	sposób:</para>
+
+      <screen>&prompt.root; <userinput>vidcontrol -i mode</userinput></screen>
+
+      <para>Wynikiem tego polecenia jest lista trybów wideo obs³ugiwanych
+	przez nasz sprzêt.  Nastêpnie mo¿emy ustawiæ nowy tryb podaj±c go
+	jako parametr polecenia &man.vidcontrol.1; w konsoli u¿ytkownika
+	<username>root</username>:</para>
+
+      <screen>&prompt.root; <userinput>vidcontrol MODE_279</userinput></screen>
+
+      <para>Je¶li jeste¶my zadowoleni z nowego trybu wideo mo¿emy
+	go zdefiniowaæ na sta³e, tak by by³ w³±czany przy ka¿dym uruchomieniu
+	systemu, w pliku <filename>/etc/rc.conf</filename>:</para>
+
+      <programlisting>allscreens_flags="MODE_279"</programlisting>
+    </sect2>
   </sect1>
 
   <sect1 id="permissions">
@@ -578,7 +611,7 @@ total 530
     <para>Gdy musimy wykonaæ wiêcej ni¿ jedn± zmianê uprawnieñ
       parametry nale¿y oddzieliæ przecinkami. Na przyk³ad,
       poni¿sze polecenie usunie prawa zapisu do
-      <replaceable>PLIKU</replaceable> grupie i innym.
+      <replaceable>PLIKU</replaceable> grupie i <quote>innym</quote>.
       Nastêpnie doda wszystkim prawo wykonywania:</para>
 
     <screen>&prompt.user; <userinput>chmod go-w,a+x <replaceable>PLIK</replaceable></userinput></screen>
@@ -636,8 +669,7 @@ total 530
       <para>By wy¶wietliæ flagi danego pliku wystarczy wpisaæ
         polecenie &man.ls.1; z parametrem <option>-lo</option>:</para>
 
-      <screen>&prompt.root; <userinput>ls -lo <filename>plik1</filename>
-	</userinput></screen>
+      <screen>&prompt.root; <userinput>ls -lo <filename>file1</filename></userinput></screen>
 
       <para>Wynik powinien byæ zbli¿ony do poni¿szego:</para>
 
@@ -648,6 +680,150 @@ total 530
         byæ ustawiane równie¿ przez w³a¶ciciela pliku. Zaleca siê aby
         administratorzy przeczytali strony podrêcznika systemowego
         &man.chflags.1; oraz &man.chflags.2;.</para>
+    </sect2>
+
+    <sect2>
+      <sect2info>
+	<authorgroup>
+	  <author>
+	    <firstname>Tom</firstname>
+	    <surname>Rhodes</surname>
+	    <contrib>Napisa³ </contrib>
+	  </author>
+	</authorgroup>
+        <authorgroup>
+          <author>
+            <firstname>Cezary</firstname>
+            <surname>Morga</surname>
+            <contrib>T³umaczy³ </contrib>
+          </author>
+	</authorgroup>
+      </sect2info>
+
+      <title>Uprawnienia setuid, setgid oraz bit lepki (sticky)</title>
+
+      <para>Oprócz omówionych dotychczas praw dostêpu istniej± jeszcze
+	trzy inne rodzaje uprawnieñ, które powinien znaæ ka¿dy
+	administrator.  S± to <literal>setuid</literal>,
+	<literal>setgid</literal> i <literal>bit lepki</literal>.</para>
+
+      <para>Uprawnienia te s± istotne dla niektórych operacji systemów &unix;
+	poniewa¿ dostarczaj± one funkcjonalno¶ci zwykle nie dostêpnych
+	zwyk³ym u¿ytkownikom.  Jednak¿e by je zrozumieæ, nale¿y wpierw wyja¶niæ ró¿nicê
+	pomiêdzy rzeczywistym a efektywnym identyfikatorem u¿ytkownika.</para>
+
+      <para>Rzeczywisty identyfikator u¿ytkownika to <acronym>UID</acronym> u¿ytkownika,
+	który uruchomi³ dany proces.  Efektywne <acronym>UID</acronym> natomiast
+	jest to identyfikator, który proces wykorzystuje w trakcie dzia³ania.
+	Przyk³adowo, narzêdzie &man.passwd.1; pracuje z rzeczywistym UID u¿ytkownika,
+	który aktualnie zmienia w³asne has³o; podczas gdy do manipulacji baz± danych
+	hase³ wykorzystywany jest efektywny identyfikator u¿ytkownika
+	<username>root</username>.  W³a¶nie takie zachowanie umo¿liwia zwyk³ym u¿ytkownikom
+	zmianê w³asnego has³a nie otrzymuj±c komunikatu b³êdu
+	<errorname>Permission Denied</errorname>.</para>
+
+      <note>
+	<para>Opcja <literal>nosuid</literal> polecenia &man.mount.8; sprawi,
+	  ¿e tego typu pliki binarne bêd± po cichu koñczyæ pracê niepowodzeniem.
+	  To znaczy, ich uruchomienie nie powiedzie siê, lecz u¿ytkownik nie zostanie o tym
+	  poinformowany.  Opcja ta nie jest w pe³ni niezawodna poniewa¿,
+	  zgodnie z podrêcznikiem &man.mount.8;, odpowiednia nak³adka na
+	  <litera>nosuid</literal> mo¿e zmodyfikowaæ to dzia³anie.</para>
+      </note>
+
+      <para>Uprawnienie setuid mo¿na nadaæ wraz z innymi prawami dostêpu
+	poprzedzaj±c zbiór uprawnieñ cyfr± cztery (4) jak w poni¿szym przyk³adzie:</para>
+
+      <screen>&prompt.root; <userinput>chmod 4755 suidexample.sh</userinput></screen>
+
+      <para>Prawa dostêpu dla pliku
+	<filename><replaceable>suidexample.sh</replaceable></filename>
+	powinny teraz wygl±daæ nastêpuj±co:</para>
+
+      <programlisting>-rwsr-xr-x   1 trhodes  trhodes    63 Aug 29 06:36 suidexample.sh</programlisting>
+
+      <para>Jak widaæ, znak
+	<literal>s</literal> jest teraz czê¶ci± zbioru uprawnieñ
+	w³a¶ciciela pliku, zajmuj±cym miejsce bitu wykonywania.
+	Jest to przydatne rozwi±zanie dla aplikacji, które wymagaj± zwiêkszonych
+	uprawnieñ, jak np. <command>passwd</command>.</para>
+
+      <para>By sprawdziæ czy tak siê dzieje, otwórzmy dwa terminale.  W pierwszym
+	uruchomimy jako zwyk³y u¿ytkownik proces <command>passwd</command>.
+	Gdy bêdzie on czeka³ na podanie nowego has³a, sprawd¼my tabelê procesów
+	zwracaj±c uwagê na informacje o u¿ytkowniku polecenia
+	<command>passwd</command>.</para>
+
+      <para>W terminalu A:</para>
+
+      <screen>Changing local password for trhodes
+Old Password:</screen>
+
+      <para>W terminalu B:</para>
+
+      <screen>&prompt.root; <userinput>ps aux | grep passwd</userinput></screen>
+
+      <screen>trhodes  5232  0.0  0.2  3420  1608   0  R+    2:10AM   0:00.00 grep passwd
+root     5211  0.0  0.2  3620  1724   2  I+    2:09AM   0:00.01 passwd</screen>
+
+      <para>Jak ju¿ zosta³o zauwa¿one, pomimo, ¿e polecenie <command>passwd</command>
+	jest uruchamiane przez zwyk³ego u¿ytkownika, u¿ywa ono efektywnego identyfikatora
+	<acronym>UID</acronym> u¿ytkownika <username>root</username>.</para>
+
+      <para>Uprawnienie <literal>setgid</literal> spe³nia tak± sam±
+	funkcjê jak <literal>setuid</literal> lecz zmianie ulegaj±
+	uprawnienia grupy.  Gdy aplikacja jest uruchamiana
+	z bitem <literal>setgid</literal> uprawnienia zostaj± jej przyznane
+	na podstawie grupy, która jest w³a¶cicielem pliku, nie u¿ytkownika, który
+	uruchomi³ dany proces.</para>
+
+      <para>By zdefiniowaæ uprawnienie <literal>setgid</literal>
+	dla pliku nale¿y parametry polecenia <command>chmod</command> poprzedziæ
+	cyfr± dwa (2) jak w poni¿szym przyk³adzie:</para>
+
+      <screen>&prompt.root; <userinput>chmod 2755 sgidexample.sh</userinput></screen>
+
+      <para>Zmianê uprawnieñ mo¿emy zweryfikowaæ jak poprzednio zwracaj±c uwagê,
+	na literê <literal>s</literal> znajduj±c± siê teraz w polu przeznaczonym dla
+	praw dostêpu grupy:<para>
+
+      <screen>-rwxr-sr-x   1 trhodes  trhodes    44 Aug 31 01:49 sgidexample.sh</screen>
+
+      <note>
+	<para>W powy¿szych przyk³adach skrypt pow³oki, nawet je¶li jest plikiem
+	  wykonywalnym, nie zostanie uruchomiony
+	  z innym <acronym>EUID</acronym> tudzie¿ efektywnym identyfikatorem u¿ytkownika.
+	  Jest tak poniewa¿ skrypty pow³oki nie maj± dostêpu
+	  do wywo³añ systemowych &man.setuid.2;.</para>
+      </note>
+
+      <para>Dwa dotychczas omówione bity specjalne praw dostêpu
+	(tj. bity <literal>setuid</literal> i <literal>setgid</literal>)
+	mog± zmniejszyæ bezpieczeñstwo systemu poniewa¿ umo¿liwiaj± one
+	podniesienie uprawnieñ u¿ytkowników.  Istnieje jednak¿e trzeci
+	specjalny bit, który mo¿e zwiêkszyæ bezpieczeñstwo systemu:
+	<literal>bit lepki</literal>.</para>
+
+      <para>Bit <literal>lepki</literal>, gdy zostanie ustawiony dla katalogu,
+	umo¿liwia usuwanie plików jedynie przez ich w³a¶ciciela.  Uprawnienie to
+	przydaje siê w sytuacjach gdy chcemy uniemo¿liwiæ usuniêcie plików w katalogach
+	publicznych, takich jak np.
+	<filename class="directory">/tmp</filename> u¿ytkownikom, którzy
+	nie s± ich w³a¶cicielami.  By ustawiæ ten bit, nale¿y zbiór
+	uprawnieñ poprzedziæ cyfr± jeden (1).  Na przyk³ad:</para>
+
+      <screen>&prompt.root; <userinput>chmod 1777 /tmp</userinput></screen>
+
+      <para>By zobaczyæ efekt naszego dzia³ania, mo¿emy u¿yæ polecenia
+	<command>ls</command>:</para>
+
+      <screen>&prompt.root; <userinput>ls -al / | grep tmp</userinput></screen>
+
+      <screen>drwxrwxrwt  10 root  wheel         512 Aug 31 01:49 tmp</screen>
+
+      <para>Bit <literal>lepki</literal> rozpoznaæ mo¿na
+	po literze <literal>t</literal> na samym koñcu
+	zbioru uprawnieñ.</para>
     </sect2>
   </sect1>
   
@@ -661,12 +837,13 @@ total 530
       Jest on montowany jako pierwszy podczas uruchamiania systemu
       i zawiera podstawowe pliki niezbêdne do przygotowania
       systemu do pracy w trybie wielou¿ytkownikowym. Ponadto
-      w katalogu g³ównym znajduj± siê punkty montowania innych
-      systemów plików, które mo¿emy montowaæ.</para>
+      w katalogu g³ównym znajduj± siê równie¿ punkty montowania innych
+      systemów plików, które s± montowane w trakcie przechodzenia
+      do trybu wielu u¿ytkowników.</para>
 
     <para>Punktem montowania nazywany jest katalog, poprzez
-      który inny system plików mo¿e byæ do³±czony do g³ównego
-      systemu plików. <xref linkend="disk-organization">
+      który inny system plików mo¿e byæ do³±czony do nadrzêdnego
+      systemu plików (z regu³y g³ównego systemu plików). <xref linkend="disk-organization">
       zawiera wiêcej informacji. Przyk³adem typowego punktu
       montowania mo¿e byæ
       <filename>/usr</filename>, <filename>/var</filename>,
@@ -784,11 +961,6 @@ total 530
 	      <entry><filename class="directory">/sbin/</filename></entry>
               <entry>Programy i narzêdzia administracyjne wykorzystywane zarówno
               w trybie jednego u¿ytkownika, jak i w trybie wielu u¿ytkowników.</entry>
-	    </row>
-	    
-	    <row>
-	      <entry><filename class="directory">/stand/</filename></entry>
-              <entry>Programy u¿ywane w samodzielnym ¶rodowisku.</entry>
 	    </row>
 	    
 	    
@@ -1237,11 +1409,8 @@ total 530
 	      <entry><literal>d</literal></entry>
 
               <entry>Swego czasu partycja <literal>d</literal> mia³a specjalne znaczenie,
-                obecnie ju¿ go nie ma. Do dzi¶ jednak niektóre programy
-                mog± dziwnie siê zachowywaæ, je¶li ka¿e im siê pracowaæ
-                na partycji <literal>d</literal>, dlatego te¿
-                <application>sysinstall</application>
-                zwykle w ogóle jej nie tworzy.</entry>
+                obecnie ju¿ tak nie jest.  Partycja <literal>d</literal> mo¿e byæ
+                wykorzystywana jak zwyk³a partycja.</entry>
 	    </row>
 	  </tbody>
 	</tgroup>
@@ -1284,7 +1453,7 @@ total 530
 
       <para>Gdy odwo³ujemy siê do partycji, FreeBSD wymaga, by¶my podali
         równie¿ nazwê obejmuj±cego j± segmentu i dysku. Z kolei gdy odwo³ujemy
-        siê do segmentu, podajemy równie¿ nazwê dysku. Kolejno podajemy wiêc
+        siê do segmentu, musimy podaæ równie¿ nazwê dysku. Tym samym, odwo³uj±c siê do partycji podajemy kolejno
         nazwê dysku, <literal>s</literal>, numer segmentu, a na koniec
         literê partycji; patrz <xref linkend="basics-disk-slice-part">.</para>
 
@@ -1390,7 +1559,7 @@ total 530
           na dwa segmenty (partycje w &ms-dos;) o rozmiarze po 2&nbsp;GB.
           Pierwszy segment zawiera DOS-owy dysk <devicename>C:</devicename>,
           natomiast w drugim segmencie znajduje siê przyk³adowa instalacja
-          FreeBSD, z trzema partycjami oraz partycj± wymiany.</para>
+          FreeBSD, z trzema partycjami danych oraz partycj± wymiany.</para>
 
         <para>Ka¿da z trzech partycji przechowuje system plików. Na
           partycji <literal>a</literal> umieszczony jest g³ówny system plików,
@@ -1656,16 +1825,6 @@ total 530
         
       <variablelist>
 	<varlistentry>
-	  <term>nodev</term>
-            
-	  <listitem>
-            <para>Ignorowanie obecnych w systemie plików urz±dzeñ
-              specjalnych. Przydatna opcja, je¶li chodzi
-              o bezpieczeñstwo.</para>
-	  </listitem>
-	</varlistentry>
-          
-	<varlistentry>
 	  <term>noexec</term>
             
 	  <listitem>
@@ -1773,7 +1932,8 @@ total 530
     <para>Jak widzimy, &man.ps.1; wy¶wietla informacje w kilku kolumnach.
       W kolumnie <literal>PID</literal> pokazywany jest omówiony wcze¶niej
       identyfikator procesu. PID-y s± przydzielane po kolei od 1 do 99999
-      i znów od pocz±tku, gdy siê skoñcz±. Kolumna <literal>TT</literal>
+      i znów od pocz±tku, gdy siê skoñcz± (PID nie zostanie ponownie przydzielony
+      je¶li jest ju¿ zajêty). Kolumna <literal>TT</literal>
       pokazuje terminal, na którym dzia³a program &mdash; na razie nie bêdziemy
       siê tym zajmowaæ. W kolumnie <literal>STAT</literal> przedstawiony jest
       stan procesu, jego tak¿e na razie nie bêdziemy omawiaæ. <literal>TIME</literal>
@@ -1790,7 +1950,7 @@ total 530
       pokazuje nazwê u¿ytkownika, do którego nale¿y proces, jak równie¿ wykorzystanie pamiêci.
       <option>x</option> pokazuje informacje o procesach &mdash; demonach.
       Opcja <option>ww</option> nakazuje, by polecenie &man.ps.1; wy¶wietla³o
-      pe³n± liniê polecenia, nie obcinaj±c jej, by zmie¶ci³a siê na ekranie.</para>
+      pe³n± liniê polecenia dla ka¿dego procesu, nie obcinaj±c jej, by zmie¶ci³a siê na ekranie.</para>
 
     <para>Informacje pokazywane przez &man.top.1; wygl±daj± podobnie. Oto przyk³ad:</para>
 
@@ -1852,7 +2012,7 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       Demony to postaci z mitologii greckiej &mdash; niewielkie us³u¿ne istoty,
       ani dobre, ani z³e, które w rozmaity sposób pomaga³y ludziom. Podobnie
       pomagaj± dzisiejsze serwery pocztowe i serwery WWW. Dlatego w³a¶nie od
-      d³ugiego czasu maskotk± BSD jest weso³y demon z wid³ami i w</para>
+      przez d³ugi czas maskotk± BSD by³ weso³y demon z wid³ami i w trampkach.</para>
 
     <para>Przyjêto, i¿ programy uruchamiane jako demony maj± nazwy zakoñczone
       liter± <quote>d</quote>. <application>BIND</application> (Berkeley Internet
@@ -1865,9 +2025,9 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       a nie jak mo¿na by przypuszczaæ <command>maild</command>.</para>
 
     <para>Niekiedy istnieje potrzeba komunikacji z procesem &mdash; demonem.
-      Odbywa siê ona poprzez <firstterm>sygna³y</firstterm>, to znaczy mo¿emy
-      porozumieæ siê z demonem (lub jakimkolwiek dzia³aj±cym procesem) wysy³aj±c
-      mu sygna³. S± ró¿ne rodzaje sygna³ów, które mo¿emy wys³aæ &mdash; niektóre
+      Jedn± z metod jest wys³anie danemu procesowi (b±d¼ dowolnemu innemu)
+      tzw <firstterm>sygna³u</firstterm>.
+      S± ró¿ne rodzaje sygna³ów, które mo¿emy wys³aæ &mdash; niektóre
       z nich maj± okre¶lone znaczenie, inne s± odpowiednio interpretowane przez
       aplikacjê, co powinno byæ opisane w dokumentacji aplikacji. Sygna³ mo¿emy
       wys³aæ tylko do procesu, którego jeste¶my w³a¶cicielem. Wys³anie sygna³u
@@ -2048,8 +2208,8 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
     <indexterm><primary>zmienne ¶rodowiskowe</primary></indexterm>
 
     <para>Inn± cech± pow³oki s± zmienne ¶rodowiskowe. Przechowywane s± one
-      w przestrzeni ¶rodowiska pow³oki w postaci par <quote>nazwa =
-        warto¶æ</quote>. Przestrzeñ ¶rodowiska jest widoczna dla ka¿dego
+      w przestrzeni ¶rodowiska pow³oki w postaci par nazwa/warto¶æ.
+      Przestrzeñ ¶rodowiska jest widoczna dla ka¿dego
       programu uruchamianego przez pow³okê, dlatego te¿ przechowuje siê tam
       wiele parametrów konfiguracyjnych dla programów. Oto najczê¶ciej
       spotykane zmienne ¶rodowiskowe wraz z krótkim opisem:</para>
@@ -2266,6 +2426,12 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       do nauki. Jednak¿e, je¶li planujesz edytowaæ wiele tekstu, nauka
       <application>Emacs</application> lub <application>vim</application> zwróci
       siê w d³ugim okresie w postaci zaoszczêdzonego czasu.</para>
+
+    <para>Wiele z aplikacji które modyfikuj± pliki b±d¼ wymagaj± wprowadzania
+      informacji automatycznie otwieraj± edytor tekstu.  By zmieniæ domy¶lny
+      edytor wykorzystywany w takiej sytuacji, nale¿y zdefiniowaæ zmienn±
+      ¶rodowiskow± <envar>EDITOR</envar>.  Wiêcej szczegó³ów na ten temat
+      znale¼æ mo¿na w sekcji <link linkend="shells">pow³oki</link>.</para>
   </sect1>
 
   <sect1 id="basics-devices">
